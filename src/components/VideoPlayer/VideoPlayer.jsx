@@ -6,7 +6,7 @@ const VideoPlayer = ({ title = "hello" }) => {
     console.log(title);
   }, [title]);
 
-  return <div></div>;
+  return <div>123</div>;
 };
 
 export default VideoPlayer;

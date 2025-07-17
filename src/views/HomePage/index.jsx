@@ -1,19 +1,29 @@
+import { useCallback } from "react";
+
 import Scroller from "@enact/sandstone/Scroller";
 import Button from "@enact/sandstone/Button";
 import { Column } from "@enact/ui/Layout";
 import Spotlight from "@enact/spotlight";
-import { useCallback } from "react";
-import VideoPlayer from "../../components/VideoPlayer/VideoPlayer";
 
 const HomePage = () => {
   const list = Array.from({ length: 100 }, (__, i) => i);
 
-  const onClick = useCallback(() => {
+  const scrollTo = useCallback(() => {
     const current = Spotlight.getCurrent();
     current?.scrollIntoView({
       block: "center",
+      behavior: "smooth",
     });
   }, []);
+
+  // const throttleScrollTo = useMemo(() => {
+  //   return new Job(scrollTo, 300);
+  // }, [scrollTo]);
+
+  const onClick = useCallback(() => {
+    // throttleScrollTo.throttle();
+    scrollTo.call();
+  }, [scrollTo]);
 
   const onFocus = useCallback(() => {
     const isPointerMode = Spotlight.getPointerMode();
@@ -21,20 +31,17 @@ const HomePage = () => {
       return;
     }
 
-    const current = Spotlight.getCurrent();
-    current?.scrollIntoView({
-      block: "center",
-      // behavior: "smooth",
-    });
-  }, []);
+    // throttleScrollTo.throttle();
+    scrollTo.call();
+  }, [scrollTo]);
 
   const scrollerProps = {
     direction: "vertical",
     verticalScrollbar: "hidden",
+    scrollMode: "translate",
   };
 
   const buttonProps = {
-    style: { margin: "50px 0" },
     onClick: onClick,
     onFocus: onFocus,
   };
@@ -49,7 +56,6 @@ const HomePage = () => {
             </Button>
           );
         })}
-        <VideoPlayer />
       </Column>
     </Scroller>
   );

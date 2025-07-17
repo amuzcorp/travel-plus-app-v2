@@ -2,22 +2,19 @@ import { useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 
 import Button from "@enact/sandstone/Button";
-import VideoPlayer, { VideoPlayerProps } from "@enact/sandstone/VideoPlayer";
-import {
-  MediaControls,
-  MediaControlsProps,
-} from "@enact/sandstone/MediaPlayer";
+import VideoPlayer from "@enact/sandstone/VideoPlayer";
+import { MediaControls } from "@enact/sandstone/MediaPlayer";
 
 const TestPage = () => {
   const [isSeek] = useState(false);
 
-  const videoPlayer = useRef<InstanceType<typeof VideoPlayer>>(null);
+  const videoPlayer = useRef(null);
 
   const titleElement = useMemo(() => {
     return <VideoTitle $isSeek={isSeek}>HELLO</VideoTitle>;
   }, [isSeek]);
 
-  const videoPlayerProps: VideoPlayerProps = {
+  const videoPlayerProps = {
     ref: videoPlayer,
     title: titleElement,
     titleHideDelay: 0,
@@ -29,12 +26,12 @@ const TestPage = () => {
     // ),
     poster: "http://media.w3.org/2010/05/sintel/poster.png",
     thumbnailSrc: "http://media.w3.org/2010/05/sintel/poster.png",
-    onScrub: (detail: any) => {
+    onScrub: (detail) => {
       console.log(detail);
     },
   };
 
-  const mediaControlsProps: MediaControlsProps = {
+  const mediaControlsProps = {
     id: "test",
     jumpBackwardIcon: "jumpbackward",
     jumpForwardIcon: "jumpforward",
@@ -53,9 +50,6 @@ const TestPage = () => {
         exciting stuff.
       </div>
       <MediaControls {...mediaControlsProps}>
-        <div slot="bottomComponents">
-          <div>hello</div>
-        </div>
         <Button icon="list" size="small" />
         <Button icon="playspeed" size="small" />
         <Button icon="speakercenter" size="small" />
@@ -68,12 +62,8 @@ const TestPage = () => {
 
 export default TestPage;
 
-const VideoTitle = styled.div<VideoTitleProps>`
+const VideoTitle = styled.div`
   opacity: ${({ $isSeek }) => ($isSeek ? 0.5 : 1)};
 
   will-change: opacity;
 `;
-
-interface VideoTitleProps {
-  $isSeek: boolean;
-}
