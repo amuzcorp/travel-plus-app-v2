@@ -1,24 +1,33 @@
-import kind from "@enact/core/kind";
 import Panels from "@enact/sandstone/Panels";
 import ThemeDecorator from "@enact/sandstone/ThemeDecorator";
 
-import MainPanel from "../views/MainPanel";
+import TestPage from "../views/TestPage";
+import HomePage from "../views/HomePage";
 
-import css from "./App.module.less";
+// import { Outlet } from "react-router-dom";
 
-const App = kind({
-  name: "App",
+// const App = kind({
+//   name: "App",
 
-  styles: {
-    css,
-    className: "app",
-  },
+//   styles: {
+//     css,
+//     className: "app",
+//   },
 
-  render: (props) => (
-    <Panels {...props}>
-      <MainPanel />
+//   render: (props) => (
+//     <Panels {...props}>
+//       <Outlet />
+//     </Panels>
+//   ),
+// });
+
+const App = () => {
+  return (
+    <Panels>
+      <HomePage />
+      <TestPage />
     </Panels>
-  ),
-});
+  );
+};
 
 export default ThemeDecorator(App);

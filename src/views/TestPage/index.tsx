@@ -1,13 +1,14 @@
-import VideoPlayer, { VideoPlayerProps } from "@enact/sandstone/VideoPlayer";
+import { useMemo, useRef, useState } from "react";
+import styled from "styled-components";
+
 import Button from "@enact/sandstone/Button";
+import VideoPlayer, { VideoPlayerProps } from "@enact/sandstone/VideoPlayer";
 import {
   MediaControls,
   MediaControlsProps,
 } from "@enact/sandstone/MediaPlayer";
-import { useMemo, useRef, useState } from "react";
-import styled from "styled-components";
 
-const MainPanel = () => {
+const TestPage = () => {
   const [isSeek] = useState(false);
 
   const videoPlayer = useRef<InstanceType<typeof VideoPlayer>>(null);
@@ -65,7 +66,7 @@ const MainPanel = () => {
   );
 };
 
-export default MainPanel;
+export default TestPage;
 
 const VideoTitle = styled.div<VideoTitleProps>`
   opacity: ${({ $isSeek }) => ($isSeek ? 0.5 : 1)};

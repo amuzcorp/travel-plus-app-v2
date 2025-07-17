@@ -2,8 +2,14 @@ import { createRoot, hydrateRoot } from "react-dom/client";
 
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { ThemeProvider } from "styled-components";
+import { theme } from "./core/styles/theme";
 
-const appElement = <App />;
+const appElement = (
+  <ThemeProvider theme={theme}>
+    <App />
+  </ThemeProvider>
+);
 
 // In a browser environment, render instead of exporting
 if (typeof window !== "undefined") {
