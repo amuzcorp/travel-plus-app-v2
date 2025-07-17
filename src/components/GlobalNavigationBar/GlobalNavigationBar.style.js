@@ -20,3 +20,19 @@ export const GNBWrapper = styled(Cell)`
   transition: width ease 0.2s;
   will-change: width;
 `;
+
+export const GNBOverlay = styled.div`
+  position: fixed;
+
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.7);
+
+  opacity: ${({ $expanded }) => ($expanded ? 1 : 0)};
+
+  z-index: ${({ theme }) => theme.zIndex.gnb};
+
+  transition: opacity ease 0.2s;
+  will-change: opacity;
+`;

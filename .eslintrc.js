@@ -17,19 +17,6 @@ const defaultConfig = {
   },
 };
 
-const tsConfig = {
-  extends: ["@enact/eslint-config", "@enact/eslint-config/typescript"],
-  parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
-  parserOptions: {
-    ecmaVersion: 2021,
-    sourceType: "module",
-    ecmaFeatures: {
-      jsx: true,
-    },
-  },
-};
-
 const reactConfig = {
   extends: ["@enact/eslint-config", "@enact/eslint-config/react"],
   plugins: ["react", "react-hooks"],
@@ -129,7 +116,6 @@ const styleConfig = {
 
 module.exports = deepMerge.all([
   defaultConfig,
-  tsConfig,
   reactConfig,
   spotlightConfig,
   moonstoneConfig,

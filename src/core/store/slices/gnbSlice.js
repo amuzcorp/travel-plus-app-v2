@@ -7,7 +7,7 @@ export const GnbState = {
 
 export const gnbSlice = createSlice({
   name: "gnb",
-  initialState: { value: GnbState.Collapsed },
+  initialState: { value: GnbState.Collapsed, selectedIndex: 0 },
   reducers: {
     expand: (state) => {
       state.value = GnbState.Expanded;
@@ -15,7 +15,10 @@ export const gnbSlice = createSlice({
     collapse: (state) => {
       state.value = GnbState.Collapsed;
     },
+    select: (state, action) => {
+      state.selectedIndex = action.payload;
+    },
   },
 });
 
-export const { expand, collapse } = gnbSlice.actions;
+export const { expand, collapse, select } = gnbSlice.actions;
