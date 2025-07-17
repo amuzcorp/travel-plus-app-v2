@@ -1,4 +1,5 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
+import React from "react";
 
 import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "styled-components";
@@ -7,7 +8,7 @@ import Router from "./core/routes/Router";
 import { Provider } from "react-redux";
 import store from "./core/store/store";
 
-const appElement = (
+const appElement: React.ReactElement = (
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <Router />
@@ -15,16 +16,16 @@ const appElement = (
   </Provider>
 );
 
-const ENACT_PACK_ISOMORPHIC = false;
+const ENACT_PACK_ISOMORPHIC: boolean = false;
 
 // In a browser environment, render instead of exporting
 if (typeof window !== "undefined") {
   const container = document.getElementById("root");
 
   if (ENACT_PACK_ISOMORPHIC) {
-    hydrateRoot(container, appElement);
+    hydrateRoot(container!, appElement);
   } else {
-    createRoot(container).render(appElement);
+    createRoot(container!).render(appElement);
   }
 }
 

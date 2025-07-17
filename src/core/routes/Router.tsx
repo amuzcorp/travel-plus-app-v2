@@ -1,8 +1,9 @@
+import React from "react";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 
-import App from "../../App/App.jsx";
-import HomePage from "../../views/HomePage/index.jsx";
-import TestPage from "../../views/TestPage/index.jsx";
+import App from "../../App/App";
+import HomePage from "../../views/HomePage";
+import TestPage from "../../views/TestPage";
 
 const router = createHashRouter([
   {
@@ -21,7 +22,7 @@ const router = createHashRouter([
   },
 ]);
 
-const Router = () => {
+const Router: React.FC = () => {
   return (
     <RouterProvider
       router={router}

@@ -1,19 +1,28 @@
+import React from "react";
 import Button from "@enact/sandstone/Button";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-const GlobalNavigationBarButton = ({
+import { RootState } from "../../core/store/store";
+
+interface GlobalNavigationBarButtonProps {
+  icon: string;
+  index?: number;
+  useFocus?: boolean;
+  onClick?: () => void;
+}
+
+const GlobalNavigationBarButton: React.FC<GlobalNavigationBarButtonProps> = ({
   icon,
   index,
   useFocus = true,
   onClick = () => {},
 }) => {
-  const selectedIndex = useSelector((state) => state.gnb.selectedIndex);
+  const selectedIndex = useSelector((state: RootState) => state.gnb.selectedIndex);
 
   const buttonProps = {
     icon: icon,
-    size: "small",
+    size: "small" as const,
     selected: index === selectedIndex,
     $useFocus: useFocus,
     spotlightDisabled: !useFocus,
@@ -25,13 +34,6 @@ const GlobalNavigationBarButton = ({
 
 export default GlobalNavigationBarButton;
 
-GlobalNavigationBarButton.propTypes = {
-  icon: PropTypes.string.isRequired,
-  index: PropTypes.number,
-  useFocus: PropTypes.bool,
-  onClick: PropTypes.func,
-};
-
-const StyledButton = styled(Button)`
+const StyledButton = styled(Button)<{ $useFocus?: boolean }>`
   pointer-events: ${({ $useFocus }) => ($useFocus ? "auto" : "none")};
 `;

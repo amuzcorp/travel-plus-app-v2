@@ -1,19 +1,21 @@
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 
 import Scroller from "@enact/sandstone/Scroller";
 import Button from "@enact/sandstone/Button";
 import { Column } from "@enact/ui/Layout";
 import Spotlight from "@enact/spotlight";
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
   const list = Array.from({ length: 100 }, (__, i) => i);
 
   const scrollTo = useCallback(() => {
-    const current = Spotlight.getCurrent();
-    current?.scrollIntoView({
-      block: "center",
-      behavior: "smooth",
-    });
+    const current = Spotlight.getCurrent() as any;
+    if (current && typeof current.scrollIntoView === 'function') {
+      current.scrollIntoView({
+        block: "center",
+        behavior: "smooth",
+      });
+    }
   }, []);
 
   // const throttleScrollTo = useMemo(() => {
@@ -22,7 +24,7 @@ const HomePage = () => {
 
   const onClick = useCallback(() => {
     // throttleScrollTo.throttle();
-    scrollTo.call();
+    scrollTo();
   }, [scrollTo]);
 
   const onFocus = useCallback(() => {
@@ -32,13 +34,13 @@ const HomePage = () => {
     }
 
     // throttleScrollTo.throttle();
-    scrollTo.call();
+    scrollTo();
   }, [scrollTo]);
 
   const scrollerProps = {
-    direction: "vertical",
-    verticalScrollbar: "hidden",
-    scrollMode: "translate",
+    direction: "vertical" as const,
+    verticalScrollbar: "hidden" as const,
+    scrollMode: "translate" as const,
   };
 
   const buttonProps = {
@@ -51,7 +53,7 @@ const HomePage = () => {
       <Column>
         {list.map((__, index) => {
           return (
-            <Button key={index} id={index} {...buttonProps}>
+            <Button key={index} id={index.toString()} {...buttonProps}>
               Click me {index}
             </Button>
           );

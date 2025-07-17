@@ -1,7 +1,15 @@
 import { Cell } from "@enact/ui/Layout";
 import styled from "styled-components";
 
-export const GNBWrapper = styled(Cell)`
+interface GNBWrapperProps {
+  $expanded: boolean;
+}
+
+interface GNBOverlayProps {
+  $expanded: boolean;
+}
+
+export const GNBWrapper = styled(Cell)<GNBWrapperProps>`
   position: fixed !important;
   left: 0;
 
@@ -21,7 +29,7 @@ export const GNBWrapper = styled(Cell)`
   will-change: width;
 `;
 
-export const GNBOverlay = styled.div`
+export const GNBOverlay = styled.div<GNBOverlayProps>`
   position: fixed;
 
   width: 100vw;

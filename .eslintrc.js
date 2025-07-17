@@ -1,8 +1,10 @@
 // .eslintrc.js
-import deepMerge from "deepmerge";
+const deepMerge = require("deepmerge");
 
 const defaultConfig = {
-  extends: ["@enact/eslint-config"],
+  extends: ["@enact/eslint-config", "@enact/eslint-config/typescript"],
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint"],
   env: {
     browser: true,
     es2021: true,

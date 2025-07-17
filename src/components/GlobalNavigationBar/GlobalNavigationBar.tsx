@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Layout, { Cell, Column } from "@enact/ui/Layout";
@@ -6,6 +6,7 @@ import Spotlight from "@enact/spotlight";
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
 
 import { collapse, expand, GnbState } from "../../core/store/slices/gnbSlice";
+import { RootState } from "../../core/store/store";
 import { GNBOverlay, GNBWrapper } from "./GlobalNavigationBar.style";
 import GlobalNavigationBarButton from "../Buttons/GlobalNavigationBarButton";
 
@@ -14,8 +15,8 @@ const SpotlightContainer = SpotlightContainerDecorator(
   "div"
 );
 
-const GlobalNavigationBar = () => {
-  const gnbState = useSelector((state) => state.gnb.value);
+const GlobalNavigationBar: React.FC = () => {
+  const gnbState = useSelector((state: RootState) => state.gnb.value);
   const dispatch = useDispatch();
 
   const collapseGnb = useCallback(() => {
@@ -90,7 +91,7 @@ const GlobalNavigationBar = () => {
         </Column>
       </GNBWrapper>
     </SpotlightContainer>
-  );
+  ) as React.ReactElement;
 };
 
 export default GlobalNavigationBar;

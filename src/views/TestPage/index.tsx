@@ -1,14 +1,14 @@
-import { useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 
 import Button from "@enact/sandstone/Button";
 import VideoPlayer from "@enact/sandstone/VideoPlayer";
 import { MediaControls } from "@enact/sandstone/MediaPlayer";
 
-const TestPage = () => {
+const TestPage: React.FC = () => {
   const [isSeek] = useState(false);
 
-  const videoPlayer = useRef(null);
+  const videoPlayer = useRef<any>(null);
 
   const titleElement = useMemo(() => {
     return <VideoTitle $isSeek={isSeek}>HELLO</VideoTitle>;
@@ -16,7 +16,7 @@ const TestPage = () => {
 
   const videoPlayerProps = {
     ref: videoPlayer,
-    title: titleElement,
+    title: titleElement as any,
     titleHideDelay: 0,
     // infoComponents: (
     //   <div slot="infoComponents">
@@ -26,7 +26,7 @@ const TestPage = () => {
     // ),
     poster: "http://media.w3.org/2010/05/sintel/poster.png",
     thumbnailSrc: "http://media.w3.org/2010/05/sintel/poster.png",
-    onScrub: (detail) => {
+    onScrub: (detail: any) => {
       console.log(detail);
     },
   };
@@ -62,7 +62,7 @@ const TestPage = () => {
 
 export default TestPage;
 
-const VideoTitle = styled.div`
+const VideoTitle = styled.div<{ $isSeek: boolean }>`
   opacity: ${({ $isSeek }) => ($isSeek ? 0.5 : 1)};
 
   will-change: opacity;
