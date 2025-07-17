@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "vendor": "LGE-SVL",
   "type": "web",
-  "main": "index.tsx",
+  "main": "index.jsx",
   "title": "Enact App Template",
   "icon": "icon.png",
   "miniicon": "icon-mini.png",

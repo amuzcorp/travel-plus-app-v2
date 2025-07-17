@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A general template for an Enact Sandstone application for webOS TVs",
   "author": "",
-  "main": "src/index.tsx",
+  "main": "src/index.jsx",
   "scripts": {
     "serve": "enact serve",
     "pack": "enact pack",
@@ -46,7 +46,6 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.7.0",
     "styled-components": "^6.1.19",
-    "typescript": "^5.3.3",
     "web-vitals": "^3.5.0"
   },
   "devDependencies": {

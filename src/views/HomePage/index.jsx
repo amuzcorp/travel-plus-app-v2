@@ -31,10 +31,14 @@ const HomePage = () => {
   const scrollerProps = {
     direction: "vertical",
     verticalScrollbar: "hidden",
+    scrollMode: "native",
+    style: {
+      padding: "20vh 0",
+    },
   };
 
   const buttonProps = {
-    style: { margin: "50px 0" },
+    style: { margin: "40vh 0" },
     onClick: onClick,
     onFocus: onFocus,
   };
