@@ -50,9 +50,6 @@ const TestPage = () => {
         exciting stuff.
       </div>
       <MediaControls {...mediaControlsProps}>
-        <div slot="bottomComponents">
-          <div>hello</div>
-        </div>
         <Button icon="list" size="small" />
         <Button icon="playspeed" size="small" />
         <Button icon="speakercenter" size="small" />
