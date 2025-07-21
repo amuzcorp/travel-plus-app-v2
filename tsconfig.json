@@ -23,12 +23,7 @@
       "@/core/*": ["src/core/*"]
     }
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "build",
-    "dist"
-  ]
-} 
+
+  "include": ["src/**/*", "src/types/enact.d.ts"],
+  "exclude": ["node_modules", "build", "dist"]
+}

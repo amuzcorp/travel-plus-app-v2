@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import Layout, { Cell, Column } from "@enact/ui/Layout";
+import { Cell, Column } from "@enact/ui/Layout";
 import Spotlight from "@enact/spotlight";
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
 
@@ -61,22 +61,29 @@ const GlobalNavigationBar: React.FC = () => {
     <SpotlightContainer>
       <GNBOverlay {...GNBOverlayProps} />
       <GNBWrapper {...GNBWrapperProps}>
-        <Column align="center">
+        <Column>
           <Cell shrink>
             <Column>
-              <GlobalNavigationBarButton icon="travel plus" useFocus={false} />
-              <GlobalNavigationBarButton icon="profile" index={0} />
+              <Cell>
+                <GlobalNavigationBarButton
+                  icon="travel plus"
+                  useFocus={false}
+                />
+              </Cell>
+              <Cell>
+                <GlobalNavigationBarButton icon="profile" index={0} />
+              </Cell>
             </Column>
           </Cell>
-          <Cell>
-            <Layout orientation="vertical" align="center center">
-              <Cell shrink>
+          <Cell shrink>
+            <Column>
+              <Cell>
                 <GlobalNavigationBarButton icon="home" />
               </Cell>
-              <Cell shrink>
+              <Cell>
                 <GlobalNavigationBarButton icon="help" />
               </Cell>
-            </Layout>
+            </Column>
           </Cell>
           <Cell shrink>
             <Column>

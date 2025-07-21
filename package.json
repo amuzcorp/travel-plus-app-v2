@@ -65,6 +65,7 @@
     "eslint-config-enact-proxy": "^1.0.7",
     "eslint-plugin-enact": "^2.0.0",
     "eslint-plugin-react": "^7.37.5",
+    "less": "^4.4.0",
     "typescript": "^5.8.3"
   }
 }
