@@ -1,9 +1,9 @@
 {
-  "name": "enact-starter",
+  "name": "lg-travel-plus",
   "version": "1.0.0",
-  "description": "A general template for an Enact Sandstone application for webOS TVs",
-  "author": "",
-  "main": "src/index.jsx",
+  "description": "LG Travel Plus",
+  "author": "LG Electronics",
+  "main": "src/index.tsx",
   "scripts": {
     "serve": "enact serve",
     "pack": "enact pack",
@@ -13,13 +13,17 @@
     "lint": "enact lint .",
     "license": "enact license",
     "test": "enact test",
-    "test-watch": "enact test --watch"
+    "test-watch": "enact test --watch",
+    "type-check": "tsc --noEmit"
   },
   "license": "UNLICENSED",
   "private": true,
-  "repository": "",
+  "repository": "https://github.com/amuzcorp/travel-plus-app-v2",
   "engines": {
     "npm": ">=6.9.0"
+  },
+  "overrides": {
+    "@types/react": "^18.2.0"
   },
   "enact": {
     "theme": "sandstone"
@@ -52,13 +56,15 @@
     "web-vitals": "^3.5.0"
   },
   "devDependencies": {
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
+    "@types/node": "^24.0.14",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
     "@typescript-eslint/eslint-plugin": "^8.37.0",
     "@typescript-eslint/parser": "^8.37.0",
     "eslint": "^9.31.0",
     "eslint-config-enact-proxy": "^1.0.7",
     "eslint-plugin-enact": "^2.0.0",
-    "eslint-plugin-react": "^7.37.5"
+    "eslint-plugin-react": "^7.37.5",
+    "typescript": "^5.8.3"
   }
 }
