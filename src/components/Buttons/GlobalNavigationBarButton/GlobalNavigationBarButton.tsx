@@ -4,8 +4,6 @@ import { useSelector } from "react-redux";
 
 import style from "./GlobalNavigationBarButton.module.less";
 
-// const style = require("./GlobalNavigationBarButton.module.less");
-
 interface GlobalNavigationBarButtonProps {
   icon: string;
   index?: number;

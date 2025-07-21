@@ -8,7 +8,7 @@ import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDeco
 import { collapse, expand, GnbState } from "../../core/store/slices/gnbSlice";
 import { RootState } from "../../core/store/store";
 import { GNBOverlay, GNBWrapper } from "./GlobalNavigationBar.style";
-import GlobalNavigationBarButton from "../Buttons/GlobalNavigationBarButton";
+import GlobalNavigationBarButton from "../Buttons/GlobalNavigationBarButton/GlobalNavigationBarButton";
 
 const SpotlightContainer = SpotlightContainerDecorator(
   { restrict: "self-only" },
@@ -62,38 +62,22 @@ const GlobalNavigationBar: React.FC = () => {
       <GNBOverlay {...GNBOverlayProps} />
       <GNBWrapper {...GNBWrapperProps}>
         <Column>
-          <Cell shrink>
-            <Column>
-              <Cell>
-                <GlobalNavigationBarButton
-                  icon="travel plus"
-                  useFocus={false}
-                />
-              </Cell>
-              <Cell>
-                <GlobalNavigationBarButton icon="profile" index={0} />
-              </Cell>
-            </Column>
+          <Cell shrink size={"79px"}>
+            <GlobalNavigationBarButton icon="profile" index={0} />
           </Cell>
-          <Cell shrink>
-            <Column>
-              <Cell>
-                <GlobalNavigationBarButton icon="home" />
-              </Cell>
-              <Cell>
-                <GlobalNavigationBarButton icon="help" />
-              </Cell>
-            </Column>
+          <Cell />
+          <Cell shrink size={"79px"}>
+            <GlobalNavigationBarButton icon="home" />
           </Cell>
-          <Cell shrink>
-            <Column>
-              <Cell>
-                <GlobalNavigationBarButton icon="gear" />
-              </Cell>
-              <Cell>
-                <GlobalNavigationBarButton icon="power" />
-              </Cell>
-            </Column>
+          <Cell shrink size={"79px"}>
+            <GlobalNavigationBarButton icon="help" />
+          </Cell>
+          <Cell />
+          <Cell shrink size={"79px"}>
+            <GlobalNavigationBarButton icon="gear" />
+          </Cell>
+          <Cell shrink size={"79px"}>
+            <GlobalNavigationBarButton icon="power" />
           </Cell>
         </Column>
       </GNBWrapper>

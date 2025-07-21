@@ -5,6 +5,7 @@ import Scroller from "@enact/sandstone/Scroller";
 import Button from "@enact/sandstone/Button";
 import { Column } from "@enact/ui/Layout";
 import Spotlight from "@enact/spotlight";
+import LabelButton from "../../components/Buttons/CmdButton/CmdButton";
 
 const HomePage: React.FC = () => {
   const list = Array.from({ length: 100 }, (__, i) => i);
@@ -52,7 +53,12 @@ const HomePage: React.FC = () => {
   return (
     <Scroller {...scrollerProps}>
       <Column>
+        {/* <SpottableButton /> */}
         {list.map((__, index) => {
+          if (index === 3) {
+            return <LabelButton>Travel Now</LabelButton>;
+          }
+
           return (
             <Button key={index} id={index.toString()} {...buttonProps}>
               {$L("common.delete")}
@@ -65,3 +71,35 @@ const HomePage: React.FC = () => {
 };
 
 export default HomePage;
+
+// export const SpottableButton = Spottable(
+//   ({ focused, children, ...rest }: any) => {
+//     useEffect(() => {
+//       console.log(rest);
+//     }, []);
+
+//     return (
+//       <CustomButtonWrapper
+//         {...rest}
+//         id="custom-button"
+//         tabIndex={999}
+//         // onFocus={() => {
+//         //   setFocused(true);
+//         // }}
+//         // onBlur={() => {
+//         //   setFocused(false);
+//         // }}
+//       >
+//         {$L("common.delete")}
+//       </CustomButtonWrapper>
+//     );
+//   }
+// );
+
+// const CustomButtonWrapper = styled.div`
+//   background-color: purple;
+
+//   & .spottable-next-up {
+//     background-color: cyan;
+//   }
+// `;

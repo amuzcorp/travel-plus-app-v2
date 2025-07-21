@@ -8,8 +8,12 @@ import GlobalNavigationBar from "../components/GlobalNavigationBar/GlobalNavigat
 
 const App: React.FC = () => {
   return (
-    <Row>
-      <Cell>
+    <Row
+      style={{
+        background: "black",
+      }}
+    >
+      <Cell shrink>
         <GlobalNavigationBar />
       </Cell>
       <Cell
