@@ -1,3 +1,13 @@
 {
-	"files": []
+  "locales": ["en", "ko"],
+  "resources": {
+    "en": ["resources/locale/en/strings.json"],
+    "ko": ["resources/locale/ko/strings.json"]
+  },
+  "files": [
+    "de/strings.json",
+    "en/GB/strings.json",
+    "en/strings.json",
+    "ko/strings.json"
+  ]
 }

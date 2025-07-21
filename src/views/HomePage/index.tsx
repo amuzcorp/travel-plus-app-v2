@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 
+import $L from "@enact/i18n/$L";
 import Scroller from "@enact/sandstone/Scroller";
 import Button from "@enact/sandstone/Button";
 import { Column } from "@enact/ui/Layout";
@@ -10,7 +11,7 @@ const HomePage: React.FC = () => {
 
   const scrollTo = useCallback(() => {
     const current = Spotlight.getCurrent() as any;
-    if (current && typeof current.scrollIntoView === 'function') {
+    if (current && typeof current.scrollIntoView === "function") {
       current.scrollIntoView({
         block: "center",
         behavior: "smooth",
@@ -54,7 +55,7 @@ const HomePage: React.FC = () => {
         {list.map((__, index) => {
           return (
             <Button key={index} id={index.toString()} {...buttonProps}>
-              Click me {index}
+              {$L("common.delete")}
             </Button>
           );
         })}
