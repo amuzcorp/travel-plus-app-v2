@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-declare module '@enact/ui/Layout' {
+declare module "@enact/ui/Layout" {
   interface RowProps {
     children?: React.ReactNode;
   }
@@ -19,14 +19,14 @@ declare module '@enact/ui/Layout' {
 }
 
 // Spotlight 타입 확장
-declare module '@enact/spotlight/SpotlightContainerDecorator' {
+declare module "@enact/spotlight/SpotlightContainerDecorator" {
   interface SpotlightContainerDecoratorProps {
     children?: React.ReactNode;
   }
 }
 
 // styled-components 테마 타입 확장
-declare module 'styled-components' {
+declare module "styled-components" {
   export interface DefaultTheme {
     size: {
       gnbCollapsed: number;
