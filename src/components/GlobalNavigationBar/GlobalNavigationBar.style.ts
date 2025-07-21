@@ -41,6 +41,8 @@ export const GNBOverlay = styled.div<GNBOverlayProps>`
 
   z-index: ${({ theme }) => theme.zIndex.gnb};
 
+  display: ${({ $expanded }) => ($expanded ? "" : "none")};
+
   transition: opacity ease 0.2s;
   will-change: opacity;
 `;
