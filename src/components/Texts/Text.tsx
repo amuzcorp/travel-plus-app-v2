@@ -28,7 +28,11 @@ const Text = React.memo(
             const baseStyle: React.CSSProperties = {
                 fontSize: theme.textStyle[textStyle].fontSize,
                 fontWeight: theme.textStyle[textStyle].fontWeight,
-                color: color ?? theme.colors.text.primary,
+                color: color
+                    ? color
+                    : active
+                    ? theme.colors.text.primaryVari
+                    : theme.colors.text.primary,
                 overflow: "hidden",
                 textOverflow: "ellipsis",
             };
@@ -44,7 +48,7 @@ const Text = React.memo(
             }
 
             return baseStyle;
-        }, [theme, textStyle, color, marqueeType, maxLine]);
+        }, [theme, textStyle, color, marqueeType, maxLine, active]);
 
         const marqueeOn = useMemo(() => {
             return marqueeType === "render" || (marqueeType === "focus" && active)
@@ -58,7 +62,13 @@ const Text = React.memo(
             </Marquee>
         );
     },
-    (prevProps, nextProps) => prevProps.active === nextProps.active
+    (prevProps, nextProps) =>
+        prevProps.children === nextProps.children &&
+        prevProps.textStyle === nextProps.textStyle &&
+        prevProps.color === nextProps.color &&
+        prevProps.marqueeType === nextProps.marqueeType &&
+        prevProps.active === nextProps.active &&
+        prevProps.maxLine === nextProps.maxLine
 );
 
 export default Text;
