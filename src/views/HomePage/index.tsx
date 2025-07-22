@@ -130,12 +130,4 @@ const Image = styled.div`
 
 const CustomItem = styled(Item)`
   height: fit-content;
-
-  & .selected,
-  & .selected:focus,
-  &:focus{
-    background-color: orange !important;
-    z-index: 1;
-  }
-
 `;
