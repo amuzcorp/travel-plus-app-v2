@@ -4,6 +4,7 @@ import React from "react";
 import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./core/styles/theme";
+import "./core/styles/fonts.css";
 import Router from "./core/routes/Router";
 import { Provider } from "react-redux";
 import store from "./core/store/store";

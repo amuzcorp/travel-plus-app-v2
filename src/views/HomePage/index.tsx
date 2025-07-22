@@ -61,8 +61,9 @@ const HomePage: React.FC = React.memo(() => {
           />
         );
       })}
+      {/* <Cell size={"24px"}></Cell> */}
       <Cell>
-        <RoundButton />
+        <RoundButton>지금 여행하기</RoundButton>
       </Cell>
     </Column>
   );
