@@ -9,6 +9,9 @@ import {
   useDefaultFocus,
 } from "../../hooks/useDefaultFocus";
 import RoundButton from "../../components/Buttons/RoundButton/RoundButton";
+import styled from "styled-components";
+import Item from "@enact/sandstone/Item/Item"
+import Marquee from "@enact/ui/Marquee";
 
 const HomePage: React.FC = React.memo(() => {
   const navigate = useNavigate();
@@ -63,8 +66,19 @@ const HomePage: React.FC = React.memo(() => {
       })}
       {/* <Cell size={"24px"}></Cell> */}
       <Cell>
-        <RoundButton>지금 여행하기</RoundButton>
+        <RoundButton>efjiajdfieifja;sdlfjkliejfa;lsdkfjasdlifjie;jasldk</RoundButton>
       </Cell>
+      
+      <CustomItem marqueeOn={"focus"} inline={true}>
+        <Column >
+          <Cell shrink>
+            <Image />
+          </Cell>
+          <Cell size={'320px'} shrink component={Marquee}>
+            sdjfeijfa;isdjf;klejfa;oisdjf;iaelsjf;klasdjf;lesjfai;lsdjfklasdjf;liejf;laksdj
+          </Cell>
+        </Column>
+      </CustomItem>
     </Column>
   );
 });
@@ -107,3 +121,21 @@ const TestButton = React.memo(
   },
   (prev, next) => false
 );
+
+const Image = styled.div`
+  width: 310px;
+  height: 210px;
+  background: tomato;
+`;
+
+const CustomItem = styled(Item)`
+  height: fit-content;
+
+  & .selected,
+  & .selected:focus,
+  &:focus{
+    background-color: orange !important;
+    z-index: 1;
+  }
+
+`;

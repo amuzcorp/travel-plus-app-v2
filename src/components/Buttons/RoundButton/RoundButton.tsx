@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import Text from "../../../components/Texts/Text";
 import ButtonBase from "../ButtonBase";
+import Marquee from "@enact/ui/Marquee";
 
 interface RoundButtonProps extends SpottableProps {
   children: React.ReactNode;
@@ -11,17 +12,17 @@ interface RoundButtonProps extends SpottableProps {
 const RoundButton = React.memo(({ children, ...rest }: RoundButtonProps) => {
   return (
     <StyledButton {...rest}>
-      <Text textStyle="headerSmSb">{children}</Text>
+      {children}
     </StyledButton>
   );
 });
 
 export default Spottable(RoundButton);
 
-const StyledButton = styled(ButtonBase)`
+const StyledButton = styled(Marquee)`
   width: fit-content;
   min-width: calc(160 / 24 * 1rem);
-  max-width: auto;
+  max-width: 20vw;
 
   padding: calc(16.5 / 24 * 1rem) calc(55 / 24 * 1rem);
 
