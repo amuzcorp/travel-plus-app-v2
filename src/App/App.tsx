@@ -5,25 +5,30 @@ import ThemeDecorator from "@enact/sandstone/ThemeDecorator";
 import { Cell, Row } from "@enact/ui/Layout";
 import { Outlet } from "react-router-dom";
 import GlobalNavigationBar from "../components/GlobalNavigationBar/GlobalNavigationBar";
+import SpotlightRootDecorator from "@enact/spotlight/SpotlightRootDecorator";
+
+const RootContainer = SpotlightRootDecorator({}, `div`);
 
 const App: React.FC = () => {
   return (
-    <Row
-      style={{
-        background: "black",
-      }}
-    >
-      <Cell shrink>
-        <GlobalNavigationBar />
-      </Cell>
-      <Cell
+    <RootContainer>
+      <Row
         style={{
-          marginLeft: "130px",
+          background: "black",
         }}
       >
-        <Outlet />
-      </Cell>
-    </Row>
+        <Cell shrink>
+          <GlobalNavigationBar />
+        </Cell>
+        <Cell
+          style={{
+            marginLeft: "130px",
+          }}
+        >
+          <Outlet />
+        </Cell>
+      </Row>
+    </RootContainer>
   );
 };
 

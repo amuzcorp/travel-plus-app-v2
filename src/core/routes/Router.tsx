@@ -4,6 +4,10 @@ import { createHashRouter, RouterProvider } from "react-router-dom";
 import App from "../../App/App";
 import HomePage from "../../views/HomePage";
 import TestPage from "../../views/TestPage";
+import SearchPage from "../../views/SearchPage";
+import DestinationPage from "../../views/DestinationPage";
+import MyLuggagePage from "../../views/MyLuggagePage";
+import SettingsPage from "../../views/SettingsPage";
 
 const router = createHashRouter([
   {
@@ -15,10 +19,26 @@ const router = createHashRouter([
         element: <HomePage />,
       },
       {
-        path: "/test",
-        element: <TestPage />,
+        path: "search",
+        element: <SearchPage />,
+      },
+      {
+        path: "destination",
+        element: <DestinationPage />,
+      },
+      {
+        path: "my-luggage",
+        element: <MyLuggagePage />,
+      },
+      {
+        path: "settings",
+        element: <SettingsPage />,
       },
     ],
+  },
+  {
+    path: "/test",
+    element: <TestPage />,
   },
 ]);
 

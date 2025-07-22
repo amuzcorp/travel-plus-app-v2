@@ -1,32 +1,46 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Cell, Column } from "@enact/ui/Layout";
 import Spotlight from "@enact/spotlight";
-import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
+import SpotlightContainerDecorator, {
+  SpotlightContainerDecoratorConfig,
+} from "@enact/spotlight/SpotlightContainerDecorator";
 
-import { collapse, expand, GnbState } from "../../core/store/slices/gnbSlice";
+import {
+  collapse,
+  expand,
+  GnbState,
+  updateWantToCollapse,
+} from "../../core/store/slices/gnbSlice";
 import { RootState } from "../../core/store/store";
 import { GNBOverlay, GNBWrapper } from "./GlobalNavigationBar.style";
 import GlobalNavigationBarButton from "../Buttons/GlobalNavigationBarButton/GlobalNavigationBarButton";
 
-const SpotlightContainer = SpotlightContainerDecorator(
-  { restrict: "self-only" },
-  "div"
-);
+const spotlightConfig: SpotlightContainerDecoratorConfig = {
+  restrict: "self-only",
+  defaultElement: "luggage",
+};
 
-const GlobalNavigationBar: React.FC = () => {
+const SpotlightContainer = SpotlightContainerDecorator(spotlightConfig, "div");
+
+const GlobalNavigationBar: React.FC = React.memo(() => {
   const gnbState = useSelector((state: RootState) => state.gnb.value);
+  const wantToCollapse = useSelector(
+    (state: RootState) => state.gnb.wantToCollapse
+  );
   const dispatch = useDispatch();
 
   const collapseGnb = useCallback(() => {
-    Spotlight.disableSelector("gnb");
     dispatch(collapse());
+
+    dispatch(updateWantToCollapse(true));
   }, [dispatch]);
 
   const expandGnb = useCallback(() => {
-    Spotlight.enableSelector("gnb");
     dispatch(expand());
+
+    dispatch(updateWantToCollapse(false));
   }, [dispatch]);
 
   const onFocus = useCallback(() => {
@@ -47,42 +61,56 @@ const GlobalNavigationBar: React.FC = () => {
     $expanded: gnbState === GnbState.Expanded,
   };
 
-  const GNBWrapperProps = {
-    id: "gnb",
-    shrink: true,
-    $expanded: gnbState === GnbState.Expanded,
-    onFocus: onFocus,
-    onBlur: onBlur,
-    onMouseEnter: expandGnb,
-    onMouseLeave: collapseGnb,
-  };
+  const GNBWrapperProps = useMemo(() => {
+    return {
+      $expanded: gnbState === GnbState.Expanded,
+      onFocus: onFocus,
+      onBlur: onBlur,
+      onMouseEnter: expandGnb,
+      onMouseLeave: collapseGnb,
+    };
+  }, [gnbState, onFocus, onBlur, expandGnb, collapseGnb]);
 
   return (
-    <SpotlightContainer>
+    <SpotlightContainer
+      spotlightRestrict={wantToCollapse ? undefined : "self-only"}
+    >
       <GNBOverlay {...GNBOverlayProps} />
       <GNBWrapper {...GNBWrapperProps}>
         <Column>
-          <Cell shrink size={"79px"}>
-            <GlobalNavigationBarButton icon="profile" index={0} />
+          <Cell shrink>
+            {/* <GlobalNavigationBarButton icon="profile" index={0} /> */}
           </Cell>
+
+          {/* spacer */}
           <Cell />
-          <Cell shrink size={"79px"}>
-            <GlobalNavigationBarButton icon="home" />
+
+          <Cell shrink>
+            <GlobalNavigationBarButton type="home" index={1} />
           </Cell>
-          <Cell shrink size={"79px"}>
-            <GlobalNavigationBarButton icon="help" />
+          <Cell shrink>
+            <GlobalNavigationBarButton type="search" index={2} />
           </Cell>
+          <Cell shrink>
+            <GlobalNavigationBarButton type="destination" index={3} />
+          </Cell>
+          <Cell shrink>
+            <GlobalNavigationBarButton type="luggage" index={4} />
+          </Cell>
+
+          {/* spacer */}
           <Cell />
-          <Cell shrink size={"79px"}>
-            <GlobalNavigationBarButton icon="gear" />
+
+          <Cell shrink>
+            <GlobalNavigationBarButton type="settings" index={5} />
           </Cell>
-          <Cell shrink size={"79px"}>
-            <GlobalNavigationBarButton icon="power" />
+          <Cell shrink>
+            <GlobalNavigationBarButton type="exit" index={6} />
           </Cell>
         </Column>
       </GNBWrapper>
     </SpotlightContainer>
-  ) as React.ReactElement;
-};
+  );
+});
 
 export default GlobalNavigationBar;

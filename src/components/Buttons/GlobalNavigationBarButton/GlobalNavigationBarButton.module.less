@@ -1,13 +1,26 @@
 /* GlobalNavigationBarButton.module.less */
+.button:focus,
 .button {
-  background-color: purple !important;
-  padding: 20px;
-  margin: 0px !important;
+  width: calc(79 / 24 * 1rem);
+  height: calc(79 / 24 * 1rem);
+
+  background-color: transparent !important;
+  color: white !important;
+
+  margin: 0rem !important;
+
+  border-radius: 1rem !important;
+
+  font-size: calc(39 / 24 * 1rem) !important;
+}
+.button:focus .bg {
+  background-color: white !important;
 }
 .bg {
-  background-color: yellow !important;
+  // background-color: rgba(0, 255, 204, 0.14) !important;
+  color: white !important;
+
   box-shadow: none !important;
-}
-.selected {
-  color: green !important;
+
+  border-radius: 1rem !important;
 }

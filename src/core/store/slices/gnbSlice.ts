@@ -5,16 +5,18 @@ export const GnbState = {
   Expanded: 1,
 } as const;
 
-export type GnbStateType = typeof GnbState[keyof typeof GnbState];
+export type GnbStateType = (typeof GnbState)[keyof typeof GnbState];
 
 interface GnbStateInterface {
   value: GnbStateType;
   selectedIndex: number;
+  wantToCollapse: boolean;
 }
 
 const initialState: GnbStateInterface = {
   value: GnbState.Collapsed,
-  selectedIndex: 0
+  selectedIndex: 0,
+  wantToCollapse: false,
 };
 
 export const gnbSlice = createSlice({
@@ -30,7 +32,11 @@ export const gnbSlice = createSlice({
     select: (state, action: PayloadAction<number>) => {
       state.selectedIndex = action.payload;
     },
+    updateWantToCollapse: (state, action: PayloadAction<boolean>) => {
+      state.wantToCollapse = action.payload;
+    },
   },
 });
 
-export const { expand, collapse, select } = gnbSlice.actions;
+export const { expand, collapse, select, updateWantToCollapse } =
+  gnbSlice.actions;
