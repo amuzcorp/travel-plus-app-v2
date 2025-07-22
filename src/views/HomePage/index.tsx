@@ -8,6 +8,7 @@ import {
   DefaultFocusProps,
   useDefaultFocus,
 } from "../../hooks/useDefaultFocus";
+import RoundButton from "../../components/Buttons/RoundButton/RoundButton";
 
 const HomePage: React.FC = React.memo(() => {
   const navigate = useNavigate();
@@ -60,6 +61,9 @@ const HomePage: React.FC = React.memo(() => {
           />
         );
       })}
+      <Cell>
+        <RoundButton />
+      </Cell>
     </Column>
   );
 });
