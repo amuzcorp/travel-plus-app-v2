@@ -4,8 +4,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/core/store/store";
 import Button from "@enact/sandstone/Button";
 
-import css from "./CmdButton.module.less";
-
 interface CmdButtonProps {
   index?: number;
   useFocus?: boolean;
@@ -28,7 +26,6 @@ const CmdButton: React.FC<CmdButtonProps> = ({
     selected: index === selectedIndex,
     spotlightDisabled: !useFocus,
     onClick: onClick,
-    css: css,
     roundBorder: true,
   };
 

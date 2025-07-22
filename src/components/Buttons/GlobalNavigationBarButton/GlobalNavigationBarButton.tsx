@@ -44,7 +44,6 @@ interface GlobalNavigationBarButtonProps {
   type: keyof GnbIconType;
   index?: number;
   useFocus?: boolean;
-  // onClick?: () => void;
 }
 
 const GlobalNavigationBarButton = React.memo(
