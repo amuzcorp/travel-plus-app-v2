@@ -1,105 +1,104 @@
-import React, { useCallback } from "react";
-
-import $L from "@enact/i18n/$L";
-import Scroller from "@enact/sandstone/Scroller";
+import { setLastFocused } from "../../core/store/slices/homeSlice";
 import Button from "@enact/sandstone/Button";
-import { Column } from "@enact/ui/Layout";
-import Spotlight from "@enact/spotlight";
-import LabelButton from "../../components/Buttons/CmdButton/CmdButton";
+import { Cell, Column } from "@enact/ui/Layout";
+import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  DefaultFocusProps,
+  useDefaultFocus,
+} from "../../hooks/useDefaultFocus";
 
-const HomePage: React.FC = () => {
-  const list = Array.from({ length: 100 }, (__, i) => i);
+const HomePage: React.FC = React.memo(() => {
+  const navigate = useNavigate();
 
-  const scrollTo = useCallback(() => {
-    const current = Spotlight.getCurrent() as any;
-    if (current && typeof current.scrollIntoView === "function") {
-      current.scrollIntoView({
-        block: "center",
-        behavior: "smooth",
-      });
-    }
-  }, []);
+  const data = [
+    {
+      label: "Go To Search",
+      onClick: () => {
+        navigate("/search");
+      },
+    },
+    {
+      label: "Go To Destinaion",
+      onClick: () => {
+        navigate("/destination");
+      },
+    },
+    {
+      label: "Go To My Luggage",
+      onClick: () => {
+        navigate("/my-luggage");
+      },
+    },
+    {
+      label: "Go To Settings",
+      onClick: () => {
+        navigate("/settings");
+      },
+    },
+  ];
 
-  // const throttleScrollTo = useMemo(() => {
-  //   return new Job(scrollTo, 300);
-  // }, [scrollTo]);
-
-  const onClick = useCallback(() => {
-    // throttleScrollTo.throttle();
-    scrollTo();
-  }, [scrollTo]);
-
-  const onFocus = useCallback(() => {
-    const isPointerMode = Spotlight.getPointerMode();
-    if (isPointerMode) {
-      return;
-    }
-
-    // throttleScrollTo.throttle();
-    scrollTo();
-  }, [scrollTo]);
-
-  const scrollerProps = {
-    direction: "vertical" as const,
-    verticalScrollbar: "hidden" as const,
-    scrollMode: "translate" as const,
+  const defaultFocusProps: DefaultFocusProps = {
+    defaultFocusKey: null,
+    focusInterface: null,
   };
 
-  const buttonProps = {
-    onClick: onClick,
-    onFocus: onFocus,
-  };
+  useDefaultFocus(defaultFocusProps);
 
   return (
-    <Scroller {...scrollerProps}>
-      <Column>
-        {/* <SpottableButton /> */}
-        {list.map((__, index) => {
-          if (index === 3) {
-            return <LabelButton>Travel Now</LabelButton>;
-          }
+    <Column>
+      {data.map((value, index) => {
+        const id = "HOME_" + index;
 
-          return (
-            <Button key={index} id={index.toString()} {...buttonProps}>
-              {$L("common.delete")}
-            </Button>
-          );
-        })}
-      </Column>
-    </Scroller>
+        return (
+          <TestButton
+            key={index}
+            id={id}
+            label={value.label}
+            onClick={value.onClick}
+          />
+        );
+      })}
+    </Column>
   );
-};
+});
 
 export default HomePage;
 
-// export const SpottableButton = Spottable(
-//   ({ focused, children, ...rest }: any) => {
-//     useEffect(() => {
-//       console.log(rest);
-//     }, []);
+interface TestButtonProps {
+  id: string;
+  label: string;
+  onClick: Function;
+}
 
-//     return (
-//       <CustomButtonWrapper
-//         {...rest}
-//         id="custom-button"
-//         tabIndex={999}
-//         // onFocus={() => {
-//         //   setFocused(true);
-//         // }}
-//         // onBlur={() => {
-//         //   setFocused(false);
-//         // }}
-//       >
-//         {$L("common.delete")}
-//       </CustomButtonWrapper>
-//     );
-//   }
-// );
+const TestButton = React.memo(
+  (props: TestButtonProps) => {
+    const dispatch = useDispatch();
 
-// const CustomButtonWrapper = styled.div`
-//   background-color: purple;
+    const onClick = useCallback(() => {
+      props.onClick();
+    }, [props]);
 
-//   & .spottable-next-up {
-//     background-color: cyan;
-//   }
-// `;
+    const onFocus = useCallback(
+      (ev: React.FocusEvent) => {
+        dispatch(setLastFocused(props.id));
+      },
+      [dispatch, props]
+    );
+
+    return (
+      <Cell>
+        <Button
+          id={props.id}
+          spotlightId={props.id}
+          onClick={onClick}
+          onFocus={onFocus}
+        >
+          {props.label}
+        </Button>
+      </Cell>
+    );
+  },
+  (prev, next) => false
+);
