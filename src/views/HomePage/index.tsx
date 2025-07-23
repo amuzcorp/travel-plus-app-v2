@@ -10,6 +10,7 @@ import {
 } from "../../hooks/useDefaultFocus";
 import RoundButton from "../../components/Buttons/RoundButton/RoundButton";
 import ScrollToTopButton from "../../components/Buttons/ScrollToTopButton/ScrollToTopButton";
+import store from "@/core/store/store";
 
 const HomePage: React.FC = React.memo(() => {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ const HomePage: React.FC = React.memo(() => {
 
   const defaultFocusProps: DefaultFocusProps = {
     defaultFocusKey: null,
-    focusInterface: null,
+    focusInterface: store.getState().home,
   };
 
   useDefaultFocus(defaultFocusProps);
