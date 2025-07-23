@@ -25,89 +25,98 @@ const spotlightConfig: SpotlightContainerDecoratorConfig = {
 const SpotlightContainer = SpotlightContainerDecorator(spotlightConfig, "div");
 
 const GlobalNavigationBar: React.FC = React.memo(() => {
-  const gnbState = useSelector((state: RootState) => state.gnb.value);
-  const wantToCollapse = useSelector(
-    (state: RootState) => state.gnb.wantToCollapse
-  );
-  const dispatch = useDispatch();
+  // const gnbState = useSelector((state: RootState) => state.gnb.value);
+  // const wantToCollapse = useSelector(
+  //   (state: RootState) => state.gnb.wantToCollapse
+  // );
+  // const dispatch = useDispatch();
 
-  const collapseGnb = useCallback(() => {
-    dispatch(collapse());
+  // const collapseGnb = useCallback(() => {
+  //   dispatch(collapse());
 
-    dispatch(updateWantToCollapse(true));
-  }, [dispatch]);
+  //   dispatch(updateWantToCollapse(true));
+  // }, [dispatch]);
 
-  const expandGnb = useCallback(() => {
-    dispatch(expand());
+  // const expandGnb = useCallback(() => {
+  //   dispatch(expand());
 
-    dispatch(updateWantToCollapse(false));
-  }, [dispatch]);
+  //   dispatch(updateWantToCollapse(false));
+  // }, [dispatch]);
 
-  const onFocus = useCallback(() => {
-    const isMouse = Spotlight.getPointerMode();
-    if (!isMouse) {
-      expandGnb();
-    }
-  }, [expandGnb]);
+  // const onFocus = useCallback(() => {
+  //   const isMouse = Spotlight.getPointerMode();
+  //   if (!isMouse) {
+  //     expandGnb();
+  //   }
+  // }, [expandGnb]);
 
-  const onBlur = useCallback(() => {
-    const isMouse = Spotlight.getPointerMode();
-    if (!isMouse) {
-      collapseGnb();
-    }
-  }, [collapseGnb]);
+  // const onBlur = useCallback(() => {
+  //   const isMouse = Spotlight.getPointerMode();
+  //   if (!isMouse) {
+  //     collapseGnb();
+  //   }
+  // }, [collapseGnb]);
 
   const GNBOverlayProps = {
-    $expanded: gnbState === GnbState.Expanded,
+    // $expanded: gnbState === GnbState.Expanded,
   };
 
-  const GNBWrapperProps = useMemo(() => {
-    return {
-      $expanded: gnbState === GnbState.Expanded,
-      onFocus: onFocus,
-      onBlur: onBlur,
-      onMouseEnter: expandGnb,
-      onMouseLeave: collapseGnb,
-    };
-  }, [gnbState, onFocus, onBlur, expandGnb, collapseGnb]);
+  const GNBWrapperProps = useMemo(
+    () => {
+      return {
+        // $expanded: gnbState === GnbState.Expanded,
+        // onFocus: onFocus,
+        // onBlur: onBlur,
+        // onMouseEnter: expandGnb,
+        // onMouseLeave: collapseGnb,
+      };
+    },
+    [
+      // gnbState,
+      // onFocus,
+      // onBlur,
+      // expandGnb,
+      // collapseGnb,
+    ]
+  );
 
   return (
     <SpotlightContainer
-      spotlightRestrict={wantToCollapse ? undefined : "self-only"}
+    // spotlightRestrict={wantToCollapse ? undefined : "self-only"}
     >
       <GNBOverlay {...GNBOverlayProps} />
       <GNBWrapper {...GNBWrapperProps}>
-        <Column>
+        {/* <Column>
           <Cell shrink>
-            {/* <GlobalNavigationBarButton icon="profile" index={0} /> */}
+            <GlobalNavigationBarButton icon="profile" index={0} />
           </Cell>
 
-          {/* spacer */}
+          spacer
           <Cell />
 
           <Cell shrink>
-            <GlobalNavigationBarButton type="home" index={1} />
+            <GlobalNavigationBarButton type="home" />
           </Cell>
           <Cell shrink>
-            <GlobalNavigationBarButton type="search" index={2} />
+            <GlobalNavigationBarButton type="search" />
           </Cell>
           <Cell shrink>
-            <GlobalNavigationBarButton type="destination" index={3} />
+            <GlobalNavigationBarButton type="destination" />
           </Cell>
           <Cell shrink>
-            <GlobalNavigationBarButton type="luggage" index={4} />
+            <GlobalNavigationBarButton type="luggage" />
           </Cell>
 
-          {/* spacer */}
+          spacer
           <Cell />
 
           <Cell shrink>
-            <GlobalNavigationBarButton type="settings" index={5} />
+            <GlobalNavigationBarButton type="settings" />
           </Cell>
           <Cell shrink>
-            <GlobalNavigationBarButton type="exit" index={6} />
+            <GlobalNavigationBarButton type="exit" />
           </Cell>
-        </Column>
+        </Column> */}
       </GNBWrapper>
     </SpotlightContainer>
   );

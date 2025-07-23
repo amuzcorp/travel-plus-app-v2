@@ -1,19 +1,19 @@
 import styled from "styled-components";
 
 interface GNBWrapperProps {
-  $expanded: boolean;
+  // $expanded: boolean;
 }
 
 interface GNBOverlayProps {
-  $expanded: boolean;
+  // $expanded: boolean;
 }
 
 export const GNBWrapper = styled.div<GNBWrapperProps>`
   position: fixed;
   left: 0;
 
-  width: ${({ $expanded }) =>
-    $expanded ? "calc(350 / 24 * 1rem)" : "calc(80 / 24 * 1rem)"};
+  width: calc(80 / 24 * 1rem);
+
   height: calc(100vh - 100 / 24 * 1rem);
 
   margin: calc(20 / 24 * 1rem) 0;
@@ -22,35 +22,42 @@ export const GNBWrapper = styled.div<GNBWrapperProps>`
   border-top-right-radius: calc(12 / 24 * 1rem);
   border-bottom-right-radius: calc(12 / 24 * 1rem);
 
-  background: ${({ $expanded }) => ($expanded ? "rgba(0,0,0,0.3)" : "none")};
-  backdrop-filter: ${({ $expanded }) => ($expanded ? "blur(25px)" : "none")};
-
   z-index: ${({ theme }) => theme.zIndex.gnb};
 
   transition: width ease 0.2s;
   will-change: width;
 
-  box-shadow: inset 0 1px 0 0
-      ${({ theme, $expanded }) =>
-        $expanded ? theme.colors.text.primaryVari : "transparent"},
-    inset -1px 0 0 0 ${({ theme, $expanded }) => ($expanded ? theme.colors.text.primaryVari : "transparent")},
-    inset 0 -1px 0 0 ${({ theme, $expanded }) => ($expanded ? theme.colors.text.primaryVari : "transparent")};
+  background: white;
+
+  &:focus,
+  &:hover {
+    width: calc(350 / 24 * 1rem);
+  }
 `;
 
-export const GNBOverlay = styled.div<GNBOverlayProps>`
-  position: fixed;
+// background: ${({ $expanded }) => ($expanded ? "rgba(0,0,0,0.3)" : "none")};
+//   backdrop-filter: ${({ $expanded }) => ($expanded ? "blur(25px)" : "none")};
 
-  width: 100vw;
-  height: 100vh;
+//   box-shadow: inset 0 1px 0 0
+//       ${({ theme, $expanded }) =>
+//         $expanded ? theme.colors.text.primaryVari : "transparent"},
+//     inset -1px 0 0 0 ${({ theme, $expanded }) => ($expanded ? theme.colors.text.primaryVari : "transparent")},
+//     inset 0 -1px 0 0 ${({ theme, $expanded }) => ($expanded ? theme.colors.text.primaryVari : "transparent")};
 
-  background: rgba(0, 0, 0, 0.7);
+export const GNBOverlay = styled.div<GNBOverlayProps>``;
 
-  opacity: ${({ $expanded }) => ($expanded ? 1 : 0)};
+// position: fixed;
 
-  z-index: ${({ theme }) => theme.zIndex.gnb};
+//   width: 100vw;
+//   height: 100vh;
 
-  display: ${({ $expanded }) => ($expanded ? "" : "none")};
+//   background: rgba(0, 0, 0, 0.7);
 
-  transition: opacity ease 0.2s;
-  will-change: opacity;
-`;
+//   opacity: ${({ $expanded }) => ($expanded ? 1 : 0)};
+
+//   z-index: ${({ theme }) => theme.zIndex.gnb};
+
+//   display: ${({ $expanded }) => ($expanded ? "" : "none")};
+
+//   transition: opacity ease 0.2s;
+//   will-change: opacity;

@@ -10,7 +10,8 @@ import {
 } from "../../hooks/useDefaultFocus";
 import RoundButton from "../../components/Buttons/RoundButton/RoundButton";
 import ScrollToTopButton from "../../components/Buttons/ScrollToTopButton/ScrollToTopButton";
-import store from "@/core/store/store";
+import store from "../../core/store/store";
+import CustomItemCard from "../../components/Cards/CustomItemCard";
 
 const HomePage: React.FC = React.memo(() => {
   const navigate = useNavigate();
@@ -88,8 +89,13 @@ const HomePage: React.FC = React.memo(() => {
           </Cell>
         </Column>
       </CustomItem> */}
+      <Cell shrink>
+        <CustomItemCard>
+          만나서 반갑읍니단만나서 반갑읍니단만나서 반갑읍니단만나서 반갑읍니단
+        </CustomItemCard>
+      </Cell>
 
-      <Cell>
+      <Cell shrink>
         <ScrollToTopButton
           type="large"
           onClick={() => {
@@ -97,7 +103,7 @@ const HomePage: React.FC = React.memo(() => {
           }}
         />
       </Cell>
-      <Cell>
+      <Cell shrink>
         <ScrollToTopButton type="small" />
       </Cell>
     </Column>
