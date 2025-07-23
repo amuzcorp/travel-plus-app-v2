@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
-import { ItemDecorator } from "@enact/sandstone/Item";
 import { Cell, Column } from "@enact/ui/Layout";
 import Marquee from "@enact/ui/Marquee";
+
+import BaseAccessibleComponent from "./BaseAccessibleComponent";
 
 // styled div
 const CardWrapper = styled.div`
@@ -11,6 +12,7 @@ const CardWrapper = styled.div`
   height: auto;
   border: 1px solid gray;
   background-color: blue;
+
   &:focus {
     border: 3px solid skyblue;
     background-color: yellow;
@@ -30,28 +32,24 @@ const Image = styled.div.attrs({
 `;
 
 // 카드 자체를 감싸기 위해 기본 컴포넌트를 생성
-const BaseCard = ({ children, ...rest }: any) => {
+const CustomItemCard = ({ children }: any) => {
   return (
-    <CardWrapper {...rest} marqueeOn={"focus"}>
+    <BaseAccessibleComponent component={CardWrapper} announceText="나는 바보야 집에 가고 싶다">
       <Column>
         <Cell shrink>
           <Image />
         </Cell>
-        <Cell size="320px" shrink component={Marquee}>
+        <Cell size="320px" shrink style={{ overflow: "hidden" }} component={Marquee}>
           {children}
         </Cell>
         <Cell size="320px" shrink style={{ overflow: "hidden" }}>
           {children}
         </Cell>
       </Column>
-    </CardWrapper>
+    </BaseAccessibleComponent>
   );
 };
 
-const CustomItemCard = ItemDecorator(BaseCard);
+// const CustomItemCard = AnnounceDecorator(ItemDecorator(BaseCard));
 
-export default () => (
-  <CustomItemCard>
-    sdjfeijfa;isdjf;klejfa;oisdjf;iaelsjf;klasdjf;lesjfai;lsdjfklasdjf;liejf;laksdj
-  </CustomItemCard>
-);
+export default CustomItemCard;
