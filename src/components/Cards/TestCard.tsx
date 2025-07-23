@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
+import $L from "@enact/i18n/$L";
 import { Cell, Column } from "@enact/ui/Layout";
 import Marquee from "@enact/ui/Marquee";
 
-import BaseAccessibleComponent from "./BaseAccessibleComponent";
+import BaseAccessibleComponent from "../BaseAccessibleComponent";
 
 // styled div
 const CardWrapper = styled.div`
@@ -34,7 +35,15 @@ const Image = styled.div.attrs({
 // 카드 자체를 감싸기 위해 기본 컴포넌트를 생성
 const CustomItemCard = ({ children }: any) => {
   return (
-    <BaseAccessibleComponent component={CardWrapper} announceText="나는 바보야 집에 가고 싶다">
+    <BaseAccessibleComponent
+      component={CardWrapper}
+      speaker={$L("video.travelNow")}
+      onKeyDown={(e: React.KeyboardEvent) => {
+        // if (e.key === "Enter") {
+        console.log("✅ Enter 눌림 - 외부 커스텀 동작");
+        // }
+      }}
+    >
       <Column>
         <Cell shrink>
           <Image />
