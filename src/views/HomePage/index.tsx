@@ -9,9 +9,7 @@ import {
   useDefaultFocus,
 } from "../../hooks/useDefaultFocus";
 import RoundButton from "../../components/Buttons/RoundButton/RoundButton";
-import styled from "styled-components";
-import Item from "@enact/sandstone/Item/Item"
-import Marquee from "@enact/ui/Marquee";
+import ScrollToTopButton from "../../components/Buttons/ScrollToTopButton/ScrollToTopButton";
 
 const HomePage: React.FC = React.memo(() => {
   const navigate = useNavigate();
@@ -66,19 +64,41 @@ const HomePage: React.FC = React.memo(() => {
       })}
       {/* <Cell size={"24px"}></Cell> */}
       <Cell>
-        <RoundButton>efjiajdfieifja;sdlfjkliejfa;lsdkfjasdlifjie;jasldk</RoundButton>
+        <RoundButton active={false}>
+          efjiajdfieifja;sdlfjkliejfa;lsdkfjasdlifjie;jasldk
+        </RoundButton>
       </Cell>
-      
-      <CustomItem marqueeOn={"focus"} inline={true}>
-        <Column >
+      <Cell>
+        <RoundButton active>
+          efjiajdfieifja;sdlfjkliejfa;lsdkfjasdlifjie;jasldk
+        </RoundButton>
+      </Cell>
+
+      {/* <CustomItem marqueeOn={"focus"} inline>
+        <Column>
           <Cell shrink>
             <Image />
           </Cell>
-          <Cell size={'320px'} shrink component={Marquee}>
+          <Cell size={"320px"} shrink component={Marquee}>
+            sdjfeijfa;isdjf;klejfa;oisdjf;iaelsjf;klasdjf;lesjfai;lsdjfklasdjf;liejf;laksdj
+          </Cell>
+          <Cell size={"320px"} shrink>
             sdjfeijfa;isdjf;klejfa;oisdjf;iaelsjf;klasdjf;lesjfai;lsdjfklasdjf;liejf;laksdj
           </Cell>
         </Column>
-      </CustomItem>
+      </CustomItem> */}
+
+      <Cell>
+        <ScrollToTopButton
+          type="large"
+          onClick={() => {
+            console.log("hello");
+          }}
+        />
+      </Cell>
+      <Cell>
+        <ScrollToTopButton type="small" />
+      </Cell>
     </Column>
   );
 });
@@ -122,12 +142,12 @@ const TestButton = React.memo(
   (prev, next) => false
 );
 
-const Image = styled.div`
-  width: 310px;
-  height: 210px;
-  background: tomato;
-`;
+// const Image = styled.div`
+//   width: 310px;
+//   height: 210px;
+//   background: tomato;
+// `;
 
-const CustomItem = styled(Item)`
-  height: fit-content;
-`;
+// const CustomItem = styled(Item)`
+//   height: fit-content;
+// `;
