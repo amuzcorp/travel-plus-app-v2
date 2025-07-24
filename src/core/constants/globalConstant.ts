@@ -8,3 +8,6 @@ export const localStorageVisited = {
   key: "hasVisited",
   value: "you visited",
 };
+
+export const contentCardWidth = 403;
+export const contentCardGap = 24;

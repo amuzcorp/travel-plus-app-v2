@@ -11,7 +11,14 @@ import "./core/styles/fonts.css";
 import { theme } from "./core/styles/theme";
 import reportWebVitals from "./reportWebVitals";
 
+/* global ENACT_PACK_ISOMORPHIC */
+// Declare global constant injected at build time
+// declare const ENACT_PACK_ISOMORPHIC: boolean;
+
 const appElement = (
+  // <div style={{ width: "100px", height: "100px", background: "orange" }}>
+  //   hello
+  // </div>
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <Router />
@@ -21,9 +28,10 @@ const appElement = (
   </Provider>
 );
 
-// In a browser environment, render instead of exporting
 if (typeof window !== "undefined") {
   const container = document.getElementById("root");
+
+  localStorage.clear();
 
   if (ENACT_PACK_ISOMORPHIC) {
     hydrateRoot(container, appElement);

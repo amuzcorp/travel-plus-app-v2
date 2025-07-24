@@ -2,6 +2,7 @@ import React from "react";
 import { createHashRouter, replace, RouterProvider } from "react-router-dom";
 
 import App from "../../App/App";
+import AppLayout from "../../views/AppLayout";
 import DestinationPage from "../../views/DestinationPage";
 import HomePage from "../../views/HomePage";
 import MyLuggagePage from "../../views/MyLuggagePage";
@@ -17,7 +18,7 @@ const router = createHashRouter([
     element: <App />,
     children: [
       {
-        path: "/",
+        index: true,
         loader: () => {
           const visited = localStorage.getItem(localStorageVisited.key);
           if (visited === localStorageVisited.value) {
@@ -29,34 +30,41 @@ const router = createHashRouter([
         },
       },
       {
-        path: "home",
-        element: <HomePage />,
+        path: "/",
+        element: <AppLayout />,
+        children: [
+          {
+            path: "home",
+            element: <HomePage />,
+          },
+          {
+            path: "search",
+            element: <SearchPage />,
+          },
+          {
+            path: "destination",
+            element: <DestinationPage />,
+          },
+          {
+            path: "my-luggage",
+            element: <MyLuggagePage />,
+          },
+          {
+            path: "settings",
+            element: <SettingsPage />,
+          },
+        ],
       },
       {
-        path: "search",
-        element: <SearchPage />,
+        path: "splash",
+        element: <SplashPage />,
       },
+
       {
-        path: "destination",
-        element: <DestinationPage />,
-      },
-      {
-        path: "my-luggage",
-        element: <MyLuggagePage />,
-      },
-      {
-        path: "settings",
-        element: <SettingsPage />,
+        path: "test",
+        element: <TestPage />,
       },
     ],
-  },
-  {
-    path: "splash",
-    element: <SplashPage />,
-  },
-  {
-    path: "/test",
-    element: <TestPage />,
   },
 ]);
 
