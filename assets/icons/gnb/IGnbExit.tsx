@@ -1,15 +1,15 @@
-import PropTypes from 'prop-types';
+import React from "react";
 
-const IGnbExit = ({ color = '#E6E6E6', width = 39, height = 39, opacity = 0.8 }) => {
+const IGnbExit = () => {
   return (
     <svg
-      width={width}
-      height={height}
+      width="39"
+      height="39"
       viewBox="0 0 39 39"
-      fill={color}
+      fill="#E6E6E6"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g opacity={opacity}>
+      <g opacity="0.8">
         <path
           fillRule="evenodd"
           clipRule="evenodd"
@@ -20,11 +20,4 @@ const IGnbExit = ({ color = '#E6E6E6', width = 39, height = 39, opacity = 0.8 })
   );
 };
 
-IGnbExit.propTypes = {
-  color: PropTypes.string,
-  width: PropTypes.number,
-  height: PropTypes.number,
-  opacity: PropTypes.number,
-};
-
-export default IGnbExit;
+export default React.memo(IGnbExit);

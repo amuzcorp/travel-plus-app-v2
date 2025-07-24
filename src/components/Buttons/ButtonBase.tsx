@@ -10,11 +10,6 @@ const ButtonBase = styled.button`
   justify-content: center;
   align-items: center;
 
-  font-family: "LGSmartUI";
-  font-size: ${({ theme }) => theme.textStyle.headerSmSb.fontSize};
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
   vertical-align: center;
 
   &:focus {
