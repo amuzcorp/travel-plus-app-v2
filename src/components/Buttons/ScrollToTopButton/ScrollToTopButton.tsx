@@ -23,66 +23,6 @@ const ScrollToTopButton = React.memo(
 
 export default AnnounceDecorator(Spottable(ScrollToTopButton));
 
-// export default React.memo(({ type = "small", announce, ...rest }: any) => {
-//   const onFocus = useCallback(
-//     (e: FocusEvent) => {
-//       console.log(2);
-
-//       console.log(rest.onFocus);
-
-//       // rest.onFocus(e);
-
-//       announce($L("common.goToTop"));
-//     },
-//     [announce, rest]
-//   );
-
-//   const handleKeyDown = (e: React.KeyboardEvent) => {
-//     console.log(1);
-
-//     const directionMap = {
-//       ArrowUp: "up",
-//       ArrowDown: "down",
-//       ArrowLeft: "left",
-//       ArrowRight: "right",
-//     } as const;
-
-//     const direction = directionMap[e.key as keyof typeof directionMap];
-
-//     if (direction) {
-//       const current = Spotlight.getCurrent();
-
-//       setTimeout(() => {
-//         const after = Spotlight.getCurrent();
-
-//         console.log("이동 : ", current, after);
-
-//         if (current === after) {
-//           const message = {
-//             up: "더 이상 위쪽으로 이동할 수 없습니다.",
-//             down: "더 이상 아래쪽으로 이동할 수 없습니다.",
-//             left: "더 이상 왼쪽으로 이동할 수 없습니다.",
-//             right: "더 이상 오른쪽으로 이동할 수 없습니다.",
-//           }[direction];
-
-//           console.log(message);
-
-//           announce?.(message);
-//         }
-//       }, 10);
-//     }
-//   };
-
-//   return (
-//     <ResultWidget
-//       type={type}
-//       onFocus={onFocus}
-//       onKeyDown={handleKeyDown}
-//       {...rest}
-//     ></ResultWidget>
-//   );
-// });
-
 interface StyledRoundButtonProps {
   $isSmall: boolean;
 }

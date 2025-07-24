@@ -78,7 +78,7 @@ export const RoundButtonBase = styled(Marquee)`
     background: ${({ theme }) => theme.colors.text.primary};
     box-shadow: 0px 14px 30px 0px rgba(0, 0, 0, 0.3);
 
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 
   &:focus {
