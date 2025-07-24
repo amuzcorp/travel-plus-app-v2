@@ -1,15 +1,13 @@
-import PropTypes from 'prop-types';
+import React from "react";
 
-const GnbExitSelected = ({ color = '#E6E6E6', width = 39, height = 46, ...rest }) => (
+const GnbExitSelected = () => (
   <svg
-    width={width}
-    height={height}
-    viewBox="0 0 39 46"
-    fill={color}
+    width="39"
+    height="39"
+    viewBox="0 0 39 39"
+    fill="#E6E6E6"
     xmlns="http://www.w3.org/2000/svg"
-    {...rest}
   >
-    <line x1="3" y1="44.5" x2="35" y2="44.5" stroke="#00FFCC" strokeWidth="3" />
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -18,10 +16,4 @@ const GnbExitSelected = ({ color = '#E6E6E6', width = 39, height = 46, ...rest }
   </svg>
 );
 
-GnbExitSelected.propTypes = {
-  color: PropTypes.string,
-  width: PropTypes.number,
-  height: PropTypes.number,
-};
-
-export default GnbExitSelected;
+export default React.memo(GnbExitSelected);

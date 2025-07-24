@@ -9,6 +9,7 @@ import Router from "./core/routes/Router";
 import { Provider } from "react-redux";
 import store from "./core/store/store";
 import "./core/styles/fonts.css";
+import "./App/App.module.css";
 
 const appElement = (
   <Provider store={store}>

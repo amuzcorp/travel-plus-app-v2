@@ -1,3 +1,5 @@
+import React from "react";
+
 const GnbSearch = () => (
   <svg
     width="39"
@@ -21,4 +23,4 @@ const GnbSearch = () => (
   </svg>
 );
 
-export default GnbSearch;
+export default React.memo(GnbSearch);

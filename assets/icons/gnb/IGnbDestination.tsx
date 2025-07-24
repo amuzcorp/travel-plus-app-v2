@@ -1,3 +1,5 @@
+import React from "react";
+
 const GnbDestination = () => (
   <svg
     width="39"
@@ -28,4 +30,4 @@ const GnbDestination = () => (
   </svg>
 );
 
-export default GnbDestination;
+export default React.memo(GnbDestination);

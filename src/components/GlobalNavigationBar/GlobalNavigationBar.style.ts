@@ -1,23 +1,15 @@
 import styled from "styled-components";
 
-interface GNBWrapperProps {
-  // $expanded: boolean;
-}
-
-interface GNBOverlayProps {
-  // $expanded: boolean;
-}
-
-export const GNBWrapper = styled.div<GNBWrapperProps>`
+export const GNBWrapper = styled.div`
   position: fixed;
   left: 0;
 
-  width: calc(80 / 24 * 1rem);
+  width: calc(79 / 24 * 1rem);
 
   height: calc(100vh - 100 / 24 * 1rem);
 
   margin: calc(20 / 24 * 1rem) 0;
-  padding: calc(30 / 24 * 1rem) calc(25.5 / 25 * 1rem);
+  padding: calc(30 / 24 * 1rem) calc(25.5 / 24 * 1rem);
 
   border-top-right-radius: calc(12 / 24 * 1rem);
   border-bottom-right-radius: calc(12 / 24 * 1rem);
@@ -27,37 +19,41 @@ export const GNBWrapper = styled.div<GNBWrapperProps>`
   transition: width ease 0.2s;
   will-change: width;
 
-  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
-  &:focus,
-  &:hover {
+  &.expanded {
     width: calc(350 / 24 * 1rem);
+
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(25px);
+    box-shadow: inset 0 1px 0 0 ${({ theme }) => theme.colors.text.primaryVari},
+      inset -1px 0 0 0 ${({ theme }) => theme.colors.text.primaryVari},
+      inset 0 -1px 0 0 ${({ theme }) => theme.colors.text.primaryVari};
   }
 `;
 
-// background: ${({ $expanded }) => ($expanded ? "rgba(0,0,0,0.3)" : "none")};
-//   backdrop-filter: ${({ $expanded }) => ($expanded ? "blur(25px)" : "none")};
+export const GNBOverlay = styled.div`
+  position: fixed;
 
-//   box-shadow: inset 0 1px 0 0
-//       ${({ theme, $expanded }) =>
-//         $expanded ? theme.colors.text.primaryVari : "transparent"},
-//     inset -1px 0 0 0 ${({ theme, $expanded }) => ($expanded ? theme.colors.text.primaryVari : "transparent")},
-//     inset 0 -1px 0 0 ${({ theme, $expanded }) => ($expanded ? theme.colors.text.primaryVari : "transparent")};
+  width: 100vw;
+  height: 100vh;
 
-export const GNBOverlay = styled.div<GNBOverlayProps>``;
+  z-index: ${({ theme }) => theme.zIndex.gnb};
 
-// position: fixed;
+  transition: opacity ease 0.2s;
+  will-change: opacity;
 
-//   width: 100vw;
-//   height: 100vh;
+  pointer-events: none;
 
-//   background: rgba(0, 0, 0, 0.7);
+  &.expanded {
+    background: rgba(0, 0, 0, 0.7);
 
-//   opacity: ${({ $expanded }) => ($expanded ? 1 : 0)};
+    opacity: 1;
 
-//   z-index: ${({ theme }) => theme.zIndex.gnb};
+    pointer-events: auto;
+  }
+`;
 
-//   display: ${({ $expanded }) => ($expanded ? "" : "none")};
-
-//   transition: opacity ease 0.2s;
-//   will-change: opacity;
+export const SectionWrapper = styled.div``;

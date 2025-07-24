@@ -1,3 +1,5 @@
+import React from "react";
+
 const IGnbExit = () => {
   return (
     <svg
@@ -18,4 +20,4 @@ const IGnbExit = () => {
   );
 };
 
-export default IGnbExit;
+export default React.memo(IGnbExit);

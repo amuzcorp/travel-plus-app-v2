@@ -1,34 +1,20 @@
-import PropTypes from 'prop-types';
+import React from "react";
 
-const GnbSettingsSelected = ({ color = '#E6E6E6', width = 34, height = 33, ...rest }) => (
+const GnbSettingsSelected = () => (
   <svg
-    width={width}
-    height={height}
-    viewBox="0 0 34 33"
+    width="39"
+    height="39"
+    viewBox="0 0 39 39"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    {...rest}
   >
-    <g clipPath="url(#clip0_9202_9203)">
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M11.63 0H21.95L22.66 4.51C23.2 4.78 23.72 5.08 24.22 5.41L28.45 3.77L30.54 7.4L33.59 12.7L30.1 15.53C30.12 15.85 30.13 16.16 30.14 16.48C30.14 16.8 30.13 17.12 30.1 17.44L33.59 20.27L31.51 23.9L31.25 24.35L30.54 25.58L28.45 29.21L24.22 27.57C23.72 27.9 23.21 28.2 22.67 28.47L21.95 32.99H11.64L10.92 28.47C10.39 28.21 9.87 27.91 9.38 27.58L5.14 29.21L3.05 25.58L0 20.28L3.48 17.44C3.46 17.13 3.45 16.81 3.45 16.5C3.45 16.18 3.46 15.87 3.48 15.56L0 12.72L2.08 9.09L5.13 3.78L9.37 5.41C9.87 5.08 10.38 4.78 10.92 4.51L11.63 0ZM16.79 23C20.38 23 23.29 20.09 23.29 16.5C23.29 12.91 20.38 10 16.79 10C13.2 10 10.29 12.91 10.29 16.5C10.29 20.09 13.2 23 16.79 23Z"
-        fill={color}
-      />
-    </g>
-    <defs>
-      <clipPath id="clip0_9202_9203">
-        <rect width="33.58" height="33" fill="white" />
-      </clipPath>
-    </defs>
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M14.63 3H24.95L25.66 7.51C26.2 7.78 26.72 8.08 27.22 8.41L31.45 6.77L33.54 10.4L36.59 15.7L33.1 18.53C33.12 18.85 33.13 19.16 33.14 19.48C33.14 19.8 33.13 20.12 33.1 20.44L36.59 23.27L34.51 26.9L34.25 27.35L33.54 28.58L31.45 32.21L27.22 30.57C26.72 30.9 26.21 31.2 25.67 31.47L24.95 35.99H14.64L13.92 31.47C13.39 31.21 12.87 30.91 12.38 30.58L8.14 32.21L6.05 28.58L3 23.28L6.48 20.44C6.46 20.13 6.45 19.81 6.45 19.5C6.45 19.18 6.46 18.87 6.48 18.56L3 15.72L5.08 12.09L8.13 6.78L12.37 8.41C12.87 8.08 13.38 7.78 13.92 7.51L14.63 3ZM19.79 26C23.38 26 26.29 23.09 26.29 19.5C26.29 15.91 23.38 13 19.79 13C16.2 13 13.29 15.91 13.29 19.5C13.29 23.09 16.2 26 19.79 26Z"
+      fill="#E6E6E6"
+    />
   </svg>
 );
 
-GnbSettingsSelected.propTypes = {
-  color: PropTypes.string,
-  width: PropTypes.number,
-  height: PropTypes.number,
-};
-
-export default GnbSettingsSelected;
+export default React.memo(GnbSettingsSelected);
