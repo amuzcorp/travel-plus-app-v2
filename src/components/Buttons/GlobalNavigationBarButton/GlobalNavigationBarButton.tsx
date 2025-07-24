@@ -1,5 +1,5 @@
-import BaseAccessibleComponent from "../../../components/BaseAccessibleComponent";
 import React, { useEffect, useState } from "react";
+import BaseAccessibleComponent from "../../../components/BaseAccessibleComponent";
 
 import IGnbHome from "../../../../assets/icons/gnb/IGnbHome";
 import IGnbHomeSelected from "../../../../assets/icons/gnb/IGnbHomeSelected";
@@ -19,10 +19,10 @@ import IGnbSettingsSelected from "../../../../assets/icons/gnb/IGnbSettingsSelec
 import IGnbExit from "../../../../assets/icons/gnb/IGnbExit";
 import IGnbExitSelected from "../../../../assets/icons/gnb/IGnbExitSelected";
 
-import { useSelector } from "react-redux";
-import { RootState } from "../../../core/store/store";
-import { GnbState } from "../../../core/store/slices/gnbSlice";
 import $L from "@enact/i18n/$L";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../core/store";
+import { GnbState } from "../../../core/store/slices/gnbSlice";
 import {
   GlobalNavigationChild,
   GlobalNavigationChildIcon,

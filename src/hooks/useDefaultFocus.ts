@@ -1,6 +1,6 @@
-import DefaultFocusInterface from "@/core/store/slices/defaultFocusInterface";
 import Spotlight from "@enact/spotlight";
 import { useEffect } from "react";
+import DefaultFocusInterface from "../core/store/slices/defaultFocusInterface";
 
 export interface DefaultFocusProps {
   defaultFocusKey: string | null;

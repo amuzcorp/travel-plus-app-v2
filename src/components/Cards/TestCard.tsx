@@ -32,23 +32,28 @@ const Image = styled.div.attrs({
   background: tomato;
 `;
 
+// const onKeyDown = useCallback((e: React.KeyboardEvent) => {
+//   console.log("✅ Enter 눌림 - 외부 커스텀 동작");
+// }, []);
+
 // 카드 자체를 감싸기 위해 기본 컴포넌트를 생성
-const CustomItemCard = ({ children }: any) => {
+const TestCard = ({ children }: any) => {
   return (
     <BaseAccessibleComponent
       component={CardWrapper}
       speaker={$L("video.travelNow")}
-      onKeyDown={(e: React.KeyboardEvent) => {
-        // if (e.key === "Enter") {
-        console.log("✅ Enter 눌림 - 외부 커스텀 동작");
-        // }
-      }}
+      // onKeyDown={onKeyDown}
     >
       <Column>
         <Cell shrink>
           <Image />
         </Cell>
-        <Cell size="320px" shrink style={{ overflow: "hidden" }} component={Marquee}>
+        <Cell
+          size="320px"
+          shrink
+          style={{ overflow: "hidden" }}
+          component={Marquee}
+        >
           {children}
         </Cell>
         <Cell size="320px" shrink style={{ overflow: "hidden" }}>
@@ -59,6 +64,6 @@ const CustomItemCard = ({ children }: any) => {
   );
 };
 
-// const CustomItemCard = AnnounceDecorator(ItemDecorator(BaseCard));
+// const TestCard = AnnounceDecorator(ItemDecorator(BaseCard));
 
-export default CustomItemCard;
+export default TestCard;

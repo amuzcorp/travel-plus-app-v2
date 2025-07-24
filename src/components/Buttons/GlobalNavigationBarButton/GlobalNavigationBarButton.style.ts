@@ -42,6 +42,10 @@ export const GlobalNavigationChild = styled.button<GlobalNavigationChildProps>`
         opacity: 1;
       }
     }
+
+    .label {
+      color: ${({ theme }) => theme.colors.text.primaryVari};
+    }
   }
 
   &.selected {
@@ -61,6 +65,10 @@ export const GlobalNavigationChild = styled.button<GlobalNavigationChildProps>`
       .focused {
         opacity: 1;
       }
+    }
+
+    .label {
+      color: ${({ theme }) => theme.colors.keyColor.item};
     }
   }
 
@@ -103,6 +111,9 @@ export const GlobalNavigationChildLabel = styled.span`
   flex-grow: 1;
 
   font-family: "LGSmartUI";
+  font-weight: 600;
+  color: rgba(230, 230, 230, 0.8);
+
   white-space: nowrap;
 `;
 

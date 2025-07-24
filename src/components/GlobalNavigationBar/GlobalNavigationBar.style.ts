@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const GNBWrapper = styled.div`
   position: fixed;
-  left: 0;
 
   width: calc(79 / 24 * 1rem);
 

@@ -11,11 +11,7 @@ export default React.memo(() => {
       <Cell shrink>
         <GlobalNavigationBar />
       </Cell>
-      <Cell
-        style={{
-          marginLeft: "130px",
-        }}
-      >
+      <Cell>
         <Outlet />
       </Cell>
     </Row>

@@ -32,7 +32,9 @@ const BaseCard = React.memo(
     const speakerMessage = useMemo(() => {
       if (!speaker) return "";
       const baseMessage = $L(speaker);
-      return disabled ? `${baseMessage} ${$L("common.deactivated")}` : baseMessage;
+      return disabled
+        ? `${baseMessage} ${$L("common.deactivated")}`
+        : baseMessage;
     }, [speaker, disabled]);
 
     const handleFocus = useCallback(
