@@ -76,6 +76,7 @@ const gnbTypeData: GnbType = {
 interface GlobalNavigationBarButtonProps {
   type: keyof GnbType;
   selected?: boolean;
+  marginBottom?: number;
   onClick?: Function;
 }
 
@@ -83,6 +84,7 @@ export default React.memo(
   ({
     type = "home",
     selected = false,
+    marginBottom,
     onClick = () => {},
   }: GlobalNavigationBarButtonProps) => {
     /// 기본 상태
@@ -129,6 +131,7 @@ export default React.memo(
           expanded ? "expanded" : ""
         }`}
         onClick={onClick}
+        $marginBottom={marginBottom}
       >
         <Icon />
         <Label />
@@ -140,13 +143,21 @@ export default React.memo(
   }
 );
 
-const GlobalNavigationChild = styled.button`
+interface GlobalNavigationChildProps {
+  $marginBottom?: number;
+}
+const GlobalNavigationChild = styled.button<GlobalNavigationChildProps>`
   all: unset;
 
   width: calc(100% - 13 / 24 * 1rem);
   height: calc(79 / 24 * 1rem);
 
   padding: 0 calc(6.5 / 24 * 1rem);
+  ${({ $marginBottom }) =>
+    $marginBottom &&
+    `
+    margin-bottom: calc(${$marginBottom} / 24 * 1rem);
+  `};
 
   display: flex;
   justify-content: start;

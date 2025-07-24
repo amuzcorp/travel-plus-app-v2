@@ -12,18 +12,7 @@ const RootContainer = SpotlightRootDecorator({}, `div`);
 const App: React.FC = () => {
   return (
     <RootContainer>
-      <Row>
-        <Cell shrink>
-          <GlobalNavigationBar />
-        </Cell>
-        <Cell
-          style={{
-            marginLeft: "130px",
-          }}
-        >
-          <Outlet />
-        </Cell>
-      </Row>
+      <Outlet />
     </RootContainer>
   );
 };

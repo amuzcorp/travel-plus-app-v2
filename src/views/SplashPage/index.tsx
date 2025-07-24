@@ -43,7 +43,7 @@ const SplashPage: React.FC = () => {
     setTimeout(() => {
       navigate("/home", { replace: true });
     }, 3000);
-  }, []);
+  }, [navigate]);
 
   return (
     <SplashContainer>

@@ -94,10 +94,11 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
   );
 
   const generateButton = useCallback(
-    (typeValue: keyof GnbType) => {
+    (typeValue: keyof GnbType, isLast: boolean) => {
       return (
         <GlobalNavigationBarButton
           type={typeValue}
+          marginBottom={isLast ? 20 : undefined}
           selected={typeValue === selectedButton}
           onClick={() => {
             onClickButton(typeValue);
@@ -123,20 +124,29 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
       <GNBOverlay {...GNBOverlayProps} />
       <GNBWrapper {...GNBWrapperProps}>
         <SectionWrapper>
-          {topSections.map((value, __) => {
-            return generateButton(value as keyof GnbType);
+          {topSections.map((value, index) => {
+            return generateButton(
+              value as keyof GnbType,
+              index === topSections.length - 1
+            );
           })}
         </SectionWrapper>
 
         <SectionWrapper>
-          {middleSections.map((value, __) => {
-            return generateButton(value as keyof GnbType);
+          {middleSections.map((value, index) => {
+            return generateButton(
+              value as keyof GnbType,
+              index === middleSections.length - 1
+            );
           })}
         </SectionWrapper>
 
         <SectionWrapper>
-          {bottomSections.map((value, __) => {
-            return generateButton(value as keyof GnbType);
+          {bottomSections.map((value, index) => {
+            return generateButton(
+              value as keyof GnbType,
+              index === bottomSections.length - 1
+            );
           })}
         </SectionWrapper>
       </GNBWrapper>
