@@ -6,15 +6,11 @@ export interface UseScrollableRowResult {
   onKeyDown: (ev: React.KeyboardEvent<Element>) => void;
 }
 
-export interface UseScrollableRowConfig {}
-
 const useScrollableRowHook = (): UseScrollableRowResult => {
   const ref = useRef<any>(null);
 
   const onKeyDown = useCallback(
     (ev: React.KeyboardEvent<Element>) => {
-      const isPointer = Spotlight.getPointerMode();
-
       let target: null | ReactNode | Element;
 
       requestAnimationFrame(() => {
@@ -33,13 +29,6 @@ const useScrollableRowHook = (): UseScrollableRowResult => {
             left: Math.max(0, scrollLeft + diff),
             behavior: "smooth",
           });
-
-          // if (isPointer) {
-          //   setTimeout(() => {
-          //     Spotlight.resume();
-          //     Spotlight.move("right");
-          //   }, 500);
-          // }
         }
       });
     },
