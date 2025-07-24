@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import Lottie from "react-lottie-player";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import $L from "@enact/i18n/$L";
@@ -19,7 +20,7 @@ const SplashContainer = styled.div`
 
 const SplashPage: React.FC = () => {
   const navigate = useNavigate();
-  // const { showSpinner } = useSpinner();
+  //   const { showSpinner } = useSpinner();
 
   const lottieOptions = useMemo(
     () => ({
@@ -33,16 +34,16 @@ const SplashPage: React.FC = () => {
   useEffect(() => {
     setTimeout(() => {
       speakIfAudioGuidanceOn({ text: $L("common.lgTravelPlus") });
-    }, 10);
+    }, 500);
+
+    setTimeout(() => {
+      navigate("/", { replace: true });
+    }, 3000);
 
     // TODO
     // api 호출 (Spinner 띄우기)
     // showSpinner();
     // 호출 성공/실패에 따라 Home or FullScreenErrorPage로 이동
-
-    setTimeout(() => {
-      navigate("/home", { replace: true });
-    }, 3000);
   }, [navigate]);
 
   return (

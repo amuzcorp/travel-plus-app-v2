@@ -2,6 +2,7 @@ import React from "react";
 import { createHashRouter, replace, RouterProvider } from "react-router-dom";
 
 import App from "../../App/App";
+import AppLayout from "../../views/AppLayout";
 import DestinationPage from "../../views/DestinationPage";
 import HomePage from "../../views/HomePage";
 import MyLuggagePage from "../../views/MyLuggagePage";
@@ -9,7 +10,7 @@ import SearchPage from "../../views/SearchPage";
 import SettingsPage from "../../views/SettingsPage";
 import SplashPage from "../../views/SplashPage";
 import TestPage from "../../views/TestPage";
-import AppLayout from "../../views/AppLayout";
+import { localStorageVisited } from "../constants/globalConstant";
 
 const router = createHashRouter([
   {
@@ -19,15 +20,12 @@ const router = createHashRouter([
       {
         index: true,
         loader: () => {
-          const visitedKey = "hasVisited";
-          const checkValue = "you visited";
-
-          const visited = localStorage.getItem(visitedKey);
-          if (visited === checkValue) {
+          const visited = localStorage.getItem(localStorageVisited.key);
+          if (visited === localStorageVisited.value) {
             return replace("home");
           }
 
-          localStorage.setItem(visitedKey, checkValue);
+          localStorage.setItem(localStorageVisited.key, localStorageVisited.value);
           return replace("splash");
         },
       },
