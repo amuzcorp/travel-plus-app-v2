@@ -1,13 +1,12 @@
 import { DefaultTheme } from "styled-components/dist/types";
+import { zIndexes } from "../constants/globalConstant";
 
 export const theme: DefaultTheme = {
   size: {
     gnbCollapsed: 130,
     gnbExpanded: 400,
   },
-  zIndex: {
-    gnb: 1,
-  },
+  zIndex: Object.fromEntries(zIndexes.map((value, index) => [value, index])),
   colors: {
     keyColor: {
       main: "#00FFCC",
