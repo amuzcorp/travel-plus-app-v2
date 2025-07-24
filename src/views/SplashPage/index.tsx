@@ -7,7 +7,6 @@ import $L from "@enact/i18n/$L";
 
 import splashLottieAnimation from "../../../assets/lottie/splash_luggage.json";
 import { speakIfAudioGuidanceOn } from "../../utils/audioGuidance";
-import { useNavigate } from "react-router-dom";
 
 const SplashContainer = styled.div`
   width: 100vw;

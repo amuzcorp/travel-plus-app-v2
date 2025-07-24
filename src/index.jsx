@@ -11,14 +11,7 @@ import "./core/styles/fonts.css";
 import { theme } from "./core/styles/theme";
 import reportWebVitals from "./reportWebVitals";
 
-/* global ENACT_PACK_ISOMORPHIC */
-// Declare global constant injected at build time
-// declare const ENACT_PACK_ISOMORPHIC: boolean;
-
 const appElement = (
-  // <div style={{ width: "100px", height: "100px", background: "orange" }}>
-  //   hello
-  // </div>
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <Router />
