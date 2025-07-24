@@ -1,13 +1,14 @@
 import React from "react";
-import { createHashRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, replace, RouterProvider } from "react-router-dom";
 
 import App from "../../App/App";
-import HomePage from "../../views/HomePage";
-import TestPage from "../../views/TestPage";
-import SearchPage from "../../views/SearchPage";
 import DestinationPage from "../../views/DestinationPage";
+import HomePage from "../../views/HomePage";
 import MyLuggagePage from "../../views/MyLuggagePage";
+import SearchPage from "../../views/SearchPage";
 import SettingsPage from "../../views/SettingsPage";
+import SplashPage from "../../views/SplashPage";
+import TestPage from "../../views/TestPage";
 
 const router = createHashRouter([
   {
@@ -16,6 +17,21 @@ const router = createHashRouter([
     children: [
       {
         path: "/",
+        loader: () => {
+          const visitedKey = "hasVisited";
+          const checkValue = "you visited";
+
+          const visited = localStorage.getItem(visitedKey);
+          if (visited === checkValue) {
+            return replace("home");
+          }
+
+          localStorage.setItem(visitedKey, checkValue);
+          return replace("splash");
+        },
+      },
+      {
+        path: "home",
         element: <HomePage />,
       },
       {
@@ -35,6 +51,10 @@ const router = createHashRouter([
         element: <SettingsPage />,
       },
     ],
+  },
+  {
+    path: "splash",
+    element: <SplashPage />,
   },
   {
     path: "/test",
