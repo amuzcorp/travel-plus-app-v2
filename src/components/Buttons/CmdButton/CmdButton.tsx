@@ -1,7 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
 
-import { RootState } from "@/core/store/store";
 import Button from "@enact/sandstone/Button";
 
 interface CmdButtonProps {
@@ -17,13 +15,13 @@ const CmdButton: React.FC<CmdButtonProps> = ({
   onClick = () => {},
   children,
 }) => {
-  const selectedIndex = useSelector(
-    (state: RootState) => state.gnb.selectedIndex
-  );
+  // const selectedIndex = useSelector(
+  //   (state: RootState) => state.gnb.selectedIndex
+  // );
 
   const buttonProps = {
     size: "small" as const,
-    selected: index === selectedIndex,
+    // selected: index === selectedIndex,
     spotlightDisabled: !useFocus,
     onClick: onClick,
     roundBorder: true,

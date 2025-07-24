@@ -12,11 +12,7 @@ const RootContainer = SpotlightRootDecorator({}, `div`);
 const App: React.FC = () => {
   return (
     <RootContainer>
-      <Row
-        style={{
-          background: "black",
-        }}
-      >
+      <Row>
         <Cell shrink>
           <GlobalNavigationBar />
         </Cell>

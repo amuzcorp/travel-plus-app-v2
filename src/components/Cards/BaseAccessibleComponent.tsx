@@ -5,7 +5,12 @@ import Spotlight from "@enact/spotlight";
 import { filterDOMProps } from "../../utils/filterDOMProps";
 
 // 카드 자체를 감싸기 위해 기본 컴포넌트를 생성
-const BaseCard = ({ children, announce, component: Component = "div", ...rest }: any) => {
+const BaseCard = ({
+  children,
+  announce,
+  component: Component = "div",
+  ...rest
+}: any) => {
   const safeProps = filterDOMProps(rest);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {

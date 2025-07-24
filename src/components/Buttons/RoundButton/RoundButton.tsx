@@ -89,24 +89,7 @@ export const RoundButtonBase = styled(Marquee)`
 export const SpottableWrapper = styled(SpottableButton)`
   position: relative;
 
-  &.dimmed::after {
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    display: inline-block;
-    content: "";
-
-    width: 100%;
-    height: 100%;
-
-    background: rgba(0, 0, 0, 0.4);
-
-    transition: transform ease 0.3s;
-    will-change: transition;
-  }
-
-  &:focus.dimmed::after {
-    transform: scale(1.1);
+  &.dimmed {
+    opacity: 0.4;
   }
 `;

@@ -1,51 +1,20 @@
-import PropTypes from 'prop-types';
+import React from "react";
 
-const GnbLuggage = ({ color = '#E6E6E6', width = 39, height = 39, opacity = 0.8, ...rest }) => (
+const GnbLuggage = () => (
   <svg
-    width={width}
-    height={height}
+    width="39"
+    height="39"
     viewBox="0 0 39 39"
     fill="none"
-    stroke={color}
     xmlns="http://www.w3.org/2000/svg"
-    {...rest}
   >
-    <g opacity={opacity}>
+    <g opacity="0.8">
       <path
-        d="M34.1828 9.63428H4.81721C3.53745 9.63428 2.5 10.6717 2.5 11.9515V28.9515C2.5 30.2313 3.53745 31.2687 4.81721 31.2687H34.1828C35.4626 31.2687 36.5 30.2313 36.5 28.9515V11.9515C36.5 10.6717 35.4626 9.63428 34.1828 9.63428Z"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M10.2344 31.2687V9.63428"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M7 34L7 32" strokeWidth="2" strokeLinecap="square" strokeLinejoin="round" />
-      <path d="M32 34L32 32" strokeWidth="2" strokeLinecap="square" strokeLinejoin="round" />
-      <path
-        d="M28.7695 9.63428V31.2687"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M15.6367 9.63442V6.54837C15.6367 5.6941 16.3308 5 17.1851 5H21.8195C22.6738 5 23.3679 5.6941 23.3679 6.54837V9.63442"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d="M21.8193 4C23.2259 4 24.3682 5.14227 24.3682 6.54883V8.63477H34.1826C36.0147 8.63477 37.5 10.1201 37.5 11.9521V28.9521C37.4999 30.7841 36.0146 32.2695 34.1826 32.2695H33V35H31V32.2695H8V35H6V32.2695H4.81738C2.98539 32.2695 1.50009 30.7841 1.5 28.9521V11.9521C1.5 10.1201 2.98534 8.63477 4.81738 8.63477H14.6367V6.54883C14.6367 5.14227 15.779 4 17.1855 4H21.8193ZM4.81738 10.6348C4.08991 10.6348 3.5 11.2247 3.5 11.9521V28.9521C3.50009 29.6795 4.08996 30.2695 4.81738 30.2695H9.23438V10.6348H4.81738ZM11.2344 30.2695H27.7695V10.6348H11.2344V30.2695ZM29.7695 30.2695H34.1826C34.91 30.2695 35.4999 29.6795 35.5 28.9521V11.9521C35.5 11.2247 34.9101 10.6348 34.1826 10.6348H29.7695V30.2695ZM17.1855 6C16.8836 6 16.6367 6.24684 16.6367 6.54883V8.63477H22.3682V6.54883C22.3682 6.24684 22.1213 6 21.8193 6H17.1855Z"
+        fill="#E6E6E6"
       />
     </g>
   </svg>
 );
 
-GnbLuggage.propTypes = {
-  color: PropTypes.string,
-  width: PropTypes.number,
-  height: PropTypes.number,
-  opacity: PropTypes.number,
-};
-
-export default GnbLuggage;
+export default React.memo(GnbLuggage);

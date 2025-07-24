@@ -1,190 +1,253 @@
-import React, { useCallback, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import BaseAccessibleComponent from "../../../components/Cards/BaseAccessibleComponent";
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
-import Spotlight from "@enact/spotlight";
-import {
-  collapse,
-  GnbState,
-  select,
-  updateWantToCollapse,
-} from "../../../core/store/slices/gnbSlice";
-import { RootState } from "../../../core/store/store";
-import Button from "@enact/sandstone/Button";
+import IGnbHome from "../../../../assets/icons/gnb/IGnbHome";
+import IGnbHomeSelected from "../../../../assets/icons/gnb/IGnbHomeSelected";
 
-import css from "./GlobalNavigationBarButton.module.less";
+import IGnbSearch from "../../../../assets/icons/gnb/IGnbSearch";
+import IGnbSearchSelected from "../../../../assets/icons/gnb/IGnbSearchSelected";
 
 import IGnbDestination from "../../../../assets/icons/gnb/IGnbDestination";
-import IGnbDestinationFocused from "../../../../assets/icons/gnb/IGnbDestinationFocused";
 import IGnbDestinationSelected from "../../../../assets/icons/gnb/IGnbDestinationSelected";
-import IGnbExit from "../../../../assets/icons/gnb/IGnbExit";
-import IGnbExitFocused from "../../../../assets/icons/gnb/IGnbExitFocused";
-import IGnbExitSelected from "../../../../assets/icons/gnb/IGnbExitSelected";
-import IGnbHome from "../../../../assets/icons/gnb/IGnbHome";
-import IGnbHomeFocused from "../../../../assets/icons/gnb/IGnbHomeFocused";
-import IGnbHomeSelected from "../../../../assets/icons/gnb/IGnbHomeSelected";
-// import IGnbLogo from "../../../../assets/icons/gnb/IGnbLogo";
-// import IGnbLogoTitle from "../../../../assets/icons/gnb/IGnbLogoTitle";
+
 import IGnbLuggage from "../../../../assets/icons/gnb/IGnbLuggage";
-import IGnbLuggageFocused from "../../../../assets/icons/gnb/IGnbLuggageFocused";
 import IGnbLuggageSelected from "../../../../assets/icons/gnb/IGnbLuggageSelected";
-import IGnbSearch from "../../../../assets/icons/gnb/IGnbSearch";
-import IGnbSearchFocused from "../../../../assets/icons/gnb/IGnbSearchFocused";
-import IGnbSearchSelected from "../../../../assets/icons/gnb/IGnbSearchSelected";
+
 import IGnbSettings from "../../../../assets/icons/gnb/IGnbSettings";
-import IGnbSettingsFocused from "../../../../assets/icons/gnb/IGnbSettingsFocused";
 import IGnbSettingsSelected from "../../../../assets/icons/gnb/IGnbSettingsSelected";
-// import IGnbUser from "../../../../assets/icons/gnb/IGnbUser";
-// import IGnbUser6 from "../../../../assets/icons/gnb/IGnbUser6";
-// import IGnbUserFocused from "../../../../assets/icons/gnb/IGnbUserFocused";
-// import IGnbUserFocused6 from "../../../../assets/icons/gnb/IGnbUserFocused6";
-import styled from "styled-components";
+
+import IGnbExit from "../../../../assets/icons/gnb/IGnbExit";
+import IGnbExitSelected from "../../../../assets/icons/gnb/IGnbExitSelected";
+
+import { useSelector } from "react-redux";
+import { RootState } from "../../../core/store/store";
+import { GnbState } from "../../../core/store/slices/gnbSlice";
 import $L from "@enact/i18n/$L";
 
-interface GlobalNavigationBarButtonProps {
-  type: keyof GnbIconType;
-  index?: number;
-  useFocus?: boolean;
+export interface GnbType {
+  home: ElementOption;
+  search: ElementOption;
+  destination: ElementOption;
+  luggage: ElementOption;
+  settings: ElementOption;
+  exit: ElementOption;
 }
 
-const GlobalNavigationBarButton = React.memo(
-  (props: GlobalNavigationBarButtonProps) => {
-    const { type = "home", index = -1, useFocus = true } = props;
+interface ElementOption {
+  label: string;
+  element: React.MemoExoticComponent<() => React.JSX.Element>;
+  selectedElement: React.MemoExoticComponent<() => React.JSX.Element>;
+}
 
-    const gnbState = useSelector((state: RootState) => state.gnb.value);
-    const selectedIndex = useSelector(
-      (state: RootState) => state.gnb.selectedIndex,
-      (prev, next) => {
-        return (index === prev) === (index === next);
-      }
+const gnbTypeData: GnbType = {
+  home: {
+    label: "navigation.home",
+    element: IGnbHome,
+    selectedElement: IGnbHomeSelected,
+  },
+  search: {
+    label: "navigation.search",
+    element: IGnbSearch,
+    selectedElement: IGnbSearchSelected,
+  },
+  destination: {
+    label: "navigation.destinations",
+    element: IGnbDestination,
+    selectedElement: IGnbDestinationSelected,
+  },
+  luggage: {
+    label: "navigation.myLuggage",
+    element: IGnbLuggage,
+    selectedElement: IGnbLuggageSelected,
+  },
+  settings: {
+    label: "navigation.settings",
+    element: IGnbSettings,
+    selectedElement: IGnbSettingsSelected,
+  },
+  exit: {
+    label: "navigation.exitApp",
+    element: IGnbExit,
+    selectedElement: IGnbExitSelected,
+  },
+};
+
+interface GlobalNavigationBarButtonProps {
+  type: keyof GnbType;
+  selected?: boolean;
+  onClick?: Function;
+}
+
+export default React.memo(
+  ({
+    type = "home",
+    selected = false,
+    onClick = () => {},
+  }: GlobalNavigationBarButtonProps) => {
+    /// 기본 상태
+    const Idle = gnbTypeData[type].element;
+
+    /// 선택되었을 때
+    const Focused = gnbTypeData[type].selectedElement;
+
+    const gnbState = useSelector(
+      (state: RootState) => state.gnb.value,
+      (prev, next) => prev === next
     );
-    const dispatch = useDispatch();
+    const [expanded, setExpand] = useState(false);
 
-    const collapseGnb = useCallback(() => {
-      dispatch(collapse());
-    }, [dispatch]);
+    useEffect(() => {
+      setExpand(gnbState === GnbState.Expanded);
+    }, [gnbState]);
 
-    const icon = useMemo(() => {
-      return <Icon type={type} state={"default"} />;
-    }, [type]);
+    const Icon = React.memo(() => {
+      return (
+        <GlobalNavigationChildIcon className="icon">
+          <IconWrapper className="idle">
+            <Idle />
+          </IconWrapper>
+          <IconWrapper className="focused">
+            <Focused />
+          </IconWrapper>
+        </GlobalNavigationChildIcon>
+      );
+    });
 
-    const onSpotlightRight = useCallback(() => {
-      dispatch(updateWantToCollapse(true));
-
-      collapseGnb();
-
-      Spotlight.move("right");
-    }, [dispatch, collapseGnb]);
-
-    const isSelected = useMemo(() => {
-      return index === selectedIndex;
-    }, [selectedIndex, index]);
-
-    const buttonProps = useMemo(() => {
-      return {
-        id: type,
-        spotlightId: type,
-        icon: true,
-        iconComponent: icon,
-        selected: isSelected,
-        spotlightDisabled: !useFocus,
-        onClick: () => {
-          dispatch(select(index));
-        },
-        onSpotlightRight: onSpotlightRight,
-        css: css,
-      };
-    }, [type, icon, isSelected, useFocus, onSpotlightRight, dispatch, index]);
+    const Label = React.memo(() => {
+      return (
+        <GlobalNavigationChildLabel className="label">
+          {$L(gnbTypeData[type].label)}
+        </GlobalNavigationChildLabel>
+      );
+    });
 
     return (
-      <Button {...buttonProps}>
-        {gnbState === GnbState.Expanded && (
-          <StyledP>{$L(labelData[type])}</StyledP>
-        )}
-      </Button>
+      <BaseAccessibleComponent
+        component={GlobalNavigationChild}
+        className={`${selected ? "selected" : ""} ${
+          expanded ? "expanded" : ""
+        }`}
+        onClick={onClick}
+      >
+        <Icon />
+        <Label />
+      </BaseAccessibleComponent>
     );
   },
-  (
-    prevProps: GlobalNavigationBarButtonProps,
-    nextProps: GlobalNavigationBarButtonProps
-  ) => {
-    return false;
+  (prev, next) => {
+    return prev.selected === next.selected && prev.type === next.type;
   }
 );
 
-export default GlobalNavigationBarButton;
+const GlobalNavigationChild = styled.button`
+  all: unset;
 
-// const labelData:
+  width: calc(100% - 13 / 24 * 1rem);
+  height: calc(79 / 24 * 1rem);
 
-const labelData: Record<string, string> = {
-  home: "navigation.home",
-  search: "navigation.search",
-  destination: "navigation.destinations",
-  luggage: "navigation.myLuggage",
-  settings: "navigation.settings",
-  exit: "navigation.exitApp",
-};
+  padding: 0 calc(6.5 / 24 * 1rem);
 
-const iconData: GnbIconType = {
-  home: {
-    default: IGnbHome,
-    focused: IGnbHomeFocused,
-    selected: IGnbHomeSelected,
-  },
-  destination: {
-    default: IGnbDestination,
-    focused: IGnbDestinationFocused,
-    selected: IGnbDestinationSelected,
-  },
-  luggage: {
-    default: IGnbLuggage,
-    focused: IGnbLuggageFocused,
-    selected: IGnbLuggageSelected,
-  },
-  search: {
-    default: IGnbSearch,
-    focused: IGnbSearchFocused,
-    selected: IGnbSearchSelected,
-  },
-  settings: {
-    default: IGnbSettings,
-    focused: IGnbSettingsFocused,
-    selected: IGnbSettingsSelected,
-  },
-  exit: {
-    default: IGnbExit,
-    focused: IGnbExitFocused,
-    selected: IGnbExitSelected,
-  },
-};
+  display: flex;
+  justify-content: start;
+  align-items: center;
 
-interface GnbIconType {
-  home: IconType;
-  search: IconType;
-  destination: IconType;
-  luggage: IconType;
-  settings: IconType;
-  exit: IconType;
-}
+  border-radius: calc(12 / 24 * 1rem);
 
-interface IconType {
-  default: React.FC;
-  focused: React.FC;
-  selected: React.FC;
-}
+  overflow: hidden;
 
-interface IconProps {
-  type: keyof GnbIconType;
-  state: keyof IconType;
-}
+  &:focus {
+    background: ${({ theme }) => theme.colors.text.primary};
+    color: ${({ theme }) => theme.colors.text.primaryVari};
 
-const Icon = React.memo((props: IconProps) => {
-  const IconComponent = iconData[props.type][props.state];
+    .icon {
+      path {
+        fill: ${({ theme }) => theme.colors.text.primaryVari};
+      }
 
-  return <IconComponent />;
-});
+      .idle {
+        opacity: 0;
+      }
+      .focused {
+        opacity: 1;
+      }
+    }
+  }
 
-// interface StyledPProps {
-//   $expanded: boolean;
-// }
+  &.selected {
+    color: ${({ theme }) => theme.colors.keyColor.item};
 
-const StyledP = styled.p``;
+    .icon {
+      background: rgba(0, 255, 204, 0.14);
+      box-shadow: inset 0 0 0 calc(1 / 24 * 1rem) rgba(0, 255, 204, 0.12);
+
+      path {
+        fill: ${({ theme }) => theme.colors.text.primary};
+      }
+
+      .idle {
+        opacity: 0;
+      }
+      .focused {
+        opacity: 1;
+      }
+    }
+  }
+
+  &.selected.expanded {
+    .icon {
+      path {
+        fill: ${({ theme }) => theme.colors.keyColor.item};
+      }
+    }
+  }
+
+  &.expanded {
+    .label {
+      display: block;
+    }
+
+    .icon {
+      background: none;
+      box-shadow: none;
+    }
+  }
+`;
+
+const GlobalNavigationChildIcon = styled.div`
+  position: relative;
+
+  width: calc(66 / 24 * 1rem);
+  height: calc(66 / 24 * 1rem);
+
+  border-radius: 0.5rem;
+
+  flex: 0 0 auto;
+`;
+
+const GlobalNavigationChildLabel = styled.span`
+  display: none;
+
+  margin-left: calc(10 / 24 * 1rem);
+
+  flex-grow: 1;
+
+  font-family: "LGSmartUI";
+`;
+
+const IconWrapper = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.focused {
+    opacity: 0;
+  }
+`;
