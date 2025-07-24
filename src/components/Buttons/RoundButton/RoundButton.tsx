@@ -1,7 +1,7 @@
 import Spottable, { SpottableProps } from "@enact/spotlight/Spottable";
+import Marquee from "@enact/ui/Marquee";
 import React, { useCallback } from "react";
 import styled from "styled-components";
-import Marquee from "@enact/ui/Marquee";
 
 interface RoundButtonProps extends SpottableProps {
   children: React.ReactNode;
@@ -54,6 +54,9 @@ export const RoundButtonBase = styled(Marquee)`
   vertical-align: center;
 
   cursor: pointer;
+
+  display: flex;
+  justify-content: center;
 
   &::before {
     position: absolute;

@@ -6,6 +6,7 @@ import SpotlightContainerDecorator, {
   SpotlightContainerDecoratorConfig,
 } from "@enact/spotlight/SpotlightContainerDecorator";
 
+import { RootState } from "../../core/store";
 import {
   collapse,
   expand,
@@ -13,15 +14,14 @@ import {
   select,
   updateWantToCollapse,
 } from "../../core/store/slices/gnbSlice";
-import { RootState } from "../../core/store/store";
+import GlobalNavigationBarButton, {
+  GnbType,
+} from "../Buttons/GlobalNavigationBarButton/GlobalNavigationBarButton";
 import {
   GNBOverlay,
   GNBWrapper,
   SectionWrapper,
 } from "./GlobalNavigationBar.style";
-import GlobalNavigationBarButton, {
-  GnbType,
-} from "../Buttons/GlobalNavigationBarButton/GlobalNavigationBarButton";
 
 const spotlightConfig: SpotlightContainerDecoratorConfig = {
   restrict: "self-only",
