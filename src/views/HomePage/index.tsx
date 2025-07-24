@@ -90,12 +90,7 @@ const HomePage: React.FC = React.memo(() => {
       </CustomItem> */}
 
       <Cell shrink>
-        <ScrollToTopButton
-          type="large"
-          onClick={() => {
-            console.log("hello");
-          }}
-        />
+        <ScrollToTopButton type="large" />
       </Cell>
       <Cell shrink>
         <ScrollToTopButton type="small" />

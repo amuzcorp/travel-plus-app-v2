@@ -84,7 +84,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
       onMouseEnter: expandGnb,
       onMouseLeave: collapseGnb,
     };
-  }, [expanded, gnbState, onFocus, onBlur, expandGnb, collapseGnb]);
+  }, [expanded, onFocus, onBlur, expandGnb, collapseGnb]);
 
   const onClickButton = useCallback(
     (target: string) => {
@@ -94,18 +94,14 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
   );
 
   const generateButton = useCallback(
-    (typeValue: keyof GnbType, isLast: boolean) => {
-      return (
-        <GlobalNavigationBarButton
-          type={typeValue}
-          marginBottom={isLast ? 20 : undefined}
-          selected={typeValue === selectedButton}
-          onClick={() => {
-            onClickButton(typeValue);
-          }}
-        />
-      );
-    },
+    (typeValue: keyof GnbType, isLast: boolean, onClick: Function) => (
+      <GlobalNavigationBarButton
+        type={typeValue}
+        marginBottom={isLast ? 20 : undefined}
+        selected={typeValue === selectedButton}
+        onClick={onClick}
+      />
+    ),
     [selectedButton]
   );
 
@@ -127,7 +123,8 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
           {topSections.map((value, index) => {
             return generateButton(
               value as keyof GnbType,
-              index === topSections.length - 1
+              index === topSections.length - 1,
+              () => onClickButton(value)
             );
           })}
         </SectionWrapper>
@@ -136,7 +133,8 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
           {middleSections.map((value, index) => {
             return generateButton(
               value as keyof GnbType,
-              index === middleSections.length - 1
+              index === middleSections.length - 1,
+              () => onClickButton(value)
             );
           })}
         </SectionWrapper>
@@ -145,7 +143,8 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
           {bottomSections.map((value, index) => {
             return generateButton(
               value as keyof GnbType,
-              index === bottomSections.length - 1
+              index === bottomSections.length - 1,
+              () => onClickButton(value)
             );
           })}
         </SectionWrapper>
