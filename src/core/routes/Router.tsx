@@ -9,6 +9,7 @@ import SearchPage from "../../views/SearchPage";
 import SettingsPage from "../../views/SettingsPage";
 import SplashPage from "../../views/SplashPage";
 import TestPage from "../../views/TestPage";
+import AppLayout from "../../views/AppLayout";
 
 const router = createHashRouter([
   {
@@ -16,7 +17,7 @@ const router = createHashRouter([
     element: <App />,
     children: [
       {
-        path: "/",
+        index: true,
         loader: () => {
           const visitedKey = "hasVisited";
           const checkValue = "you visited";
@@ -31,34 +32,41 @@ const router = createHashRouter([
         },
       },
       {
-        path: "home",
-        element: <HomePage />,
+        path: "/",
+        element: <AppLayout />,
+        children: [
+          {
+            path: "home",
+            element: <HomePage />,
+          },
+          {
+            path: "search",
+            element: <SearchPage />,
+          },
+          {
+            path: "destination",
+            element: <DestinationPage />,
+          },
+          {
+            path: "my-luggage",
+            element: <MyLuggagePage />,
+          },
+          {
+            path: "settings",
+            element: <SettingsPage />,
+          },
+        ],
       },
       {
-        path: "search",
-        element: <SearchPage />,
+        path: "splash",
+        element: <SplashPage />,
       },
+
       {
-        path: "destination",
-        element: <DestinationPage />,
-      },
-      {
-        path: "my-luggage",
-        element: <MyLuggagePage />,
-      },
-      {
-        path: "settings",
-        element: <SettingsPage />,
+        path: "test",
+        element: <TestPage />,
       },
     ],
-  },
-  {
-    path: "splash",
-    element: <SplashPage />,
-  },
-  {
-    path: "/test",
-    element: <TestPage />,
   },
 ]);
 

@@ -13,7 +13,7 @@ const ButtonBase = styled.button`
   vertical-align: center;
 
   &:focus {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 `;
 
