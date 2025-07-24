@@ -233,6 +233,7 @@ const GlobalNavigationChildLabel = styled.span`
   flex-grow: 1;
 
   font-family: "LGSmartUI";
+  white-space: nowrap;
 `;
 
 const IconWrapper = styled.div`

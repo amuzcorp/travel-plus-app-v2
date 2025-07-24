@@ -16,7 +16,7 @@ const router = createHashRouter([
     element: <App />,
     children: [
       {
-        path: "/",
+        index: true,
         loader: () => {
           const visitedKey = "hasVisited";
           const checkValue = "you visited";
@@ -56,10 +56,11 @@ const router = createHashRouter([
     path: "splash",
     element: <SplashPage />,
   },
-  {
-    path: "/test",
-    element: <TestPage />,
-  },
+
+  // {
+  //   path: "/test",
+  //   element: <TestPage />,
+  // },
 ]);
 
 const Router: React.FC = () => {
