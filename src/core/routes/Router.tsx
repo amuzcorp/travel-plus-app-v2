@@ -9,6 +9,7 @@ import SearchPage from "../../views/SearchPage";
 import SettingsPage from "../../views/SettingsPage";
 import SplashPage from "../../views/SplashPage";
 import TestPage from "../../views/TestPage";
+import { localStorageVisited } from "../constants/globalConstant";
 
 const router = createHashRouter([
   {
@@ -18,15 +19,12 @@ const router = createHashRouter([
       {
         path: "/",
         loader: () => {
-          const visitedKey = "hasVisited";
-          const checkValue = "you visited";
-
-          const visited = localStorage.getItem(visitedKey);
-          if (visited === checkValue) {
+          const visited = localStorage.getItem(localStorageVisited.key);
+          if (visited === localStorageVisited.value) {
             return replace("home");
           }
 
-          localStorage.setItem(visitedKey, checkValue);
+          localStorage.setItem(localStorageVisited.key, localStorageVisited.value);
           return replace("splash");
         },
       },
