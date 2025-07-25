@@ -4,6 +4,8 @@ import styled from "styled-components";
 
 import GradientBottomComponent from "../../../../assets/gradients/GradientCarouselBottom";
 import GradientLeftComponent from "../../../../assets/gradients/GradientCarouselLeft";
+import Spacing from "../../../components/Spacing/Spacing";
+import Text from "../../../components/Texts/Text";
 
 export default React.memo(() => {
   return (
@@ -32,6 +34,12 @@ export default React.memo(() => {
         <HeaderText textStyle={"headerHugeSb"}>
           ioewjf;oiqwejfio;asdjflkjekl;fjals;d
         </HeaderText>
+        <Spacing size={16} />
+        <InfoWrapper>
+          <div>국가</div>
+          <div>장소</div>
+          <div>4K</div>
+        </InfoWrapper>
       </ContentWrapper>
     </CarouselContainer>
   );
@@ -84,7 +92,24 @@ const ContentWrapper = styled.div`
   height: fit-content;
 `;
 
-const HeaderText = styled(Text)`
-  & div {
+const HeaderText = styled(Text)``;
+
+const InfoWrapper = styled.div`
+  display: flex;
+  & :not(:last-child) {
+    display: flex;
+    align-items: center;
+
+    &::after {
+      display: block;
+      content: "";
+
+      width: 6px;
+      height: 6px;
+      background: ${({ theme }) => theme.colors.deactive.normal};
+
+      margin: 0 10px;
+      border-radius: 50%;
+    }
   }
 `;
