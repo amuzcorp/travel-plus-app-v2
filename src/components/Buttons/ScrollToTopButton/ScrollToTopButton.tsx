@@ -1,10 +1,9 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
-import { $L } from "@enact/i18n/$L";
-
 import Icon from "../../../../assets/icons/IGoToTopIcon";
 import { rem } from "../../../utils/rem";
+import { translate } from "../../../utils/translate";
 import BaseAccessibleComponent from "../../BaseAccessibleComponent";
 import { RoundButtonBase } from "../RoundButton/RoundButton";
 
@@ -32,7 +31,7 @@ const ScrollToTopButton = ({
     <BaseAccessibleComponent
       component={(props) => <StyledRoundButton {...props} $isSmall={isSmall} />}
       onClick={onClickHandler}
-      speaker={$L("common.goToTop") + " " + $L("common.button")}
+      speaker={translate("common.goToTop") + " " + translate("common.button")}
       {...rest}
     >
       <Icon />
