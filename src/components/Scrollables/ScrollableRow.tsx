@@ -27,7 +27,6 @@ export default React.memo(
 
           if (currentLeft < $marginLeft - currentWidth) {
             child.classList.add("hided");
-            console.log(1);
           } else {
             child.classList.remove("hided");
           }

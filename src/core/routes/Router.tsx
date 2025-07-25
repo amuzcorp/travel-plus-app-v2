@@ -26,7 +26,10 @@ const router = createHashRouter([
             return replace("home");
           }
 
-          localStorage.setItem(localStorageVisited.key, localStorageVisited.value);
+          localStorage.setItem(
+            localStorageVisited.key,
+            localStorageVisited.value
+          );
           return replace("splash");
         },
       },
@@ -53,6 +56,10 @@ const router = createHashRouter([
           {
             path: "settings",
             element: <SettingsPage />,
+          },
+          {
+            path: "test",
+            element: <TestPage />,
           },
         ],
       },

@@ -40,7 +40,7 @@ const Wrapper = styled.div<WrapperProps>`
   transition: transform ease 0.3s;
 
   &:focus {
-    transform: scale(1.05);
+    transform: scale(1.1);
 
     .image-wrapper {
       outline: solid 3px ${({ theme }) => theme.colors.text.primary};

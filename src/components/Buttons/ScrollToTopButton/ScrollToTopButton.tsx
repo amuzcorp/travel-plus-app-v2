@@ -1,8 +1,8 @@
 import Spottable from "@enact/spotlight/Spottable";
+import AnnounceDecorator from "@enact/ui/AnnounceDecorator";
 import React from "react";
 import styled from "styled-components";
 import { RoundButtonBase } from "../RoundButton/RoundButton";
-import AnnounceDecorator from "@enact/ui/AnnounceDecorator";
 
 import Icon from "../../../../assets/icons/IGoToTopIcon";
 

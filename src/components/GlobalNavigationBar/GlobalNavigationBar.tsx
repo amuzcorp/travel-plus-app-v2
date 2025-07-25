@@ -6,6 +6,7 @@ import SpotlightContainerDecorator, {
   SpotlightContainerDecoratorConfig,
 } from "@enact/spotlight/SpotlightContainerDecorator";
 
+import { useNavigate } from "react-router-dom";
 import { RootState } from "../../core/store";
 import {
   collapse,
@@ -44,6 +45,8 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
 
   const [expanded, setExpanded] = useState(false);
 
+  const navigate = useNavigate();
+
   const collapseGnb = useCallback(() => {
     dispatch(collapse());
 
@@ -61,6 +64,8 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
     if (!isMouse) {
       expandGnb();
     }
+
+    requestAnimationFrame(() => {});
   }, [expandGnb]);
 
   const onBlur = useCallback(() => {
@@ -89,8 +94,38 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
   const onClickButton = useCallback(
     (target: string) => {
       dispatch(select(target));
+
+      let targetPath: string;
+
+      switch (target) {
+        case "home":
+          targetPath = "/home";
+          break;
+        case "search":
+          targetPath = "/search";
+          break;
+        case "destination":
+          targetPath = "/destination";
+          break;
+        case "luggage":
+          targetPath = "/my-luggage";
+          break;
+        case "settings":
+          targetPath = "/settings";
+          break;
+        case "exit":
+          targetPath = "/test";
+          break;
+        default:
+          targetPath = "/home";
+          break;
+      }
+
+      navigate(targetPath, { replace: true });
+
+      collapseGnb();
     },
-    [dispatch]
+    [dispatch, navigate, collapseGnb]
   );
 
   const generateButton = useCallback(
