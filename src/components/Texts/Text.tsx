@@ -1,16 +1,15 @@
 import React, { useMemo } from "react";
 import { DefaultTheme, useTheme } from "styled-components";
 
-import Marquee from "@enact/sandstone/Marquee";
-
-interface MarqueeTextProps {
+interface TextProps {
   children: React.ReactNode;
   textStyle?: keyof DefaultTheme["textStyle"];
   color?: string;
+  maxLine?: number;
 }
 
-const MarqueeText = React.memo(
-  ({ children, color, textStyle = "titleSmSb" }: MarqueeTextProps) => {
+const Text = React.memo(
+  ({ children, textStyle = "titleSmSb", color, maxLine = 1 }: TextProps) => {
     const theme = useTheme();
 
     const style = useMemo(() => {
@@ -19,21 +18,19 @@ const MarqueeText = React.memo(
         fontSize: theme.textStyle[textStyle].fontSize,
         fontWeight: theme.textStyle[textStyle].fontWeight,
         color: color ? color : theme.colors.text.primary,
+        maxLines: maxLine,
       };
 
       return baseStyle;
-    }, [theme, textStyle, color]);
+    }, [theme, textStyle, color, maxLine]);
 
-    return (
-      <Marquee marqueeOn={"render"} style={style}>
-        {children}
-      </Marquee>
-    );
+    return <div style={style}>{children}</div>;
   },
   (prevProps, nextProps) =>
     prevProps.children === nextProps.children &&
     prevProps.textStyle === nextProps.textStyle &&
-    prevProps.color === nextProps.color
+    prevProps.color === nextProps.color &&
+    prevProps.maxLine === nextProps.maxLine
 );
 
-export default MarqueeText;
+export default Text;

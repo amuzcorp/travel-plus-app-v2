@@ -10,9 +10,7 @@ interface DialogPayload {
 
 export const useDialog = () => {
   const dispatch = useDispatch();
-  const { open, title, content } = useSelector(
-    (state: RootState) => state.dialog
-  );
+  const { open, title, content } = useSelector((state: RootState) => state.dialog);
 
   const showDialog = (payload: DialogPayload) => {
     dispatch(show(payload));
