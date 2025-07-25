@@ -55,7 +55,10 @@ const Spinner = React.memo(() => {
   );
 
   return start ? (
-    <SpotlightSpinnerContainer spotlightId="splash" spotlightRestrict="self-only">
+    <SpotlightSpinnerContainer
+      spotlightId="splash"
+      spotlightRestrict="self-only"
+    >
       <SpottableLottie animationData={spinnerAnimation} {...lottieOptions} />
     </SpotlightSpinnerContainer>
   ) : null;

@@ -1,4 +1,4 @@
-import { createRoot, hydrateRoot } from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 
@@ -24,13 +24,14 @@ const appElement = (
 if (typeof window !== "undefined") {
   const container = document.getElementById("root");
 
-  localStorage.clear();
+  window.localStorage.clear();
 
-  if (ENACT_PACK_ISOMORPHIC) {
-    hydrateRoot(container, appElement);
-  } else {
-    createRoot(container).render(appElement);
-  }
+  // if (ENACT_PACK_ISOMORPHIC) {
+  // if(false) {}
+  //   hydrateRoot(container, appElement);
+  // } else {
+  createRoot(container).render(appElement);
+  // }
 }
 
 export default appElement;

@@ -19,10 +19,11 @@ declare module "@enact/ui/Layout" {
 }
 
 declare module "*.svg" {
-  const content: React.FunctionComponent<
-    React.SVGProps<SVGSVGElement> & { title?: string }
-  >;
-  export default content;
+  import * as React from "react";
+  export const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>;
+
+  const src: string;
+  export default src;
 }
 
 declare module "*.png" {
