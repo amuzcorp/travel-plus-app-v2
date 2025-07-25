@@ -7,10 +7,11 @@ interface MarqueeTextProps {
   children: React.ReactNode;
   textStyle?: keyof DefaultTheme["textStyle"];
   color?: string;
+  lineHeight?: string | number;
 }
 
 const MarqueeText = React.memo(
-  ({ children, color, textStyle = "titleSmSb" }: MarqueeTextProps) => {
+  ({ children, color, textStyle = "titleSmSb", lineHeight = "normal" }: MarqueeTextProps) => {
     const theme = useTheme();
 
     const style = useMemo(() => {
@@ -21,7 +22,8 @@ const MarqueeText = React.memo(
         fontFamily: "LGSmartUI",
         fontSize: theme.textStyle[textStyle].fontSize,
         fontWeight: theme.textStyle[textStyle].fontWeight,
-        color: color ? color : theme.colors.text.primary,
+        color: color ?? theme.colors.text.primary,
+        lineHeight,
       };
 
       return baseStyle;
