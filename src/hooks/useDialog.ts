@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import { RootState } from "../core/store";
 import { hide, show } from "../core/store/slices/dialogSlice";
+import { RootState } from "../core/store/store";
 
 interface DialogPayload {
   title?: string;
@@ -10,9 +10,7 @@ interface DialogPayload {
 
 export const useDialog = () => {
   const dispatch = useDispatch();
-  const { open, title, content } = useSelector(
-    (state: RootState) => state.dialog
-  );
+  const { open, title, content } = useSelector((state: RootState) => state.dialog);
 
   const showDialog = (payload: DialogPayload) => {
     dispatch(show(payload));

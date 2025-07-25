@@ -1,3 +1,4 @@
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import React, { useEffect, useMemo } from "react";
 import Lottie from "react-lottie-player";
 import styled from "styled-components";
@@ -37,12 +38,22 @@ const Spinner = React.memo(() => {
 
   useEffect(() => {
     if (start) {
+      // 스크롤 막기
+      disableBodyScroll(document.body);
+
+      // Spinner에 포커스되게 만들어서, 외부 영역으로 못빠져나가게 처리
       const spottables = Spotlight.getSpottableDescendants("splash");
       if (spottables.length === 0) return;
 
       Spotlight.focus(spottables[0]);
       speakIfAudioGuidanceOn({ text: $L("loading.animation") });
+    } else {
+      enableBodyScroll(document.body);
     }
+
+    return () => {
+      enableBodyScroll(document.body);
+    };
   }, [start]);
 
   const lottieOptions = useMemo(
