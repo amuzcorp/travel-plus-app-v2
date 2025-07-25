@@ -14,8 +14,11 @@ import {
   select,
   updateWantToCollapse,
 } from "../../core/store/slices/gnbSlice";
+import { speakIfAudioGuidanceOn } from "../../utils/audioGuidance";
+import { translate } from "../../utils/translate";
 import GlobalNavigationBarButton, {
   GnbType,
+  gnbTypeData,
 } from "../Buttons/GlobalNavigationBarButton/GlobalNavigationBarButton";
 import {
   GNBOverlay,
@@ -61,7 +64,32 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
     if (!isMouse) {
       expandGnb();
     }
-  }, [expandGnb]);
+
+    // ---- 오디오 가이던스 로직 ----
+    const current = Spotlight.getCurrent();
+    if (!(current instanceof HTMLElement)) return;
+
+    const spotId = current.getAttribute("data-spot-id");
+    if (!spotId) return;
+
+    const keys = Object.keys(gnbTypeData) as (keyof GnbType)[];
+    const isValidKey = keys.includes(spotId as keyof GnbType);
+    if (!isValidKey) return;
+
+    const targetKey = spotId as keyof GnbType;
+    const targetLabel = gnbTypeData[targetKey].label;
+    const index = keys.indexOf(targetKey);
+    const totalCount = keys.length;
+
+    const postfix = !expanded
+      ? translate("common.tabNumber", { number: index + 1, total: totalCount })
+      : translate("common.button");
+
+    speakIfAudioGuidanceOn({
+      text: `${translate(targetLabel)} ${postfix}`,
+    });
+    // ---- 오디오 가이던스 로직 ----
+  }, [expandGnb, expanded]);
 
   const onBlur = useCallback(() => {
     const isMouse = Spotlight.getPointerMode();

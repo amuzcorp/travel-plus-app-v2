@@ -32,15 +32,13 @@ const BaseCard = React.memo(
     const speakerMessage = useMemo(() => {
       if (!speaker) return "";
       const baseMessage = $L(speaker);
-      return disabled
-        ? `${baseMessage} ${$L("common.deactivated")}`
-        : baseMessage;
+      return disabled ? `${baseMessage} ${$L("common.deactivated")}` : baseMessage;
     }, [speaker, disabled]);
 
     const handleFocus = useCallback(
       (e: React.FocusEvent) => {
         onFocus?.(e);
-        if (speakerMessage) {
+        if (speakerMessage !== "") {
           speakIfAudioGuidanceOn({ text: speakerMessage });
         }
       },
@@ -68,12 +66,14 @@ const BaseCard = React.memo(
         const direction = directionMap[e.key as keyof typeof directionMap];
         if (direction) {
           const current = Spotlight.getCurrent();
-          setTimeout(() => {
+
+          // requestAnimationFrame을 사용하여 다음 프레임에서 비교
+          requestAnimationFrame(() => {
             const after = Spotlight.getCurrent();
             if (current === after) {
               speakIfAudioGuidanceOn({ text: directionMessages[direction] });
             }
-          }, 10);
+          });
         }
       },
       [onKeyDown]

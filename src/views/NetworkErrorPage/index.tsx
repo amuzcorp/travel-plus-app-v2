@@ -47,29 +47,13 @@ const NetworkErrorPage = React.memo(() => {
       <ContentWrapper>
         <ErrorIcon />
         <Spacing size={40} />
-        <div
-          style={{
-            height: rem(63),
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Text textStyle="headerXlSb">{$L("errors.networkError")}</Text>
-        </div>
+
+        <Text textStyle="headerXlSb">{$L("errors.networkError")}</Text>
         <Spacing size={10} />
-        <div
-          style={{
-            height: rem(39),
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Text textStyle="titleLgRg">{$L("errors.networkRetry")}</Text>
-        </div>
+        <Text textStyle="titleLgRg">{$L("errors.networkRetry")}</Text>
         <Spacing size={110} />
-        <RectangleButton disabled={true} speaker={$L("common.retry") + " " + $L("common.button")}>
+
+        <RectangleButton disabled speaker={$L("common.retry") + " " + $L("common.button")}>
           {$L("common.retry")}
         </RectangleButton>
         <Spacing size={20} />

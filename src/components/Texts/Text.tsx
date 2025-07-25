@@ -14,6 +14,9 @@ const Text = React.memo(
 
     const style = useMemo(() => {
       const baseStyle: React.CSSProperties = {
+        display: "flex",
+        alignItems: "center",
+        height: theme.textStyle[textStyle].fontSize,
         fontFamily: "LGSmartUI",
         fontSize: theme.textStyle[textStyle].fontSize,
         fontWeight: theme.textStyle[textStyle].fontWeight,

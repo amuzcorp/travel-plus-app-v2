@@ -1,54 +1,66 @@
-import Spottable, { SpottableProps } from "@enact/spotlight/Spottable";
-import Marquee from "@enact/ui/Marquee";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
-interface RoundButtonProps extends SpottableProps {
+import Marquee from "@enact/ui/Marquee";
+import { rem } from "../../../utils/rem";
+import BaseAccessibleComponent from "../../BaseAccessibleComponent";
+
+interface RoundButtonProps {
+  disabled?: boolean;
+  onClick?: () => void;
   children: React.ReactNode;
+  speaker?: string;
+  className?: string;
+  [key: string]: any;
 }
 
-const RoundButton = React.memo(({ children, ...rest }: RoundButtonProps) => {
-  return <RoundButtonBase {...rest}>{children}</RoundButtonBase>;
-});
-
-const SpottableButton = Spottable(RoundButton);
-
-export default React.memo(
-  ({ active = true, onClick = () => {}, children, ...rest }: any) => {
-    const onClickHandler = useCallback(() => {
-      if (!active) {
-        return;
-      }
-
+const RoundButton = ({
+  disabled = false,
+  onClick = () => {},
+  children,
+  speaker,
+  className,
+  ...rest
+}: RoundButtonProps) => {
+  const onClickHandler = useCallback(
+    (e: React.MouseEvent | React.KeyboardEvent) => {
+      if (disabled) return;
       onClick();
-    }, [active, onClick]);
+    },
+    [disabled, onClick]
+  );
 
-    return (
-      <SpottableWrapper
-        className={!active ? "dimmed" : ""}
-        onClick={onClickHandler}
-        {...rest}
-      >
-        {children}
-      </SpottableWrapper>
-    );
-  }
-);
+  const mergedClassName = [className, disabled ? "dimmed" : ""].filter(Boolean).join(" ");
+
+  return (
+    <BaseAccessibleComponent
+      component={RoundButtonBase}
+      className={mergedClassName}
+      onClick={onClickHandler}
+      speaker={speaker}
+      disabled={disabled}
+      {...rest}
+    >
+      {children}
+    </BaseAccessibleComponent>
+  );
+};
+
+export default React.memo(RoundButton);
 
 export const RoundButtonBase = styled(Marquee)`
   position: relative;
 
   width: fit-content;
-  min-width: calc(160 / 24 * 1rem);
+  min-width: ${rem(160)};
   max-width: 20vw;
 
-  padding: calc(16.5 / 24 * 1rem) calc(55 / 24 * 1rem);
+  padding: ${rem(16.5)} ${rem(55)};
 
   color: ${({ theme }) => theme.colors.text.primary};
 
   font-family: "LGSmartUI";
   font-size: ${({ theme }) => theme.textStyle.headerSmSb.fontSize};
-  font-style: normal;
   font-weight: 600;
   line-height: normal;
   vertical-align: center;
@@ -70,7 +82,7 @@ export const RoundButtonBase = styled(Marquee)`
     height: 100%;
 
     background: rgba(0, 0, 0, 0.4);
-    box-shadow: inset 0 0 0 2px ${({ theme }) => theme.colors.deactive.normal};
+    box-shadow: inset 0 0 0 ${rem(2)} ${({ theme }) => theme.colors.deactive.normal};
     border-radius: 1000px;
 
     transition: transform ease 0.3s;
@@ -79,18 +91,13 @@ export const RoundButtonBase = styled(Marquee)`
 
   &:focus::before {
     background: ${({ theme }) => theme.colors.text.primary};
-    box-shadow: 0px 14px 30px 0px rgba(0, 0, 0, 0.3);
-
+    box-shadow: 0 ${rem(14)} ${rem(30)} 0 rgba(0, 0, 0, 0.3);
     transform: scale(1.05);
   }
 
   &:focus {
     color: ${({ theme }) => theme.colors.text.primaryVari};
   }
-`;
-
-export const SpottableWrapper = styled(SpottableButton)`
-  position: relative;
 
   &.dimmed {
     opacity: 0.4;
