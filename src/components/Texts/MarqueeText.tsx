@@ -27,7 +27,7 @@ const MarqueeText = React.memo(
       };
 
       return baseStyle;
-    }, [theme, textStyle, color]);
+    }, [theme, textStyle, color, lineHeight]);
 
     return (
       <Marquee marqueeOn={"render"} style={style}>
