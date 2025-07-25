@@ -13,6 +13,8 @@ const Text = React.memo(
   ({ children, textStyle = "titleSmSb", color, maxLine = 1, lineHeight = "normal" }: TextProps) => {
     const theme = useTheme();
 
+    const hasMaxLine = maxLine >= 1;
+
     const style = useMemo(() => {
       const baseStyle: React.CSSProperties = {
         fontFamily: "LGSmartUI",
@@ -20,14 +22,19 @@ const Text = React.memo(
         fontWeight: theme.textStyle[textStyle].fontWeight,
         color: color ?? theme.colors.text.primary,
         lineHeight,
-        display: maxLine > 1 ? "-webkit-box" : "block",
-        WebkitLineClamp: maxLine > 1 ? maxLine : undefined,
-        WebkitBoxOrient: maxLine > 1 ? "vertical" : undefined,
-        overflow: maxLine > 1 ? "hidden" : undefined,
+
+        wordBreak: "break-word",
+        ...(hasMaxLine && {
+          display: "-webkit-box",
+          WebkitLineClamp: maxLine,
+          WebkitBoxOrient: "vertical",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }),
       };
 
       return baseStyle;
-    }, [theme, textStyle, color, maxLine, lineHeight]);
+    }, [theme, textStyle, color, maxLine, lineHeight, hasMaxLine]);
 
     return <div style={style}>{children}</div>;
   },
