@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 
+import { RootState } from "../core/store";
 import { hide, show } from "../core/store/slices/dialogSlice";
-import { RootState } from "../core/store/store";
 
 interface DialogPayload {
   title?: string;

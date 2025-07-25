@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 
 import Marquee from "@enact/ui/Marquee";
@@ -21,11 +21,13 @@ const RectangleButton = ({
   className,
   ...rest
 }: RectangleButtonProps) => {
-  const onClickHandler = (e: React.MouseEvent | React.KeyboardEvent) => {
-    if (disabled) return;
-    onClick();
-  };
-
+  const onClickHandler = useCallback(
+    (e: React.MouseEvent | React.KeyboardEvent) => {
+      if (disabled) return;
+      onClick();
+    },
+    [disabled, onClick]
+  );
   const mergedClassName = [className, disabled ? "dimmed" : ""].filter(Boolean).join(" ");
 
   return (
@@ -33,11 +35,6 @@ const RectangleButton = ({
       component={RectangleButtonBase}
       className={mergedClassName}
       onClick={onClickHandler}
-      onKeyDown={(e: React.KeyboardEvent) => {
-        if (e.key === "Enter") {
-          onClickHandler(e);
-        }
-      }}
       speaker={speaker}
       disabled={disabled}
       {...rest}

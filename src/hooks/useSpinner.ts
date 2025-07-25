@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 
+import { RootState } from "../core/store";
 import { hide, show } from "../core/store/slices/spinnerSlice";
-import { RootState } from "../core/store/store";
 
 export const useSpinner = () => {
   const dispatch = useDispatch();
