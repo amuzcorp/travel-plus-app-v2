@@ -45,7 +45,7 @@ interface ElementOption {
   selectedElement: React.MemoExoticComponent<() => React.JSX.Element>;
 }
 
-const gnbTypeData: GnbType = {
+export const gnbTypeData: GnbType = {
   home: {
     label: "navigation.home",
     element: IGnbHome,
@@ -132,11 +132,10 @@ export default React.memo(
     return (
       <BaseAccessibleComponent
         component={GlobalNavigationChild}
-        className={`${selected ? "selected" : ""} ${
-          expanded ? "expanded" : ""
-        }`}
+        className={`${selected ? "selected" : ""} ${expanded ? "expanded" : ""}`}
         onClick={onClick}
         $marginBottom={marginBottom}
+        data-spot-id={type}
       >
         <Icon />
         <Label />

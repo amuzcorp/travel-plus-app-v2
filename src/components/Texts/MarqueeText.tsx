@@ -1,24 +1,29 @@
 import React, { useMemo } from "react";
-import { DefaultTheme, useTheme } from "styled-components";
 
 import Marquee from "@enact/sandstone/Marquee";
+import { DefaultTheme, useTheme } from "styled-components";
 
 interface MarqueeTextProps {
   children: React.ReactNode;
   textStyle?: keyof DefaultTheme["textStyle"];
   color?: string;
+  lineHeight?: string | number;
 }
 
 const MarqueeText = React.memo(
-  ({ children, color, textStyle = "titleSmSb" }: MarqueeTextProps) => {
+  ({ children, color, textStyle = "titleSmSb", lineHeight = "normal" }: MarqueeTextProps) => {
     const theme = useTheme();
 
     const style = useMemo(() => {
       const baseStyle: React.CSSProperties = {
+        display: "flex",
+        alignItems: "center",
+        height: theme.textStyle[textStyle].fontSize,
         fontFamily: "LGSmartUI",
         fontSize: theme.textStyle[textStyle].fontSize,
         fontWeight: theme.textStyle[textStyle].fontWeight,
-        color: color ? color : theme.colors.text.primary,
+        color: color ?? theme.colors.text.primary,
+        lineHeight,
       };
 
       return baseStyle;

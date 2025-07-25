@@ -53,7 +53,6 @@ export const RectangleButtonBase = styled(Marquee)`
   padding: ${rem(18.5)} ${rem(40)};
 
   display: flex;
-  align-items: center;
   justify-content: center;
 
   color: ${({ theme }) => theme.colors.text.primary};
