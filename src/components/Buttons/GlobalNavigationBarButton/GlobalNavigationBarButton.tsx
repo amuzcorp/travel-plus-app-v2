@@ -83,6 +83,7 @@ interface GlobalNavigationBarButtonProps {
   selected?: boolean;
   marginBottom?: number;
   onClick?: Function;
+  // onKeyDown?: (ev: React:KeyboardEvent<any>) => void;
 }
 
 export default React.memo(
@@ -132,8 +133,11 @@ export default React.memo(
     return (
       <BaseAccessibleComponent
         component={GlobalNavigationChild}
-        className={`${selected ? "selected" : ""} ${expanded ? "expanded" : ""}`}
+        className={`${selected ? "selected" : ""} ${
+          expanded ? "expanded" : ""
+        }`}
         onClick={onClick}
+        // onKeyDown={onKeyDown}
         $marginBottom={marginBottom}
         data-spot-id={type}
       >

@@ -40,6 +40,9 @@ const bottomSections: string[] = ["settings", "exit"];
 
 const GlobalNavigationBar: React.FC = React.memo(() => {
   const gnbState = useSelector((state: RootState) => state.gnb.value);
+  const wantToCollapse = useSelector(
+    (state: RootState) => state.gnb.wantToCollapse
+  );
   const selectedButton = useSelector(
     (state: RootState) => state.gnb.selectedButton,
     (prev, next) => prev === next
@@ -158,9 +161,10 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
     (typeValue: keyof GnbType, isLast: boolean, onClick: Function) => (
       <GlobalNavigationBarButton
         type={typeValue}
-        marginBottom={isLast ? 20 : undefined}
+        marginBottom={!isLast ? 20 : undefined}
         selected={typeValue === selectedButton}
         onClick={onClick}
+        // onKeyDown={(ev: KeyboardEvent) => {}}
       />
     ),
     [selectedButton]
@@ -176,7 +180,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
 
   return (
     <SpotlightContainer
-    // spotlightRestrict={wantToCollapse ? undefined : "self-only"}
+      spotlightRestrict={wantToCollapse ? undefined : "self-only"}
     >
       <GNBOverlay {...GNBOverlayProps} />
       <GNBWrapper {...GNBWrapperProps}>
