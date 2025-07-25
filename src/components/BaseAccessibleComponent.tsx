@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from "react";
 
-import $L from "@enact/i18n/$L";
 import { ItemDecorator } from "@enact/sandstone/Item";
 import Spotlight from "@enact/spotlight";
+import { translate } from "../utils/translate";
 
 import { speakIfAudioGuidanceOn } from "../utils/audioGuidance";
 import { filterDOMProps } from "../utils/filterDOMProps";
@@ -31,8 +31,8 @@ const BaseCard = React.memo(
 
     const speakerMessage = useMemo(() => {
       if (!speaker) return "";
-      const baseMessage = $L(speaker);
-      return disabled ? `${baseMessage} ${$L("common.deactivated")}` : baseMessage;
+      const baseMessage = translate(speaker);
+      return disabled ? `${baseMessage} ${translate("common.deactivated")}` : baseMessage;
     }, [speaker, disabled]);
 
     const handleFocus = useCallback(
@@ -57,10 +57,10 @@ const BaseCard = React.memo(
         } as const;
 
         const directionMessages = {
-          up: $L("common.screenAlreadyAtTop"),
-          down: $L("common.screenAlreadyAtBottom"),
-          left: $L("common.screenAlreadyAtVeryLeft"),
-          right: $L("common.screenAlreadyAtVeryRight"),
+          up: translate("common.screenAlreadyAtTop"),
+          down: translate("common.screenAlreadyAtBottom"),
+          left: translate("common.screenAlreadyAtVeryLeft"),
+          right: translate("common.screenAlreadyAtVeryRight"),
         };
 
         const direction = directionMap[e.key as keyof typeof directionMap];

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-import $L from "@enact/i18n/$L";
 import { Cell, Column } from "@enact/ui/Layout";
 import Marquee from "@enact/ui/Marquee";
 
+import { translate } from "../../utils/translate";
 import BaseAccessibleComponent from "../BaseAccessibleComponent";
 
 // styled div
@@ -41,19 +41,14 @@ const TestCard = ({ children }: any) => {
   return (
     <BaseAccessibleComponent
       component={CardWrapper}
-      speaker={$L("video.travelNow")}
+      speaker={translate("video.travelNow")}
       // onKeyDown={onKeyDown}
     >
       <Column>
         <Cell shrink>
           <Image />
         </Cell>
-        <Cell
-          size="320px"
-          shrink
-          style={{ overflow: "hidden" }}
-          component={Marquee}
-        >
+        <Cell size="320px" shrink style={{ overflow: "hidden" }} component={Marquee}>
           {children}
         </Cell>
         <Cell size="320px" shrink style={{ overflow: "hidden" }}>

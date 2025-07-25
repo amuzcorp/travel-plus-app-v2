@@ -3,10 +3,9 @@ import Lottie from "react-lottie-player";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import $L from "@enact/i18n/$L";
-
 import splashLottieAnimation from "../../../assets/lottie/splash_luggage.json";
 import { speakIfAudioGuidanceOn } from "../../utils/audioGuidance";
+import { translate } from "../../utils/translate";
 
 const SplashContainer = styled.div`
   width: 100vw;
@@ -32,7 +31,7 @@ const SplashPage: React.FC = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      speakIfAudioGuidanceOn({ text: $L("common.lgTravelPlus") });
+      speakIfAudioGuidanceOn({ text: translate("common.lgTravelPlus") });
     }, 500);
 
     setTimeout(() => {

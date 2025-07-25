@@ -3,7 +3,6 @@ import React, { useEffect, useMemo } from "react";
 import Lottie from "react-lottie-player";
 import styled from "styled-components";
 
-import $L from "@enact/i18n/$L";
 import Spotlight from "@enact/spotlight";
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
 import Spottable from "@enact/spotlight/Spottable";
@@ -11,6 +10,7 @@ import Spottable from "@enact/spotlight/Spottable";
 import spinnerAnimation from "../../../assets/lottie/lottie_spinner.json";
 import { useSpinner } from "../../hooks/useSpinner";
 import { speakIfAudioGuidanceOn } from "../../utils/audioGuidance";
+import { translate } from "../../utils/translate";
 
 const SpinnerContainer = styled.div`
   position: fixed;
@@ -46,7 +46,7 @@ const Spinner = React.memo(() => {
       if (spottables.length === 0) return;
 
       Spotlight.focus(spottables[0]);
-      speakIfAudioGuidanceOn({ text: $L("loading.animation") });
+      speakIfAudioGuidanceOn({ text: translate("loading.animation") });
     } else {
       enableBodyScroll(document.body);
     }
@@ -66,10 +66,7 @@ const Spinner = React.memo(() => {
   );
 
   return start ? (
-    <SpotlightSpinnerContainer
-      spotlightId="splash"
-      spotlightRestrict="self-only"
-    >
+    <SpotlightSpinnerContainer spotlightId="splash" spotlightRestrict="self-only">
       <SpottableLottie animationData={spinnerAnimation} {...lottieOptions} />
     </SpotlightSpinnerContainer>
   ) : null;

@@ -19,10 +19,10 @@ import IGnbSettingsSelected from "../../../../assets/icons/gnb/IGnbSettingsSelec
 import IGnbExit from "../../../../assets/icons/gnb/IGnbExit";
 import IGnbExitSelected from "../../../../assets/icons/gnb/IGnbExitSelected";
 
-import $L from "@enact/i18n/$L";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../core/store";
 import { GnbState } from "../../../core/store/slices/gnbSlice";
+import { translate } from "../../../utils/translate";
 import {
   GlobalNavigationChild,
   GlobalNavigationChildIcon,
@@ -124,7 +124,7 @@ export default React.memo(
     const Label = React.memo(() => {
       return (
         <GlobalNavigationChildLabel className="label">
-          {$L(gnbTypeData[type].label)}
+          {translate(gnbTypeData[type].label)}
         </GlobalNavigationChildLabel>
       );
     });
