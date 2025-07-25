@@ -6,6 +6,7 @@ import AppLayout from "../../views/AppLayout";
 import DestinationPage from "../../views/DestinationPage";
 import HomePage from "../../views/HomePage";
 import MyLuggagePage from "../../views/MyLuggagePage";
+import NetworkErrorPage from "../../views/NetworkErrorPage";
 import SearchPage from "../../views/SearchPage";
 import SettingsPage from "../../views/SettingsPage";
 import SplashPage from "../../views/SplashPage";
@@ -59,7 +60,10 @@ const router = createHashRouter([
         path: "splash",
         element: <SplashPage />,
       },
-
+      {
+        path: "network-error",
+        element: <NetworkErrorPage />,
+      },
       {
         path: "test",
         element: <TestPage />,

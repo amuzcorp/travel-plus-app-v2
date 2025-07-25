@@ -1,3 +1,4 @@
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import React, { useCallback, useEffect } from "react";
 import styled, { useTheme } from "styled-components";
 
@@ -9,6 +10,7 @@ import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDeco
 import { Cell, Column } from "@enact/ui/Layout";
 
 import { useDialog } from "../../hooks/useDialog";
+import { rem } from "../../utils/rem";
 import Text from "../Texts/MarqueeText";
 
 const Backdrop = styled.div`
@@ -25,19 +27,18 @@ const Backdrop = styled.div`
   z-index: ${({ theme }) => `${theme.zIndex.popup}`};
 `;
 
-// 다이얼로그 박스
 const DialogBox = styled.div`
-  padding: 40px 0 24px;
+  padding: ${rem(40)} 0 ${rem(24)};
   background-color: rgba(55, 58, 65, 0.95);
-  box-shadow: 0px 14px 30px 0px rgba(0, 0, 0, 0.95);
-  border-radius: 24px;
+  box-shadow: 0px ${rem(14)} ${rem(30)} 0px rgba(0, 0, 0, 0.95);
+  border-radius: ${rem(24)};
 `;
 
-// 텍스트 영역
 const ContentBox = styled.div`
-  padding-left: 50px;
-  width: 1052px;
-  height: 404px;
+  padding-left: ${rem(50)};
+  padding-right: ${rem(50)};
+  width: ${rem(1052)};
+  height: ${rem(404)};
   display: flex;
   flex-direction: column;
 `;
@@ -63,17 +64,19 @@ const Dialog = React.memo(() => {
 
   useEffect(() => {
     if (open) {
+      disableBodyScroll(document.body);
+
       const spottables = Spotlight.getSpottableDescendants("dialog");
       if (spottables.length === 0) return;
 
-      // 닫기 버튼에 포커스됨
       Spotlight.focus(spottables[1]);
-
-      // TODO
-      // 포커스 가능한 스크롤바 만들기
-      // 스크롤바가 있을 때는 거기로 포커스, 아니면 닫기 버튼에 포커스
-      // 포커스 위치에 따라 오디오가이던스 발화
+    } else {
+      enableBodyScroll(document.body);
     }
+
+    return () => {
+      enableBodyScroll(document.body);
+    };
   }, [open]);
 
   return open ? (
@@ -81,12 +84,12 @@ const Dialog = React.memo(() => {
       <div onClick={stopPropagation}>
         <SpotlightDialogBox spotlightId="dialog" spotlightRestrict="self-only">
           <Column>
-            <Cell shrink style={{ padding: "0 50px" }}>
+            <Cell shrink style={{ padding: `0 ${rem(50)}` }}>
               <Text textStyle="titleXlSb">{title}</Text>
             </Cell>
-            <Cell size="36px" />
+            <Cell size={rem(36)} />
             <Cell shrink>
-              <ContentBox style={{ paddingRight: "50px" }}>
+              <ContentBox>
                 <Scroller>
                   <Text textStyle="bodyMdRg" color={theme.colors.text.secondary}>
                     {content}
@@ -94,7 +97,7 @@ const Dialog = React.memo(() => {
                 </Scroller>
               </ContentBox>
             </Cell>
-            <Cell size="42px" />
+            <Cell size={rem(42)} />
             <Cell
               shrink
               style={{
