@@ -23,6 +23,6 @@
     }
   },
 
-  "include": ["src/**/*", "src/types/enact.d.ts"],
+  "include": ["src/**/*", "src/types/enact.d.ts", "assets"],
   "exclude": ["node_modules", "build", "dist"]
 }
