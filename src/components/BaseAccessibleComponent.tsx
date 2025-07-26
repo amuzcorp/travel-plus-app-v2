@@ -4,7 +4,7 @@ import { ItemDecorator } from "@enact/sandstone/Item";
 import Spotlight from "@enact/spotlight";
 import { translate } from "../utils/translate";
 
-import { speakIfAudioGuidanceOn } from "../utils/audioGuidance";
+import { speak } from "../utils/audioGuidance";
 import { filterDOMProps } from "../utils/filterDOMProps";
 
 interface BaseCardProps {
@@ -39,7 +39,7 @@ const BaseCard = React.memo(
       (e: React.FocusEvent) => {
         onFocus?.(e);
         if (speakerMessage !== "") {
-          speakIfAudioGuidanceOn({ text: speakerMessage });
+          speak(speakerMessage);
         }
       },
       [onFocus, speakerMessage]
@@ -67,11 +67,10 @@ const BaseCard = React.memo(
         if (direction) {
           const current = Spotlight.getCurrent();
 
-          // requestAnimationFrame을 사용하여 다음 프레임에서 비교
           requestAnimationFrame(() => {
             const after = Spotlight.getCurrent();
             if (current === after) {
-              speakIfAudioGuidanceOn({ text: directionMessages[direction] });
+              speak(directionMessages[direction]);
             }
           });
         }

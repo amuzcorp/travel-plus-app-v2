@@ -18,12 +18,12 @@ const requestLS2 = (service: string, method: string, parameters: object): Promis
   });
 };
 
-export const speakIfAudioGuidanceOn = async ({
-  text,
-  clear = true,
-}: //   languageCode = "ko-KR",
-SpeakOptions) => {
+export const speak = async (options: string | SpeakOptions): Promise<void> => {
   try {
+    const text = typeof options === "string" ? options : options.text;
+    const clear = typeof options === "string" ? true : options.clear ?? true;
+    // const languageCode = typeof options === "string" ? "ko-KR" : options.languageCode;
+
     const res = await requestLS2("luna://com.webos.settingsservice", "getSystemSettings", {
       category: "option",
       keys: ["audioGuidance"],
@@ -37,7 +37,7 @@ SpeakOptions) => {
       });
     }
   } catch (err) {
-    console.error("오류 발생 : ", err);
-    console.log("TTS : ", text);
+    console.error("오디오 가이던스 실행 오류:", err);
+    console.log("TTS fallback (log only):", typeof options === "string" ? options : options.text);
   }
 };

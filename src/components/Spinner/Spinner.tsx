@@ -9,7 +9,7 @@ import Spottable from "@enact/spotlight/Spottable";
 
 import spinnerAnimation from "../../../assets/lottie/lottie_spinner.json";
 import { useSpinner } from "../../hooks/useSpinner";
-import { speakIfAudioGuidanceOn } from "../../utils/audioGuidance";
+import { speak } from "../../utils/audioGuidance";
 import { translate } from "../../utils/translate";
 
 const SpinnerContainer = styled.div`
@@ -38,15 +38,13 @@ const Spinner = React.memo(() => {
 
   useEffect(() => {
     if (start) {
-      // 스크롤 막기
       disableBodyScroll(document.body);
 
-      // Spinner에 포커스되게 만들어서, 외부 영역으로 못빠져나가게 처리
       const spottables = Spotlight.getSpottableDescendants("splash");
       if (spottables.length === 0) return;
 
       Spotlight.focus(spottables[0]);
-      speakIfAudioGuidanceOn({ text: translate("loading.animation") });
+      speak(translate("loading.animation"));
     } else {
       enableBodyScroll(document.body);
     }
