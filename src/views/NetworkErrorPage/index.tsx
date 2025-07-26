@@ -49,7 +49,7 @@ const NetworkErrorPage = React.memo(() => {
   }, []);
 
   const handleRetry = useCallback(async () => {
-    showSpinner();
+    showSpinner({ focusIdOnDismiss: "network-error-retry" });
 
     const startTime = Date.now();
     const timeout = 5000;
@@ -71,13 +71,6 @@ const NetworkErrorPage = React.memo(() => {
       }, 3000);
     } else {
       hideSpinner();
-      // spinner 종료 후 포커스 복원
-      setTimeout(() => {
-        const spottables = Spotlight.getSpottableDescendants("networkError");
-        if (spottables.length > 0) {
-          Spotlight.focus(spottables[0]);
-        }
-      }, 100);
     }
   }, [hideSpinner, navigate, showSpinner]);
 
@@ -104,7 +97,7 @@ const NetworkErrorPage = React.memo(() => {
           isLarge
           onClick={handleRetry}
           speaker={translate(["common.retry", "common.button"])}
-          data-spot-id={"network-error-retry"}
+          spotlightId={"network-error-retry"}
         >
           {translate("common.retry")}
         </RectangleButton>
@@ -113,7 +106,7 @@ const NetworkErrorPage = React.memo(() => {
           isLarge
           onClick={handleOpenSettings}
           speaker={translate(["common.networkSettings", "common.button"])}
-          data-spot-id={"network-error-setting"}
+          spotlightId={"network-error-setting"}
         >
           {translate("errors.networkSettings")}
         </RectangleButton>
@@ -122,7 +115,7 @@ const NetworkErrorPage = React.memo(() => {
           isLarge
           onClick={handleExitApp}
           speaker={translate(["navigation.exitApp", "common.button"])}
-          data-spot-id={"network-error-exit"}
+          spotlightId={"network-error-exit"}
         >
           {translate("navigation.exitApp")}
         </RectangleButton>

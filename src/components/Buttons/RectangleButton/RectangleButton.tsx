@@ -6,6 +6,7 @@ import { rem } from "../../../utils/rem";
 import BaseAccessibleComponent from "../../BaseAccessibleComponent";
 
 interface RectangleButtonProps {
+  spotlightId?: string;
   disabled?: boolean;
   onClick?: () => void;
   children: React.ReactNode;
@@ -21,6 +22,7 @@ const RectangleButton = ({
   speaker,
   className,
   isLarge = false, // 기본값: small 상태
+  spotlightId,
   ...rest
 }: RectangleButtonProps) => {
   const onClickHandler = useCallback(
@@ -42,6 +44,7 @@ const RectangleButton = ({
       )}
       className={mergedClassName}
       onClick={onClickHandler}
+      spotlightId={spotlightId}
       speaker={speaker}
       disabled={disabled}
       {...rest}
@@ -53,7 +56,6 @@ const RectangleButton = ({
 
 export default React.memo(RectangleButton);
 
-// ✅ $isLarge 기반으로 스타일 조건 분기
 export const RectangleButtonBase = styled(Marquee)<{ $isLarge?: boolean }>`
   position: relative;
   display: flex;
@@ -74,7 +76,7 @@ export const RectangleButtonBase = styled(Marquee)<{ $isLarge?: boolean }>`
         `
       : css`
           width: ${rem(87)};
-          padding: ${rem(9.5)} 0;
+          padding: ${rem(9.5)} ${rem(40)};
         `}
 
   &::before {
@@ -95,13 +97,17 @@ export const RectangleButtonBase = styled(Marquee)<{ $isLarge?: boolean }>`
     border-radius: ${rem(12)};
 
     transition: transform ease 0.3s;
-    will-change: transform;
+    will-change: transition;
+
+    pointer-events: none;
   }
 
   &:focus::before {
     background: ${({ theme }) => theme.colors.text.primary};
     box-shadow: 0 ${rem(14)} ${rem(30)} 0 rgba(0, 0, 0, 0.3);
     transform: scale(1.05);
+
+    pointer-events: none;
   }
 
   &:focus {

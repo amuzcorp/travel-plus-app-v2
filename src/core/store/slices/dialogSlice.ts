@@ -1,4 +1,3 @@
-import Spotlight from "@enact/spotlight";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface DialogState {
@@ -36,10 +35,6 @@ export const dialogSlice = createSlice({
       state.open = false;
       state.title = "";
       state.content = "";
-
-      if (state.focusIdOnDismiss) {
-        Spotlight.focus(state.focusIdOnDismiss);
-      }
     },
   },
 });
