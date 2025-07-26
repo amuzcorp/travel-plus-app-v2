@@ -2,7 +2,6 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import React, { useCallback, useEffect } from "react";
 import styled, { useTheme } from "styled-components";
 
-import Button from "@enact/sandstone/Button";
 import Scroller from "@enact/sandstone/Scroller";
 import Spotlight from "@enact/spotlight";
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
@@ -11,6 +10,7 @@ import { Cell, Column } from "@enact/ui/Layout";
 import { useDialog } from "../../hooks/useDialog";
 import { rem } from "../../utils/rem";
 import { translate } from "../../utils/translate";
+import RectangleButton from "../Buttons/RectangleButton/RectangleButton";
 import Text from "../Texts/MarqueeText";
 
 const Backdrop = styled.div`
@@ -106,7 +106,13 @@ const Dialog = React.memo(() => {
                 justifyContent: "center",
               }}
             >
-              <Button onClick={handleClose}>{translate("common.close")}</Button>
+              <RectangleButton
+                onClick={handleClose}
+                speaker={translate(["common.close", "common.button"])}
+                data-spot-id={"dialog-close"}
+              >
+                {translate("common.close")}
+              </RectangleButton>
             </Cell>
           </Column>
         </SpotlightDialogBox>

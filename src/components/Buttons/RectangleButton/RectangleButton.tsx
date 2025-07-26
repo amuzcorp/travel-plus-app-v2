@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import Marquee from "@enact/ui/Marquee";
 import { rem } from "../../../utils/rem";
@@ -10,6 +10,7 @@ interface RectangleButtonProps {
   onClick?: () => void;
   children: React.ReactNode;
   speaker?: string;
+  isLarge?: boolean;
   [key: string]: any;
 }
 
@@ -19,6 +20,7 @@ const RectangleButton = ({
   children,
   speaker,
   className,
+  isLarge = false, // 기본값: small 상태
   ...rest
 }: RectangleButtonProps) => {
   const onClickHandler = useCallback(
@@ -28,11 +30,12 @@ const RectangleButton = ({
     },
     [disabled, onClick]
   );
+
   const mergedClassName = [className, disabled ? "dimmed" : ""].filter(Boolean).join(" ");
 
   return (
     <BaseAccessibleComponent
-      component={RectangleButtonBase}
+      component={(props) => <RectangleButtonBase {...props} $isLarge={isLarge} />}
       className={mergedClassName}
       onClick={onClickHandler}
       speaker={speaker}
@@ -46,22 +49,29 @@ const RectangleButton = ({
 
 export default React.memo(RectangleButton);
 
-export const RectangleButtonBase = styled(Marquee)`
+// ✅ $isLarge 기반으로 스타일 조건 분기
+export const RectangleButtonBase = styled(Marquee)<{ $isLarge?: boolean }>`
   position: relative;
-
-  width: ${rem(240)};
-  padding: ${rem(18.5)} ${rem(40)};
-
   display: flex;
   justify-content: center;
 
   color: ${({ theme }) => theme.colors.text.primary};
-
   font-family: "LGSmartUI";
   font-size: ${({ theme }) => theme.textStyle.titleMdSb.fontSize};
   font-weight: ${({ theme }) => theme.textStyle.titleMdSb.fontWeight};
 
   cursor: pointer;
+
+  ${({ $isLarge }) =>
+    $isLarge
+      ? css`
+          width: ${rem(240)};
+          padding: ${rem(18.5)} ${rem(40)};
+        `
+      : css`
+          width: ${rem(87)};
+          padding: ${rem(9.5)} 0;
+        `}
 
   &::before {
     position: absolute;
@@ -79,7 +89,7 @@ export const RectangleButtonBase = styled(Marquee)`
     border-radius: ${rem(12)};
 
     transition: transform ease 0.3s;
-    will-change: transition;
+    will-change: transform;
   }
 
   &:focus::before {
