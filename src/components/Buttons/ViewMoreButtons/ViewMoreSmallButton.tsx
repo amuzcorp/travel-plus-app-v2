@@ -6,33 +6,39 @@ import Spacing from "../../../components/Spacing/Spacing";
 import { rem } from "../../../utils/rem";
 import { translate } from "../../../utils/translate";
 
-export default React.memo(() => {
-  return (
-    <BaseAccessibleComponent component={Button}>
-      <TextWrapper>
-        <p>{translate("More")}</p>
-        <Spacing size={4} direction="horizontal" />
-        <svg
-          width="15"
-          height="15"
-          viewBox="0 0 15 15"
-          fill="#E6E6E6"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g id="icn_plus">
-            <path
-              id="shape"
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M7.88424 7.1155V1.53857H7.11501V7.1155H1.53809V7.88473H7.11501V13.4617H7.88424V7.88473H13.4612V7.1155H7.88424Z"
-              stroke="#E6E6E6"
-            />
-          </g>
-        </svg>
-      </TextWrapper>
-    </BaseAccessibleComponent>
-  );
-});
+interface ViewMoreSmallButtonProps {
+  onClick?: () => void;
+}
+
+export default React.memo(
+  ({ onClick = () => {} }: ViewMoreSmallButtonProps) => {
+    return (
+      <BaseAccessibleComponent component={Button} onClick={onClick}>
+        <TextWrapper>
+          <p>{translate("More")}</p>
+          <Spacing size={4} direction="horizontal" />
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 15 15"
+            fill="#E6E6E6"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="icn_plus">
+              <path
+                id="shape"
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M7.88424 7.1155V1.53857H7.11501V7.1155H1.53809V7.88473H7.11501V13.4617H7.88424V7.88473H13.4612V7.1155H7.88424Z"
+                stroke="#E6E6E6"
+              />
+            </g>
+          </svg>
+        </TextWrapper>
+      </BaseAccessibleComponent>
+    );
+  }
+);
 
 const Button = styled(Marquee)`
   all: unset;
