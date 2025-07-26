@@ -166,6 +166,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
       if (ev.key === "ArrowRight") {
         collapseGnb();
         Spotlight.move("right");
+        ev.preventDefault();
       }
     },
     [collapseGnb]

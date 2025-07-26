@@ -70,8 +70,28 @@ const LogoutScreen = React.memo(() => {
     }
   }, [hasSpoken, setHasSpoken]);
 
+  const [logoutRestrict, setLogoutRestrict] = useState<"self-only" | "none">("self-only");
+
+  const onKeyDown = useCallback((ev: React.KeyboardEvent) => {
+    if (ev.key === "ArrowLeft") {
+      //포커스 제한 해제
+      setLogoutRestrict("none");
+
+      requestAnimationFrame(() => {
+        Spotlight.focus("luggage");
+
+        requestAnimationFrame(() => {
+          //포커스 제한 되돌림
+          setLogoutRestrict("self-only");
+        });
+      });
+
+      ev.preventDefault();
+    }
+  }, []);
+
   return (
-    <SpotlightLogoutContainer spotlightId="logoutScreen" spotlightRestrict="self-only">
+    <SpotlightLogoutContainer spotlightId="logoutScreen" spotlightRestrict={logoutRestrict}>
       <div style={{ position: "absolute", top: "0", left: "0" }}>
         <LogoutBackground />
       </div>
@@ -94,6 +114,7 @@ const LogoutScreen = React.memo(() => {
           onFocus={handleFirstFocus}
           spotlightId="logout-signin"
           speaker={getSpeakerText(["account.signIn", "common.button"])}
+          onKeyDown={onKeyDown}
         >
           {translate("account.signIn")}
         </RoundButton>

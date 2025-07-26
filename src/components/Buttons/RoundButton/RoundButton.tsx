@@ -8,6 +8,7 @@ import BaseAccessibleComponent from "../../BaseAccessibleComponent";
 interface RoundButtonProps {
   disabled?: boolean;
   onClick?: () => void;
+  onKeyDown?: (ev: React.KeyboardEvent<any>) => void;
   children: React.ReactNode;
   speaker?: string;
   className?: string;
@@ -18,6 +19,7 @@ interface RoundButtonProps {
 const RoundButton = ({
   disabled = false,
   onClick = () => {},
+  onKeyDown = (ev) => {},
   children,
   speaker,
   className,
@@ -46,6 +48,7 @@ const RoundButton = ({
       component={getComponent}
       className={mergedClassName}
       onClick={onClickHandler}
+      onKeyDown={onKeyDown}
       speaker={speaker}
       disabled={disabled}
       {...rest}
