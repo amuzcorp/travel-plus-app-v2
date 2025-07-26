@@ -101,24 +101,27 @@ const NetworkErrorPage = React.memo(() => {
         <Spacing size={110} />
 
         <RectangleButton
+          isLarge
           onClick={handleRetry}
-          speaker={translate("common.retry") + " " + translate("common.button")}
+          speaker={translate(["common.retry", "common.button"])}
           data-spot-id={"network-error-retry"}
         >
           {translate("common.retry")}
         </RectangleButton>
         <Spacing size={20} />
         <RectangleButton
+          isLarge
           onClick={handleOpenSettings}
-          speaker={translate("errors.networkSettings") + " " + translate("common.button")}
+          speaker={translate(["common.networkSettings", "common.button"])}
           data-spot-id={"network-error-setting"}
         >
           {translate("errors.networkSettings")}
         </RectangleButton>
         <Spacing size={20} />
         <RectangleButton
+          isLarge
           onClick={handleExitApp}
-          speaker={translate("navigation.exitApp") + " " + translate("common.button")}
+          speaker={translate(["navigation.exitApp", "common.button"])}
           data-spot-id={"network-error-exit"}
         >
           {translate("navigation.exitApp")}

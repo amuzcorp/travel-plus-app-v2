@@ -31,7 +31,7 @@ const ScrollToTopButton = ({
     <BaseAccessibleComponent
       component={(props) => <StyledRoundButton {...props} $isSmall={isSmall} />}
       onClick={onClickHandler}
-      speaker={translate("common.goToTop") + " " + translate("common.button")}
+      speaker={translate(["common.goToTop", "common.button"])}
       {...rest}
     >
       <Icon />
