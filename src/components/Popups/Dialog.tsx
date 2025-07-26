@@ -2,7 +2,6 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import React, { useCallback, useEffect } from "react";
 import styled, { useTheme } from "styled-components";
 
-import Button from "@enact/sandstone/Button";
 import Scroller from "@enact/sandstone/Scroller";
 import Spotlight from "@enact/spotlight";
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
@@ -11,7 +10,8 @@ import { Cell, Column } from "@enact/ui/Layout";
 import { useDialog } from "../../hooks/useDialog";
 import { rem } from "../../utils/rem";
 import { translate } from "../../utils/translate";
-import Text from "../Texts/MarqueeText";
+import RectangleButton from "../Buttons/RectangleButton/RectangleButton";
+import { default as MarqueeText, default as Text } from "../Texts/MarqueeText";
 
 const Backdrop = styled.div`
   position: fixed;
@@ -85,7 +85,7 @@ const Dialog = React.memo(() => {
         <SpotlightDialogBox spotlightId="dialog" spotlightRestrict="self-only">
           <Column>
             <Cell shrink style={{ padding: `0 ${rem(50)}` }}>
-              <Text textStyle="titleXlSb">{title}</Text>
+              <MarqueeText textStyle="titleXlSb">{title}</MarqueeText>
             </Cell>
             <Cell size={rem(36)} />
             <Cell shrink>
@@ -106,7 +106,13 @@ const Dialog = React.memo(() => {
                 justifyContent: "center",
               }}
             >
-              <Button onClick={handleClose}>{translate("common.close")}</Button>
+              <RectangleButton
+                onClick={handleClose}
+                speaker={translate(["common.close", "common.button"])}
+                data-spot-id={"dialog-close"}
+              >
+                {translate("common.close")}
+              </RectangleButton>
             </Cell>
           </Column>
         </SpotlightDialogBox>
