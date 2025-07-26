@@ -6,11 +6,15 @@ import Spacing from "../../../components/Spacing/Spacing";
 import { rem } from "../../../utils/rem";
 import { translate } from "../../../utils/translate";
 
-export default React.memo(() => {
+interface ViewMoreSmallButtonProps {
+  onClick?: () => void;
+}
+
+export default React.memo(({ onClick = () => {} }: ViewMoreSmallButtonProps) => {
   const speakerArr = ["media.moreInfo", "common.button", "home.pressMoreInfoButton"];
 
   return (
-    <BaseAccessibleComponent component={Button} speaker={translate(speakerArr)}>
+    <BaseAccessibleComponent component={Button} speaker={translate(speakerArr)} onClick={onClick}>
       <TextWrapper>
         <p>{translate("More")}</p>
         <Spacing size={4} direction="horizontal" />

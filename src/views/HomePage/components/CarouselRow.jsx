@@ -1,5 +1,5 @@
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 import GradientBottomComponent from "../../../../assets/gradients/GradientCarouselBottom";
@@ -10,10 +10,12 @@ import ViewMoreSmallButton from "../../../components/Buttons/ViewMoreButtons/Vie
 import Spacing from "../../../components/Spacing/Spacing";
 import MarqueeText from "../../../components/Texts/MarqueeText";
 import Text from "../../../components/Texts/Text";
+import { useDialog } from "../../../hooks/useDialog";
 import { rem } from "../../../utils/rem";
 
 export default React.memo(({ title, description }) => {
   const descriptionRef = useRef(null);
+  const { showDialog } = useDialog();
 
   const titleText = "eifjao;sdjf;ijkelfasjdfioej;alksdjfa;lisejf;asldkjf;";
   const descriptionText =
@@ -29,6 +31,10 @@ export default React.memo(({ title, description }) => {
       setShowViewMore(showViewMore);
     }
   }, []);
+
+  const onClickViewMore = useCallback(() => {
+    showDialog({ title: titleText, content: descriptionText });
+  });
 
   return (
     <CarouselContainer>
@@ -69,7 +75,11 @@ export default React.memo(({ title, description }) => {
 
         <MoreWrapper>
           <Spacing size={16} />
-          {showViewMore && <ViewMoreSmallButton>View More</ViewMoreSmallButton>}
+          {showViewMore && (
+            <ViewMoreSmallButton onClick={onClickViewMore}>
+              View More
+            </ViewMoreSmallButton>
+          )}
         </MoreWrapper>
 
         <MapWrapper>
@@ -77,7 +87,7 @@ export default React.memo(({ title, description }) => {
             style={{
               width: rem(216),
               height: rem(260),
-              background: "deepskyblue",
+              background: "tomato",
             }}
           />
         </MapWrapper>
