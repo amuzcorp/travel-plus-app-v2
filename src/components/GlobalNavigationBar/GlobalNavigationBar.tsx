@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  KeyboardEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Spotlight from "@enact/spotlight";
@@ -164,7 +170,12 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
         marginBottom={!isLast ? 20 : undefined}
         selected={typeValue === selectedButton}
         onClick={onClick}
-        // onKeyDown={(ev: KeyboardEvent) => {}}
+        onKeyDown={(ev: KeyboardEvent) => {
+          if (ev.key === "ArrowRight") {
+            collapseGnb();
+            Spotlight.move("right");
+          }
+        }}
       />
     ),
     [selectedButton]
@@ -179,9 +190,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
   }, [gnbState]);
 
   return (
-    <SpotlightContainer
-      spotlightRestrict={wantToCollapse ? undefined : "self-only"}
-    >
+    <SpotlightContainer spotlightRestrict={wantToCollapse ? "" : "self-only"}>
       <GNBOverlay {...GNBOverlayProps} />
       <GNBWrapper {...GNBWrapperProps}>
         <SectionWrapper>
