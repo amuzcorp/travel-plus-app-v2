@@ -8,6 +8,7 @@ interface MarqueeTextProps {
   textStyle?: keyof DefaultTheme["textStyle"];
   color?: string;
   lineHeight?: string | number;
+  marqueeDisabled?: boolean;
 }
 
 const MarqueeText = React.memo(
@@ -16,6 +17,7 @@ const MarqueeText = React.memo(
     color,
     textStyle = "titleSmSb",
     lineHeight = "normal",
+    marqueeDisabled = false,
   }: MarqueeTextProps) => {
     const theme = useTheme();
 
@@ -35,7 +37,7 @@ const MarqueeText = React.memo(
     }, [theme, textStyle, color, lineHeight]);
 
     return (
-      <Marquee marqueeOn={"render"} style={style}>
+      <Marquee marqueeOn={"render"} style={style} marqueeDisabled={marqueeDisabled}>
         {children}
       </Marquee>
     );
