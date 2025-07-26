@@ -1,6 +1,6 @@
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import React, { useCallback, useEffect } from "react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 
 import Scroller from "@enact/sandstone/Scroller";
 import Spotlight from "@enact/spotlight";
@@ -53,6 +53,7 @@ const SpotlightDialogBox = SpotlightContainerDecorator(
 
 const Dialog = React.memo(() => {
   const { open, title = "", content = "", hideDialog } = useDialog();
+  const theme = useTheme();
 
   const handleClose = useCallback(() => {
     hideDialog();
@@ -91,7 +92,11 @@ const Dialog = React.memo(() => {
             <Cell shrink>
               <ContentBox>
                 <Scroller>
-                  <Text maxLine={0} textStyle="bodyMdRg" color={theme.colors.text.secondary}>
+                  <Text
+                    maxLine={0}
+                    textStyle="bodyMdRg"
+                    color={theme.colors.text.secondary}
+                  >
                     {content}
                   </Text>
                 </Scroller>

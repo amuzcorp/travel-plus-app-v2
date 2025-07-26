@@ -21,6 +21,6 @@ const useNetworkMonitor = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [navigate]);
+  }, [navigate, location.pathname]);
 };
 export default useNetworkMonitor;

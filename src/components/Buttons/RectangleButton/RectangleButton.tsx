@@ -37,11 +37,16 @@ const RectangleButton = ({
     .filter(Boolean)
     .join(" ");
 
+  const getComponent = useCallback(
+    (props: RectangleButtonProps) => {
+      return <RectangleButtonBase {...props} $isLarge={isLarge} />;
+    },
+    [isLarge]
+  );
+
   return (
     <BaseAccessibleComponent
-      component={(props) => (
-        <RectangleButtonBase {...props} $isLarge={isLarge} />
-      )}
+      component={getComponent}
       className={mergedClassName}
       onClick={onClickHandler}
       spotlightId={spotlightId}

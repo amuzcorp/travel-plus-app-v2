@@ -14,7 +14,7 @@ const App: React.FC = () => {
   useLocaleChange(); // 언어 변경 감지
   useNetworkMonitor(); // 네트워크 상태 감지
 
-  if (window != undefined) {
+  if (window !== undefined) {
     window.localStorage.clear();
   }
 
