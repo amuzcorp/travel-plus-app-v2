@@ -11,7 +11,8 @@ import { useDialog } from "../../hooks/useDialog";
 import { rem } from "../../utils/rem";
 import { translate } from "../../utils/translate";
 import RectangleButton from "../Buttons/RectangleButton/RectangleButton";
-import { default as MarqueeText, default as Text } from "../Texts/MarqueeText";
+import MarqueeText from "../Texts/MarqueeText";
+import Text from "../Texts/Text";
 
 const Backdrop = styled.div`
   position: fixed;
