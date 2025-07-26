@@ -7,8 +7,10 @@ import { rem } from "../../../utils/rem";
 import { translate } from "../../../utils/translate";
 
 export default React.memo(() => {
+  const speakerArr = ["media.moreInfo", "common.button", "home.pressMoreInfoButton"];
+
   return (
-    <BaseAccessibleComponent component={Button}>
+    <BaseAccessibleComponent component={Button} speaker={translate(speakerArr)}>
       <TextWrapper>
         <p>{translate("More")}</p>
         <Spacing size={4} direction="horizontal" />
@@ -70,8 +72,7 @@ const Button = styled(Marquee)`
 
     background: rgba(0, 0, 0, 0.4);
     border-radius: ${rem(8)};
-    box-shadow: ${({ theme }) =>
-      ` inset 0 0 0 ${rem(1)} ${theme.colors.deactive.normal}`};
+    box-shadow: ${({ theme }) => ` inset 0 0 0 ${rem(1)} ${theme.colors.deactive.normal}`};
 
     transition: transform ease 0.3s;
     will-change: transform background box-shadow;
