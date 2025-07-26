@@ -3,10 +3,17 @@ import React, { ReactNode, useCallback, useRef } from "react";
 
 export interface UseScrollableRowResult {
   ref: React.RefObject<any>;
+
   onKeyDown: (ev: React.KeyboardEvent<Element>) => void;
 }
 
-const useScrollableRowHook = (): UseScrollableRowResult => {
+export interface useScrollerRowHookProps {
+  spaceOfContent?: number;
+}
+
+const useScrollableRowHook = ({
+  spaceOfContent = 0,
+}: useScrollerRowHookProps): UseScrollableRowResult => {
   const ref = useRef<any>(null);
 
   const onKeyDown = useCallback(

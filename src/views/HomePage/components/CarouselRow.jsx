@@ -1,6 +1,4 @@
-import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import styled from "styled-components";
 
 import GradientBottomComponent from "../../../../assets/gradients/GradientCarouselBottom";
 import GradientLeftComponent from "../../../../assets/gradients/GradientCarouselLeft";
@@ -8,10 +6,21 @@ import ArrowRightButton from "../../../components/Buttons/ArrowButtons/ArrowRigh
 import RoundButton from "../../../components/Buttons/RoundButton/RoundButton";
 import ViewMoreSmallButton from "../../../components/Buttons/ViewMoreButtons/ViewMoreSmallButton";
 import Spacing from "../../../components/Spacing/Spacing";
-import MarqueeText from "../../../components/Texts/MarqueeText";
 import Text from "../../../components/Texts/Text";
 import { useDialog } from "../../../hooks/useDialog";
 import { rem } from "../../../utils/rem";
+import {
+  ArrowButtonWrapper,
+  CarouselContainer,
+  ContentWrapper,
+  GradientBottom,
+  GradientLeft,
+  HeaderText,
+  InfoWrapper,
+  MapWrapper,
+  MoreWrapper,
+  VideoWrapper,
+} from "./CarouselRow.style";
 
 export default React.memo(({ title, description }) => {
   const descriptionRef = useRef(null);
@@ -117,89 +126,3 @@ export default React.memo(({ title, description }) => {
     </CarouselContainer>
   );
 });
-
-const CarouselWrapper = styled.div`
-  position: relative;
-
-  margin-left: -130px;
-
-  width: 100vw;
-  height: 100vh;
-
-  background: red;
-`;
-
-const CarouselContainer = SpotlightContainerDecorator(CarouselWrapper);
-
-const VideoWrapper = styled.div`
-  position: absolute;
-
-  width: 100vw;
-  height: 100vh;
-`;
-
-const GradientBottom = styled.div`
-  position: absolute;
-  bottom: 0;
-
-  width: 100vw;
-  height: 40vh;
-
-  overflow: hidden;
-`;
-
-const GradientLeft = styled.div`
-  position: absolute;
-  width: 67vw;
-  height: 100vh;
-
-  overflow: hidden;
-`;
-
-const ContentWrapper = styled.div`
-  position: absolute;
-  top: 150px;
-  left: 180px;
-
-  width: 817px;
-  height: fit-content;
-`;
-
-const HeaderText = styled(MarqueeText)``;
-
-const InfoWrapper = styled.div`
-  display: flex;
-
-  & :not(:last-child) {
-    display: flex !important;
-    align-items: center;
-
-    &::after {
-      display: block;
-      content: "";
-
-      width: 6px;
-      height: 6px;
-      background: ${({ theme }) => theme.colors.deactive.normal};
-
-      margin: 0 10px;
-      border-radius: 50%;
-    }
-  }
-`;
-
-const MoreWrapper = styled.div`
-  height: ${rem(81)};
-`;
-
-const MapWrapper = styled.div`
-  margin: 0 ${rem(33)};
-`;
-
-const ArrowButtonWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  right: 30px;
-
-  transform: tralslateY(-50%);
-`;

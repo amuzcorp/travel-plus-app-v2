@@ -42,8 +42,6 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
 
-  transform: translateY(-50%);
-
   cursor: pointer;
 
   &::before {
