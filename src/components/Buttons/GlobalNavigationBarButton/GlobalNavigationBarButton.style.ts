@@ -69,6 +69,8 @@ export const GlobalNavigationChild = styled.button<GlobalNavigationChildProps>`
 
     .label {
       color: ${({ theme }) => theme.colors.keyColor.item};
+
+      font-weight: 600;
     }
   }
 
@@ -106,12 +108,12 @@ export const GlobalNavigationChildIcon = styled.div`
 export const GlobalNavigationChildLabel = styled.span`
   display: none;
 
-  margin-left: calc(10 / 24 * 1rem);
+  padding-left: calc(16.5 / 24 * 1rem);
 
   flex-grow: 1;
 
   font-family: "LGSmartUI";
-  font-weight: 600;
+  font-weight: 400;
   color: rgba(230, 230, 230, 0.8);
 
   white-space: nowrap;

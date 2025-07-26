@@ -4,7 +4,9 @@ import styled from "styled-components";
 
 import GradientBottomComponent from "../../../../assets/gradients/GradientCarouselBottom";
 import GradientLeftComponent from "../../../../assets/gradients/GradientCarouselLeft";
+import RoundButton from "../../../components/Buttons/RoundButton/RoundButton";
 import Spacing from "../../../components/Spacing/Spacing";
+import MarqueeText from "../../../components/Texts/MarqueeText";
 import Text from "../../../components/Texts/Text";
 
 export default React.memo(() => {
@@ -36,10 +38,12 @@ export default React.memo(() => {
         </HeaderText>
         <Spacing size={16} />
         <InfoWrapper>
-          <div>국가</div>
-          <div>장소</div>
-          <div>4K</div>
+          <Text>국가</Text>
+          <Text>국가</Text>
+          <Text>국가</Text>
         </InfoWrapper>
+
+        <RoundButton>123123</RoundButton>
       </ContentWrapper>
     </CarouselContainer>
   );
@@ -92,12 +96,13 @@ const ContentWrapper = styled.div`
   height: fit-content;
 `;
 
-const HeaderText = styled(Text)``;
+const HeaderText = styled(MarqueeText)``;
 
 const InfoWrapper = styled.div`
   display: flex;
+
   & :not(:last-child) {
-    display: flex;
+    display: flex !important;
     align-items: center;
 
     &::after {

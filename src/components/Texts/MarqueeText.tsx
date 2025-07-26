@@ -11,7 +11,12 @@ interface MarqueeTextProps {
 }
 
 const MarqueeText = React.memo(
-  ({ children, color, textStyle = "titleSmSb", lineHeight = "normal" }: MarqueeTextProps) => {
+  ({
+    children,
+    color,
+    textStyle = "titleSmSb",
+    lineHeight = "normal",
+  }: MarqueeTextProps) => {
     const theme = useTheme();
 
     const style = useMemo(() => {
