@@ -7,38 +7,50 @@ import { rem } from "../../../utils/rem";
 import { translate } from "../../../utils/translate";
 
 interface ViewMoreSmallButtonProps {
+  spotlightId?: string;
   onClick?: () => void;
 }
 
-export default React.memo(({ onClick = () => {} }: ViewMoreSmallButtonProps) => {
-  const speakerArr = ["media.moreInfo", "common.button", "home.pressMoreInfoButton"];
+export default React.memo(
+  ({ spotlightId, onClick = () => {} }: ViewMoreSmallButtonProps) => {
+    const speakerArr = [
+      "media.moreInfo",
+      "common.button",
+      "home.pressMoreInfoButton",
+    ];
 
-  return (
-    <BaseAccessibleComponent component={Button} speaker={translate(speakerArr)} onClick={onClick}>
-      <TextWrapper>
-        <p>{translate("More")}</p>
-        <Spacing size={4} direction="horizontal" />
-        <svg
-          width="15"
-          height="15"
-          viewBox="0 0 15 15"
-          fill="#E6E6E6"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g id="icn_plus">
-            <path
-              id="shape"
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M7.88424 7.1155V1.53857H7.11501V7.1155H1.53809V7.88473H7.11501V13.4617H7.88424V7.88473H13.4612V7.1155H7.88424Z"
-              stroke="#E6E6E6"
-            />
-          </g>
-        </svg>
-      </TextWrapper>
-    </BaseAccessibleComponent>
-  );
-});
+    return (
+      <BaseAccessibleComponent
+        component={Button}
+        speaker={translate(speakerArr)}
+        onClick={onClick}
+        spotlightId={spotlightId}
+      >
+        <TextWrapper>
+          <p>{translate("More")}</p>
+          <Spacing size={4} direction="horizontal" />
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 15 15"
+            fill="#E6E6E6"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="icn_plus">
+              <path
+                id="shape"
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M7.88424 7.1155V1.53857H7.11501V7.1155H1.53809V7.88473H7.11501V13.4617H7.88424V7.88473H13.4612V7.1155H7.88424Z"
+                stroke="#E6E6E6"
+              />
+            </g>
+          </svg>
+        </TextWrapper>
+      </BaseAccessibleComponent>
+    );
+  }
+);
 
 const Button = styled(Marquee)`
   all: unset;
@@ -76,7 +88,8 @@ const Button = styled(Marquee)`
 
     background: rgba(0, 0, 0, 0.4);
     border-radius: ${rem(8)};
-    box-shadow: ${({ theme }) => ` inset 0 0 0 ${rem(1)} ${theme.colors.deactive.normal}`};
+    box-shadow: ${({ theme }) =>
+      ` inset 0 0 0 ${rem(1)} ${theme.colors.deactive.normal}`};
 
     transition: transform ease 0.3s;
     will-change: transform background box-shadow;

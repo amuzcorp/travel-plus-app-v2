@@ -6,17 +6,22 @@ import { hide, show } from "../core/store/slices/dialogSlice";
 interface DialogPayload {
   title?: string;
   content?: string;
+  focusIdOnDismiss?: string;
 }
 
 export const useDialog = () => {
   const dispatch = useDispatch();
-  const { open, title, content } = useSelector((state: RootState) => state.dialog);
+  const { open, title, content } = useSelector(
+    (state: RootState) => state.dialog
+  );
 
   const showDialog = (payload: DialogPayload) => {
     dispatch(show(payload));
   };
 
-  const hideDialog = () => dispatch(hide());
+  const hideDialog = () => {
+    dispatch(hide());
+  };
 
   return {
     open,
