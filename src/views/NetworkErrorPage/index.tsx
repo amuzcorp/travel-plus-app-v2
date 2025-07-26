@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import styled from "styled-components";
 
 import Spotlight from "@enact/spotlight";
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import ErrorIcon from "../../../assets/icons/ErrorIcon";
 import RectangleButton from "../../components/Buttons/RectangleButton/RectangleButton";
@@ -40,7 +40,6 @@ const ContentWrapper = styled.div`
 const NetworkErrorPage = React.memo(() => {
   const { showSpinner, hideSpinner } = useSpinner();
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     const spottables = Spotlight.getSpottableDescendants("networkError");
@@ -49,7 +48,7 @@ const NetworkErrorPage = React.memo(() => {
     }
   }, []);
 
-  const handleRetry = async () => {
+  const handleRetry = useCallback(async () => {
     showSpinner();
 
     const startTime = Date.now();
@@ -80,15 +79,15 @@ const NetworkErrorPage = React.memo(() => {
         }
       }, 100);
     }
-  };
+  }, [hideSpinner, navigate, showSpinner]);
 
-  const handleOpenSettings = async () => {
+  const handleOpenSettings = useCallback(async () => {
     await launchNetworkSettings();
-  };
+  }, []);
 
-  const handleExitApp = async () => {
+  const handleExitApp = useCallback(async () => {
     await exitApp();
-  };
+  }, []);
 
   return (
     <SpotlightNetworkErrorContainer spotlightId="networkError" spotlightRestrict="self-only">
