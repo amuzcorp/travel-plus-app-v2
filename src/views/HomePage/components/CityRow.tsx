@@ -24,6 +24,8 @@ const CityRow = React.memo(() => {
 
   const scrollChildRef = useRef<any>(null);
 
+  // const [selectedIndex, setSelectedIndex] = useState(0);
+
   const cards = useMemo(() => {
     return [
       {
@@ -100,9 +102,58 @@ const CityRow = React.memo(() => {
     ];
   }, []);
 
+  const scrollToTarget = useCallback(
+    (targetIndex: number) => {
+      // setSelectedIndex(targetIndex);
+      const targetOffset = targetIndex * (smallCardWidth + cardGap);
+
+      const spottableChildren = Spotlight.getSpottableDescendants(
+        "home-city-row-container"
+      );
+
+      for (let i = 0; i < spottableChildren.length; i++) {
+        const spottableChild = spottableChildren[i];
+
+        if (spottableChild instanceof Element) {
+          if (i !== targetIndex) {
+            spottableChild.classList.remove("selected");
+          } else {
+            spottableChild.classList.add("selected");
+          }
+
+          spottableChild.classList.remove("hovered");
+        }
+
+        const largeId = "home-city-row-large-" + i;
+        const large = document.getElementById(largeId);
+
+        if (large instanceof HTMLElement) {
+          if (i === targetIndex) {
+            large.classList.add("selected");
+          } else {
+            large.classList.remove("selected");
+          }
+
+          large.classList.remove("hovered");
+        }
+      }
+
+      const el = document.getElementById("home-city-row-container");
+
+      if (el instanceof HTMLElement) {
+        el.style.transform = `translateX(-${targetOffset}px)`;
+      }
+    },
+    [
+      // setSelectedIndex,
+      cardGap,
+      smallCardWidth,
+    ]
+  );
+
   useEffect(() => {
     scrollToTarget(0);
-  }, []);
+  }, [scrollToTarget]);
 
   const onClicks = useMemo(() => {
     return cards.map((__, index) => {
@@ -112,7 +163,17 @@ const CityRow = React.memo(() => {
         scrollToTarget(targetIndex);
       };
     });
-  }, []);
+  }, [scrollToTarget, cards]);
+
+  const onFocuses = useMemo(() => {
+    return cards.map((__, index) => {
+      return (ev: any) => {
+        if (!Spotlight.getPointerMode()) {
+          scrollToTarget(index);
+        }
+      };
+    });
+  }, [cards, scrollToTarget]);
 
   const onKeyDowns = useMemo(() => {
     return cards.map((__, index) => {
@@ -128,47 +189,78 @@ const CityRow = React.memo(() => {
         scrollToTarget(targetIndex);
       };
     });
-  }, [cardGap, cards, smallCardWidth]);
+  }, [cards, scrollToTarget]);
 
-  const scrollToTarget = useCallback((targetIndex: number) => {
-    const targetOffset = targetIndex * (smallCardWidth + cardGap);
+  const onMouseEnters = useMemo(() => {
+    return cards.map((__, index) => {
+      return (ev: any) => {
+        const smallId = "home-city-row-small-" + index;
+        const el = document.getElementById(smallId);
 
-    const spottableChildren = Spotlight.getSpottableDescendants(
-      "home-city-row-container"
-    );
+        const focused = Spotlight.getCurrent();
 
-    for (let i = 0; i < spottableChildren.length; i++) {
-      const spottableChild = spottableChildren[i];
+        let isSelected = false;
 
-      if (spottableChild instanceof Element) {
-        if (i !== targetIndex) {
-          spottableChild.classList.remove("selected");
-        } else {
-          spottableChild.classList.add("selected");
+        console.log(focused instanceof HTMLElement);
+
+        if (focused instanceof HTMLElement) {
+          if (focused.classList.contains("hovered")) {
+            isSelected = true;
+          }
         }
-      }
-    }
 
-    const el = document.getElementById("home-city-row-container");
-
-    if (el instanceof HTMLElement) {
-      el.style.transform = `translateX(-${targetOffset}px)`;
-    }
-
-    for (let i = 0; i < spottableChildren.length; i++) {
-      const targetId = "home-city-row-large-" + i;
-
-      const target = document.getElementById(targetId);
-
-      if (target instanceof HTMLElement) {
-        if (i === targetIndex) {
-          target.style.opacity = "1";
-        } else {
-          target.style.opacity = "0";
+        if (el instanceof HTMLElement) {
+          el.classList.add("hovered");
         }
-      }
-    }
-  }, []);
+
+        // const large = document.getElementById("home-city-row-large-" + index);
+
+        // if (large instanceof HTMLElement) {
+        //   if (isSelected) {
+        //     large.classList.add("hovered");
+        //   }
+        // }
+
+        for (let i = 0; i < cards.length; i++) {
+          const largeId = "home-city-row-large-" + i;
+          const large = document.getElementById(largeId);
+
+          if (large instanceof HTMLElement) {
+            if (large.classList.contains("selected")) {
+              if (i === index) {
+                large.classList.remove("hovered");
+              } else {
+                large.classList.add("hovered");
+              }
+            }
+          }
+        }
+      };
+    });
+  }, [cards]);
+
+  const onMouseLeaves = useMemo(() => {
+    return cards.map((__, index) => {
+      return (ev: any) => {
+        const el = document.getElementById("home-city-row-small-" + index);
+
+        if (el instanceof HTMLElement) {
+          el.classList.remove("hovered");
+        }
+
+        for (let i = 0; i < cards.length; i++) {
+          const largeId = "home-city-row-large-" + i;
+          const large = document.getElementById(largeId);
+
+          if (large instanceof HTMLElement) {
+            if (!Spotlight.getPointerMode()) {
+              large.classList.remove("hovered");
+            }
+          }
+        }
+      };
+    });
+  }, [cards]);
 
   return (
     <div
@@ -189,14 +281,18 @@ const CityRow = React.memo(() => {
             {cards.map((card, index) => {
               return (
                 <BaseAccessibleComponent
+                  id={"home-city-row-small-" + index}
                   component={SmallCard}
                   key={index}
                   $cardWidth={smallCardWidth}
                   $cardHeight={cardHeight}
                   $cardDiff={cardDiff}
                   $background={card.color}
+                  onFocus={onFocuses[index]}
                   onKeyDown={onKeyDowns[index]}
                   onClick={onClicks[index]}
+                  onMouseEnter={onMouseEnters[index]}
+                  onMouseLeave={onMouseLeaves[index]}
                 >
                   <SmallCardTitle textStyle="headerXlSb">
                     {card.title}
@@ -270,9 +366,17 @@ const LargeCard = styled(CardBase)`
 
   pointer-events: none;
 
-  opacity: 1;
+  opacity: 0;
 
-  transition: opacity linear 0.3s;
+  &.selected {
+    opacity: 1;
+  }
+
+  &.hovered {
+    outline: ${({ theme }) => `3px solid ${theme.colors.text.focused}`};
+  }
+
+  /* transition: opacity linear 0.3s; */
 `;
 
 const LargeCardWrapper = styled.div`
@@ -296,13 +400,18 @@ const SmallCard = styled(CardBase)<{ $cardDiff: number }>`
   transition: opacity ease 0.5s, transform ease 0.1s;
 
   &:focus {
-    outline: 3px solid #e6e6e6;
   }
 
   &.selected {
     opacity: 0;
 
     padding-right: ${({ $cardDiff }) => $cardDiff}px;
+    /* transform: ${({ $cardWidth, $cardDiff }) =>
+      `scaleX(${($cardWidth + $cardDiff) / $cardWidth})`}; */
+  }
+
+  &.hovered {
+    outline: 3px solid #e6e6e6;
   }
 `;
 
