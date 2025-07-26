@@ -7,10 +7,10 @@ const useNetworkMonitor = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isErrorPage = location.pathname.includes("/network-error");
-
   useEffect(() => {
     const interval = setInterval(async () => {
+      const isErrorPage = location.pathname.includes("/network-error");
+
       if (isErrorPage) return;
 
       const isOnline = await checkNetworkStatus();
@@ -21,6 +21,6 @@ const useNetworkMonitor = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [navigate, isErrorPage]);
+  }, [navigate]);
 };
 export default useNetworkMonitor;

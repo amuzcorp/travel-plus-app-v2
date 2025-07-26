@@ -8,7 +8,10 @@ const useLocaleChange = () => {
 
     const handler = async () => {
       await setLanguageCode();
-      window.location.reload();
+
+      if (window !== undefined) {
+        window.location.reload();
+      }
     };
 
     document.addEventListener("webOSLocaleChange", handler);

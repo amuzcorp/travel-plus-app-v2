@@ -188,7 +188,9 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
   }, [gnbState]);
 
   return (
-    <SpotlightContainer spotlightRestrict={wantToCollapse ? "" : "self-only"}>
+    <SpotlightContainer
+    // spotlightRestrict={wantToCollapse ? "self-first" : "self-only"}
+    >
       <GNBOverlay {...GNBOverlayProps} />
       <GNBWrapper {...GNBWrapperProps}>
         <SectionWrapper>

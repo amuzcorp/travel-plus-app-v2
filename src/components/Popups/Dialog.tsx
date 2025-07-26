@@ -1,6 +1,6 @@
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import React, { useCallback, useEffect } from "react";
-import styled, { useTheme } from "styled-components";
+import styled from "styled-components";
 
 import Scroller from "@enact/sandstone/Scroller";
 import Spotlight from "@enact/spotlight";
@@ -51,7 +51,6 @@ const SpotlightDialogBox = SpotlightContainerDecorator(
 );
 
 const Dialog = React.memo(() => {
-  const theme = useTheme();
   const { open, title = "", content = "", hideDialog } = useDialog();
 
   const handleClose = useCallback(() => {

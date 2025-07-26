@@ -8,7 +8,7 @@
   "icon": "icon80.png",
   "miniIcon": "icon60.png",
   "largeIcon": "icon130.png",
-  "iconColor": "#000",
+  "iconColor": "#fff",
   "uiRevision": 2,
   "disableBackHistoryAPI": true,
   "handleScreenRemoteKey": true,

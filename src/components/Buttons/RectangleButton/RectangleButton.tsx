@@ -31,11 +31,15 @@ const RectangleButton = ({
     [disabled, onClick]
   );
 
-  const mergedClassName = [className, disabled ? "dimmed" : ""].filter(Boolean).join(" ");
+  const mergedClassName = [className, disabled ? "dimmed" : ""]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <BaseAccessibleComponent
-      component={(props) => <RectangleButtonBase {...props} $isLarge={isLarge} />}
+      component={(props) => (
+        <RectangleButtonBase {...props} $isLarge={isLarge} />
+      )}
       className={mergedClassName}
       onClick={onClickHandler}
       speaker={speaker}
@@ -85,7 +89,9 @@ export const RectangleButtonBase = styled(Marquee)<{ $isLarge?: boolean }>`
     height: 100%;
 
     background: rgba(0, 0, 0, 0.4);
-    box-shadow: inset 0 0 0 ${rem(2)} ${({ theme }) => theme.colors.deactive.normal};
+    box-shadow: ${({ theme }) =>
+      `inset 0 0 0 ${rem(2)} ${theme.colors.deactive.normal}`};
+
     border-radius: ${rem(12)};
 
     transition: transform ease 0.3s;
