@@ -11,7 +11,7 @@ import { useDialog } from "../../hooks/useDialog";
 import { rem } from "../../utils/rem";
 import { translate } from "../../utils/translate";
 import RectangleButton from "../Buttons/RectangleButton/RectangleButton";
-import Text from "../Texts/MarqueeText";
+import { default as MarqueeText, default as Text } from "../Texts/MarqueeText";
 
 const Backdrop = styled.div`
   position: fixed;
@@ -85,7 +85,7 @@ const Dialog = React.memo(() => {
         <SpotlightDialogBox spotlightId="dialog" spotlightRestrict="self-only">
           <Column>
             <Cell shrink style={{ padding: `0 ${rem(50)}` }}>
-              <Text textStyle="titleXlSb">{title}</Text>
+              <MarqueeText textStyle="titleXlSb">{title}</MarqueeText>
             </Cell>
             <Cell size={rem(36)} />
             <Cell shrink>
