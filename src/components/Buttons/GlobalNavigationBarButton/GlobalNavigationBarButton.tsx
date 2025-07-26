@@ -83,7 +83,7 @@ interface GlobalNavigationBarButtonProps {
   selected?: boolean;
   marginBottom?: number;
   onClick?: Function;
-  // onKeyDown?: (ev: React:KeyboardEvent<any>) => void;
+  onKeyDown?: (ev: React.KeyboardEvent<any>) => void;
 }
 
 export default React.memo(
@@ -92,6 +92,7 @@ export default React.memo(
     selected = false,
     marginBottom,
     onClick = () => {},
+    onKeyDown = (ev) => {},
   }: GlobalNavigationBarButtonProps) => {
     /// 기본 상태
     const Idle = gnbTypeData[type].element;
@@ -137,7 +138,7 @@ export default React.memo(
           expanded ? "expanded" : ""
         }`}
         onClick={onClick}
-        // onKeyDown={onKeyDown}
+        onKeyDown={onKeyDown}
         $marginBottom={marginBottom}
         data-spot-id={type}
       >

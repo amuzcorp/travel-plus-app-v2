@@ -10,7 +10,14 @@ interface TextProps {
 }
 
 const Text = React.memo(
-  ({ children, textStyle = "titleSmSb", color, maxLine = 1, lineHeight = "normal" }: TextProps) => {
+  ({
+    children,
+    textStyle = "titleSmSb",
+    color,
+    maxLine = 1,
+    lineHeight = "normal",
+    ...rest
+  }: TextProps) => {
     const theme = useTheme();
 
     const hasMaxLine = maxLine >= 1;
@@ -36,7 +43,11 @@ const Text = React.memo(
       return baseStyle;
     }, [theme, textStyle, color, maxLine, lineHeight, hasMaxLine]);
 
-    return <div style={style}>{children}</div>;
+    return (
+      <div style={style} {...rest}>
+        {children}
+      </div>
+    );
   },
   (prevProps, nextProps) =>
     prevProps.children === nextProps.children &&
