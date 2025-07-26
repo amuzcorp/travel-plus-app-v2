@@ -15,7 +15,7 @@ import {
   select,
   updateWantToCollapse,
 } from "../../core/store/slices/gnbSlice";
-import { speakIfAudioGuidanceOn } from "../../utils/audioGuidance";
+import { speak } from "../../utils/audioGuidance";
 import { translate } from "../../utils/translate";
 import GlobalNavigationBarButton, {
   GnbType,
@@ -91,9 +91,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
       ? translate("common.tabNumber", { number: index + 1, total: totalCount })
       : translate("common.button");
 
-    speakIfAudioGuidanceOn({
-      text: `${translate(targetLabel)} ${postfix}`,
-    });
+    speak(`${translate(targetLabel)} ${postfix}`);
     // ---- 오디오 가이던스 로직 ----
   }, [expandGnb, expanded]);
 

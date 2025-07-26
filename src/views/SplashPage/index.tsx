@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import splashLottieAnimation from "../../../assets/lottie/splash_luggage.json";
-import { speakIfAudioGuidanceOn } from "../../utils/audioGuidance";
+import { speak } from "../../utils/audioGuidance";
 import { translate } from "../../utils/translate";
 
 const SplashContainer = styled.div`
@@ -18,7 +18,6 @@ const SplashContainer = styled.div`
 
 const SplashPage: React.FC = () => {
   const navigate = useNavigate();
-  //   const { showSpinner } = useSpinner();
 
   const lottieOptions = useMemo(
     () => ({
@@ -31,7 +30,7 @@ const SplashPage: React.FC = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      speakIfAudioGuidanceOn({ text: translate("common.lgTravelPlus") });
+      speak(translate("common.lgTravelPlus"));
     }, 500);
 
     setTimeout(() => {

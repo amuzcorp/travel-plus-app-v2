@@ -2,17 +2,20 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import Spotlight from "@enact/spotlight";
+import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import ErrorIcon from "../../../assets/icons/ErrorIcon";
 import RectangleButton from "../../components/Buttons/RectangleButton/RectangleButton";
 import Spacing from "../../components/Spacing/Spacing";
 import Text from "../../components/Texts/Text";
 import { useSpinner } from "../../hooks/useSpinner";
-import { speakIfAudioGuidanceOn } from "../../utils/audioGuidance";
+import { exitApp } from "../../utils/exitApp";
+import { checkNetworkStatus, launchNetworkSettings } from "../../utils/networkStatus";
 import { rem } from "../../utils/rem";
 import { translate } from "../../utils/translate";
 
-const NetworkErrorContainer = styled.div`
+const ContainerBase = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,6 +23,11 @@ const NetworkErrorContainer = styled.div`
   height: 100vh;
   box-sizing: border-box;
 `;
+
+const SpotlightNetworkErrorContainer = SpotlightContainerDecorator(
+  { restrict: "self-only" },
+  ContainerBase
+);
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -30,20 +38,60 @@ const ContentWrapper = styled.div`
 `;
 
 const NetworkErrorPage = React.memo(() => {
-  const { start } = useSpinner();
+  const { showSpinner, hideSpinner } = useSpinner();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    if (start) {
-      const spottables = Spotlight.getSpottableDescendants("splash");
-      if (spottables.length === 0) return;
-
+    const spottables = Spotlight.getSpottableDescendants("networkError");
+    if (spottables.length > 0) {
       Spotlight.focus(spottables[0]);
-      speakIfAudioGuidanceOn({ text: translate("loading.animation") });
     }
-  }, [start]);
+  }, []);
+
+  const handleRetry = async () => {
+    showSpinner();
+
+    const startTime = Date.now();
+    const timeout = 5000;
+    let connected = false;
+
+    while (Date.now() - startTime < timeout) {
+      const isOnline = await checkNetworkStatus();
+      if (isOnline) {
+        connected = true;
+        break;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
+
+    if (connected) {
+      setTimeout(() => {
+        hideSpinner();
+        navigate(-1);
+      }, 3000);
+    } else {
+      hideSpinner();
+      // spinner 종료 후 포커스 복원
+      setTimeout(() => {
+        const spottables = Spotlight.getSpottableDescendants("networkError");
+        if (spottables.length > 0) {
+          Spotlight.focus(spottables[0]);
+        }
+      }, 100);
+    }
+  };
+
+  const handleOpenSettings = async () => {
+    await launchNetworkSettings();
+  };
+
+  const handleExitApp = async () => {
+    await exitApp();
+  };
 
   return (
-    <NetworkErrorContainer>
+    <SpotlightNetworkErrorContainer spotlightId="networkError" spotlightRestrict="self-only">
       <ContentWrapper>
         <ErrorIcon />
         <Spacing size={40} />
@@ -54,25 +102,30 @@ const NetworkErrorPage = React.memo(() => {
         <Spacing size={110} />
 
         <RectangleButton
-          disabled
+          onClick={handleRetry}
           speaker={translate("common.retry") + " " + translate("common.button")}
+          data-spot-id={"network-error-retry"}
         >
           {translate("common.retry")}
         </RectangleButton>
         <Spacing size={20} />
         <RectangleButton
+          onClick={handleOpenSettings}
           speaker={translate("errors.networkSettings") + " " + translate("common.button")}
+          data-spot-id={"network-error-setting"}
         >
           {translate("errors.networkSettings")}
         </RectangleButton>
         <Spacing size={20} />
         <RectangleButton
+          onClick={handleExitApp}
           speaker={translate("navigation.exitApp") + " " + translate("common.button")}
+          data-spot-id={"network-error-exit"}
         >
           {translate("navigation.exitApp")}
         </RectangleButton>
       </ContentWrapper>
-    </NetworkErrorContainer>
+    </SpotlightNetworkErrorContainer>
   );
 });
 
