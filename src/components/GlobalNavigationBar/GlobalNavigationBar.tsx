@@ -175,7 +175,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
     (typeValue: keyof GnbType, isLast: boolean, onClick: Function) => (
       <GlobalNavigationBarButton
         type={typeValue}
-        marginBottom={!isLast ? 20 : undefined}
+        marginBottom={!isLast ? 20 : 0}
         selected={typeValue === selectedButton}
         onClick={onClick}
         onKeyDown={onKeyDown}
