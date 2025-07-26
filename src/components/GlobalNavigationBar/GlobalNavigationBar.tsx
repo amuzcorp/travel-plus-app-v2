@@ -161,6 +161,16 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
     [dispatch, navigate, collapseGnb]
   );
 
+  const onKeyDown = useCallback(
+    (ev: KeyboardEvent) => {
+      if (ev.key === "ArrowRight") {
+        collapseGnb();
+        Spotlight.move("right");
+      }
+    },
+    [collapseGnb]
+  );
+
   const generateButton = useCallback(
     (typeValue: keyof GnbType, isLast: boolean, onClick: Function) => (
       <GlobalNavigationBarButton
@@ -168,15 +178,10 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
         marginBottom={!isLast ? 20 : undefined}
         selected={typeValue === selectedButton}
         onClick={onClick}
-        onKeyDown={(ev: KeyboardEvent) => {
-          if (ev.key === "ArrowRight") {
-            collapseGnb();
-            Spotlight.move("right");
-          }
-        }}
+        onKeyDown={onKeyDown}
       />
     ),
-    [selectedButton]
+    [selectedButton, onKeyDown]
   );
 
   useEffect(() => {
@@ -189,7 +194,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
 
   return (
     <SpotlightContainer
-    // spotlightRestrict={wantToCollapse ? "self-first" : "self-only"}
+      spotlightRestrict={wantToCollapse ? "self-first" : "self-only"}
     >
       <GNBOverlay {...GNBOverlayProps} />
       <GNBWrapper {...GNBWrapperProps}>
