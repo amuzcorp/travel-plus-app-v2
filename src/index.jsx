@@ -24,11 +24,9 @@ const appElement = (
 if (typeof window !== "undefined") {
   const container = document.getElementById("root");
 
-  window.localStorage.clear();
-
   // if (ENACT_PACK_ISOMORPHIC) {
   // if(false) {}
-  //   hydrateRoot(container, appElement);
+  // hydrateRoot(container, appElement);
   // } else {
   createRoot(container).render(appElement);
   // }
