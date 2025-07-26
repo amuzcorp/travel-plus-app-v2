@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Spotlight from "@enact/spotlight";
@@ -41,12 +41,36 @@ const NetworkErrorPage = React.memo(() => {
   const { showSpinner, hideSpinner } = useSpinner();
   const navigate = useNavigate();
 
+  const [hasSpoken, setHasSpoken] = useState(false);
+
   useEffect(() => {
     const spottables = Spotlight.getSpottableDescendants("networkError");
     if (spottables.length > 0) {
       Spotlight.focus(spottables[0]);
     }
   }, []);
+
+  const getSpeakerText = useCallback(
+    (keys: string[]) => {
+      const base = translate(keys);
+      return !hasSpoken
+        ? `${translate([
+            "errors.networkError",
+            "errors.networkRetry",
+            translate("common.retry") + ",",
+            translate("errors.networkSettings") + ",",
+            "navigation.exitApp",
+          ])} ${base}`
+        : base;
+    },
+    [hasSpoken]
+  );
+
+  const handleFirstFocus = useCallback(() => {
+    if (!hasSpoken) {
+      setHasSpoken(true);
+    }
+  }, [hasSpoken, setHasSpoken]);
 
   const handleRetry = useCallback(async () => {
     showSpinner({ focusIdOnDismiss: "network-error-retry" });
@@ -68,7 +92,7 @@ const NetworkErrorPage = React.memo(() => {
       setTimeout(() => {
         hideSpinner();
         navigate(-1);
-      }, 3000);
+      }, 1000);
     } else {
       hideSpinner();
     }
@@ -96,7 +120,8 @@ const NetworkErrorPage = React.memo(() => {
         <RectangleButton
           isLarge
           onClick={handleRetry}
-          speaker={translate(["common.retry", "common.button"])}
+          onFocus={handleFirstFocus}
+          speaker={getSpeakerText(["common.retry", "common.button"])}
           spotlightId={"network-error-retry"}
         >
           {translate("common.retry")}
@@ -105,7 +130,8 @@ const NetworkErrorPage = React.memo(() => {
         <RectangleButton
           isLarge
           onClick={handleOpenSettings}
-          speaker={translate(["common.networkSettings", "common.button"])}
+          onFocus={handleFirstFocus}
+          speaker={getSpeakerText(["errors.networkSettings", "common.button"])}
           spotlightId={"network-error-setting"}
         >
           {translate("errors.networkSettings")}
@@ -114,7 +140,8 @@ const NetworkErrorPage = React.memo(() => {
         <RectangleButton
           isLarge
           onClick={handleExitApp}
-          speaker={translate(["navigation.exitApp", "common.button"])}
+          onFocus={handleFirstFocus}
+          speaker={getSpeakerText(["navigation.exitApp", "common.button"])}
           spotlightId={"network-error-exit"}
         >
           {translate("navigation.exitApp")}
