@@ -135,6 +135,13 @@ const CityRow = React.memo(() => {
           }
 
           large.classList.remove("hovered");
+
+          if (Spotlight.getPointerMode()) {
+            const targetLargeId = "home-city-row-large-" + targetIndex;
+            const targetLarge = document.getElementById(targetLargeId);
+
+            targetLarge?.classList.add("hovered");
+          }
         }
       }
 
@@ -242,7 +249,8 @@ const CityRow = React.memo(() => {
   const onMouseLeaves = useMemo(() => {
     return cards.map((__, index) => {
       return (ev: any) => {
-        const el = document.getElementById("home-city-row-small-" + index);
+        const smallId = "home-city-row-small-" + index;
+        const el = document.getElementById(smallId);
 
         if (el instanceof HTMLElement) {
           el.classList.remove("hovered");
@@ -255,6 +263,24 @@ const CityRow = React.memo(() => {
           if (large instanceof HTMLElement) {
             if (!Spotlight.getPointerMode()) {
               large.classList.remove("hovered");
+            }
+          }
+        }
+
+        const current = Spotlight.getCurrent();
+
+        if (current instanceof HTMLElement) {
+          const currentId = current.id;
+          const largeId = "home-city-row-large-" + index;
+
+          console.log(currentId);
+          console.log(smallId);
+
+          if (currentId === smallId) {
+            const large = document.getElementById(largeId);
+
+            if (large instanceof HTMLElement) {
+              large.classList.add("hovered");
             }
           }
         }
