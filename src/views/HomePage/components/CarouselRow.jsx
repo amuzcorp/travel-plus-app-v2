@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import GradientBottomComponent from "../../../../assets/gradients/GradientCarouselBottom";
 import GradientLeftComponent from "../../../../assets/gradients/GradientCarouselLeft";
+import ArrowRightButton from "../../../components/Buttons/ArrowButtons/ArrowRightButton";
 import RoundButton from "../../../components/Buttons/RoundButton/RoundButton";
 import ViewMoreSmallButton from "../../../components/Buttons/ViewMoreButtons/ViewMoreSmallButton";
 import Spacing from "../../../components/Spacing/Spacing";
@@ -85,6 +86,10 @@ export default React.memo(({ title, description }) => {
 
         <RoundButton>Travel Now</RoundButton>
       </ContentWrapper>
+
+      <ArrowButtonWrapper>
+        <ArrowRightButton />
+      </ArrowButtonWrapper>
     </CarouselContainer>
   );
 });
@@ -165,4 +170,12 @@ const MoreWrapper = styled.div`
 
 const MapWrapper = styled.div`
   margin: 0 ${rem(33)};
+`;
+
+const ArrowButtonWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  right: 30px;
+
+  transform: tralslateY(-50%);
 `;

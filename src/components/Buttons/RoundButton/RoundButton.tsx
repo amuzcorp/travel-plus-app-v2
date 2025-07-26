@@ -30,7 +30,9 @@ const RoundButton = ({
     [disabled, onClick]
   );
 
-  const mergedClassName = [className, disabled ? "dimmed" : ""].filter(Boolean).join(" ");
+  const mergedClassName = [className, disabled ? "dimmed" : ""]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <BaseAccessibleComponent
@@ -82,17 +84,23 @@ export const RoundButtonBase = styled(Marquee)`
     height: 100%;
 
     background: rgba(0, 0, 0, 0.4);
-    box-shadow: inset 0 0 0 ${rem(2)} ${({ theme }) => theme.colors.deactive.normal};
+    box-shadow: ${({ theme }) =>
+      `inset 0 0 0 ${rem(2)} ${theme.colors.deactive.normal}`};
+
     border-radius: 1000px;
 
     transition: transform ease 0.3s;
     will-change: transition;
+
+    pointer-events: none;
   }
 
   &:focus::before {
     background: ${({ theme }) => theme.colors.text.primary};
     box-shadow: 0 ${rem(14)} ${rem(30)} 0 rgba(0, 0, 0, 0.3);
     transform: scale(1.05);
+
+    pointer-events: none;
   }
 
   &:focus {
