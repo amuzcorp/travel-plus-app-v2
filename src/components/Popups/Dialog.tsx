@@ -12,6 +12,7 @@ import { rem } from "../../utils/rem";
 import { translate } from "../../utils/translate";
 import RectangleButton from "../Buttons/RectangleButton/RectangleButton";
 import MarqueeText from "../Texts/MarqueeText";
+import Text from "../Texts/Text";
 
 const Backdrop = styled.div`
   position: fixed;
@@ -91,10 +92,9 @@ const Dialog = React.memo(() => {
             <Cell shrink>
               <ContentBox>
                 <Scroller>
-                  {content}
-                  {/* <Text textStyle="bodyMdRg" color={theme.colors.text.secondary}>
-
-                  </Text> */}
+                  <Text maxLine={0} textStyle="bodyMdRg" color={theme.colors.text.secondary}>
+                    {content}
+                  </Text>
                 </Scroller>
               </ContentBox>
             </Cell>
@@ -110,7 +110,7 @@ const Dialog = React.memo(() => {
               <RectangleButton
                 onClick={handleClose}
                 speaker={translate(["common.close", "common.button"])}
-                data-spot-id={"dialog-close"}
+                spotlightId={"dialog-close"}
               >
                 {translate("common.close")}
               </RectangleButton>

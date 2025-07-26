@@ -1,3 +1,5 @@
+import Spotlight from "@enact/spotlight";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "../core/store";
@@ -11,7 +13,7 @@ interface DialogPayload {
 
 export const useDialog = () => {
   const dispatch = useDispatch();
-  const { open, title, content } = useSelector(
+  const { open, title, content, focusIdOnDismiss } = useSelector(
     (state: RootState) => state.dialog
   );
 
@@ -22,6 +24,18 @@ export const useDialog = () => {
   const hideDialog = () => {
     dispatch(hide());
   };
+
+  const prevOpenRef = useRef(open);
+
+  useEffect(() => {
+    const wasOpen = prevOpenRef.current;
+    if (wasOpen && !open && focusIdOnDismiss) {
+      requestAnimationFrame(() => {
+        Spotlight.focus(focusIdOnDismiss);
+      });
+    }
+    prevOpenRef.current = open;
+  }, [open, focusIdOnDismiss]);
 
   return {
     open,
