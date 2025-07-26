@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import Marquee from "@enact/ui/Marquee";
 import { rem } from "../../../utils/rem";
@@ -11,6 +11,7 @@ interface RoundButtonProps {
   children: React.ReactNode;
   speaker?: string;
   className?: string;
+  isSmall?: boolean;
   [key: string]: any;
 }
 
@@ -20,6 +21,7 @@ const RoundButton = ({
   children,
   speaker,
   className,
+  isSmall = false, // 기본값: large
   ...rest
 }: RoundButtonProps) => {
   const onClickHandler = useCallback(
@@ -30,13 +32,18 @@ const RoundButton = ({
     [disabled, onClick]
   );
 
-  const mergedClassName = [className, disabled ? "dimmed" : ""]
-    .filter(Boolean)
-    .join(" ");
+  const mergedClassName = [className, disabled ? "dimmed" : ""].filter(Boolean).join(" ");
+
+  const getComponent = useCallback(
+    (props: RoundButtonProps) => {
+      return <RoundButtonBase {...props} $isSmall={isSmall} />;
+    },
+    [isSmall]
+  );
 
   return (
     <BaseAccessibleComponent
-      component={RoundButtonBase}
+      component={getComponent}
       className={mergedClassName}
       onClick={onClickHandler}
       speaker={speaker}
@@ -50,7 +57,7 @@ const RoundButton = ({
 
 export default React.memo(RoundButton);
 
-export const RoundButtonBase = styled(Marquee)`
+export const RoundButtonBase = styled(Marquee)<{ $isSmall?: boolean }>`
   position: relative;
 
   width: fit-content;
@@ -71,6 +78,13 @@ export const RoundButtonBase = styled(Marquee)`
 
   display: flex;
   justify-content: center;
+
+  ${({ $isSmall, theme }) =>
+    $isSmall &&
+    css`
+      min-width: ${rem(98)};
+      font-size: ${theme.textStyle.titleMdSb.fontSize};
+    `}
 
   &::before {
     position: absolute;

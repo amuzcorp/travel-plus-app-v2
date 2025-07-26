@@ -7,6 +7,7 @@ interface TextProps {
   color?: string;
   maxLine?: number;
   lineHeight?: string | number;
+  wordBreak?: "normal" | "break-all" | "keep-all" | "break-word";
 }
 
 const Text = React.memo(
@@ -16,6 +17,7 @@ const Text = React.memo(
     color,
     maxLine = 1,
     lineHeight = "normal",
+    wordBreak = "break-word",
     ...rest
   }: TextProps) => {
     const theme = useTheme();
@@ -30,7 +32,7 @@ const Text = React.memo(
         color: color ?? theme.colors.text.primary,
         lineHeight,
 
-        wordBreak: "break-word",
+        wordBreak,
         ...(hasMaxLine && {
           display: "-webkit-box",
           WebkitLineClamp: maxLine,
@@ -41,7 +43,7 @@ const Text = React.memo(
       };
 
       return baseStyle;
-    }, [theme, textStyle, color, maxLine, lineHeight, hasMaxLine]);
+    }, [theme, textStyle, color, maxLine, lineHeight, hasMaxLine, wordBreak]);
 
     return (
       <div style={style} {...rest}>
