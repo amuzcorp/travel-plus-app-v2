@@ -49,6 +49,11 @@ const BaseCard = React.memo(
       (e: React.KeyboardEvent) => {
         onKeyDown?.(e);
 
+        if (e.defaultPrevented) {
+          // 외부 onKeyDown에서 이미 처리(성공)했으면 더 이상 실행하지 않음
+          return;
+        }
+
         const directionMap = {
           ArrowUp: "up",
           ArrowDown: "down",

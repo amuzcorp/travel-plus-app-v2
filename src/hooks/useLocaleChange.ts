@@ -9,7 +9,7 @@ const useLocaleChange = () => {
     const handler = async () => {
       await setLanguageCode();
 
-      if (window !== undefined) {
+      if (typeof window !== "undefined") {
         window.location.reload();
       }
     };
