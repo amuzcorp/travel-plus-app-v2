@@ -17,6 +17,8 @@ export default React.memo(({ title, description }) => {
   const descriptionRef = useRef(null);
   const { showDialog } = useDialog();
 
+  const viewMoreId = "home-carousel-row-view-more";
+
   const titleText = "eifjao;sdjf;ijkelfasjdfioej;alksdjfa;lisejf;asldkjf;";
   const descriptionText =
     "Experience Milan's Piazza del Duomo—featuring the breathtaking cathedral, historic galleria, and vibrant cultural charm all in one iconic location! Experience Milan's Piazza del Duomo—featuring the breathtaking cathedral,";
@@ -33,8 +35,17 @@ export default React.memo(({ title, description }) => {
   }, []);
 
   const onClickViewMore = useCallback(() => {
-    showDialog({ title: titleText, content: descriptionText });
+    showDialog({
+      title: titleText,
+      content: descriptionText,
+      focusIdOnDismiss: viewMoreId,
+    });
   });
+
+  useEffect(() => {
+    console.log(viewMoreId);
+    // Spotlight.focus(viewMoreId);
+  }, []);
 
   return (
     <CarouselContainer>
@@ -76,7 +87,10 @@ export default React.memo(({ title, description }) => {
         <MoreWrapper>
           <Spacing size={16} />
           {showViewMore && (
-            <ViewMoreSmallButton onClick={onClickViewMore}>
+            <ViewMoreSmallButton
+              spotlightId={viewMoreId}
+              onClick={onClickViewMore}
+            >
               View More
             </ViewMoreSmallButton>
           )}

@@ -12,7 +12,6 @@ import { rem } from "../../utils/rem";
 import { translate } from "../../utils/translate";
 import RectangleButton from "../Buttons/RectangleButton/RectangleButton";
 import MarqueeText from "../Texts/MarqueeText";
-import Text from "../Texts/Text";
 
 const Backdrop = styled.div`
   position: fixed;
@@ -92,9 +91,10 @@ const Dialog = React.memo(() => {
             <Cell shrink>
               <ContentBox>
                 <Scroller>
-                  <Text textStyle="bodyMdRg" color={theme.colors.text.secondary}>
-                    {content}
-                  </Text>
+                  {content}
+                  {/* <Text textStyle="bodyMdRg" color={theme.colors.text.secondary}>
+
+                  </Text> */}
                 </Scroller>
               </ContentBox>
             </Cell>
