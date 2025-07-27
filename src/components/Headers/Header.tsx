@@ -53,14 +53,12 @@ const TitleGroup = styled.div`
 
 const Right = styled.div`
   display: flex;
-  align-items: center;
   padding-left: ${rem(32)};
 `;
 
 const RightButton = styled.div<{ isFirst: boolean }>`
   display: flex;
-  align-items: center;
-  ${(props) => !props.isFirst && `margin-left: ${rem(57)};`}
+  ${(props) => !props.isFirst && `margin-left: ${rem(33)};`}
 `;
 
 const Header: React.FC<HeaderProps> = React.memo(

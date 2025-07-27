@@ -7,6 +7,7 @@ import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDeco
 import RoundButton from "../../../components/Buttons/RoundButton/RoundButton";
 import Spacing from "../../../components/Spacing/Spacing";
 import Text from "../../../components/Texts/Text";
+import useBlockFocusDirection from "../../../hooks/useBlockFocusDirection";
 import { rem } from "../../../utils/rem";
 import { translate } from "../../../utils/translate";
 import LogoutBackground from "./LogoutBackground";
@@ -70,28 +71,21 @@ const LogoutScreen = React.memo(() => {
     }
   }, [hasSpoken, setHasSpoken]);
 
-  const [logoutRestrict, setLogoutRestrict] = useState<"self-only" | "none">("self-only");
-
-  const onKeyDown = useCallback((ev: React.KeyboardEvent) => {
-    if (ev.key === "ArrowLeft") {
-      //포커스 제한 해제
-      setLogoutRestrict("none");
-
-      requestAnimationFrame(() => {
+  const onKeyDown = useBlockFocusDirection({
+    blockDirections: ["ArrowUp", "ArrowDown", "ArrowLeft"],
+    onKeyDown: (e) => {
+      if (e.key === "ArrowLeft") {
         Spotlight.focus("luggage");
-
-        requestAnimationFrame(() => {
-          //포커스 제한 되돌림
-          setLogoutRestrict("self-only");
-        });
-      });
-
-      ev.preventDefault();
-    }
-  }, []);
+        e.preventDefault();
+      }
+    },
+  });
 
   return (
-    <SpotlightLogoutContainer spotlightId="logoutScreen" spotlightRestrict={logoutRestrict}>
+    <SpotlightLogoutContainer
+      spotlightId="logoutScreen"
+      spotlightRestrict={"none"}
+    >
       <div style={{ position: "absolute", top: "0", left: "0" }}>
         <LogoutBackground />
       </div>
