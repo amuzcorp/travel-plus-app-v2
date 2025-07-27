@@ -1,5 +1,3 @@
-// src/hooks/useBlockFocusDirection.ts
-
 import { useCallback } from "react";
 import { speak } from "../utils/audioGuidance";
 import { translate } from "../utils/translate";
