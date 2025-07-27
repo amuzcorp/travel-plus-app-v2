@@ -1,0 +1,45 @@
+import Spotlight from "@enact/spotlight";
+import { useCallback } from "react";
+import { speak } from "../utils/audioGuidance";
+import { translate } from "../utils/translate";
+
+type DirectionKey = "ArrowUp" | "ArrowDown" | "ArrowLeft" | "ArrowRight";
+
+interface Options {
+  onKeyDown?: (e: React.KeyboardEvent) => void;
+}
+
+export default function useSpeakWhenFocusBlocked({ onKeyDown }: Options = {}) {
+  return useCallback(
+    (e: React.KeyboardEvent) => {
+      onKeyDown?.(e);
+      if (e.defaultPrevented) return;
+
+      const key = e.key as DirectionKey;
+
+      if (
+        key === "ArrowUp" ||
+        key === "ArrowDown" ||
+        key === "ArrowLeft" ||
+        key === "ArrowRight"
+      ) {
+        const current = Spotlight.getCurrent();
+
+        requestAnimationFrame(() => {
+          const after = Spotlight.getCurrent();
+          if (current === after) {
+            const message = {
+              ArrowUp: translate("common.screenAlreadyAtTop"),
+              ArrowDown: translate("common.screenAlreadyAtBottom"),
+              ArrowLeft: translate("common.screenAlreadyAtVeryLeft"),
+              ArrowRight: translate("common.screenAlreadyAtVeryRight"),
+            }[key];
+
+            if (message) speak(message);
+          }
+        });
+      }
+    },
+    [onKeyDown]
+  );
+}

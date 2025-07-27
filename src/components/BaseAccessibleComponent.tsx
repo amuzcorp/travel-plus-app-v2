@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo } from "react";
 
 import { ItemDecorator } from "@enact/sandstone/Item";
-import Spotlight from "@enact/spotlight";
 import { translate } from "../utils/translate";
 
+import useSpeakWhenFocusBlocked from "../hooks/useSpeakWhenFocusBlocked";
 import { speak } from "../utils/audioGuidance";
 import { filterDOMProps } from "../utils/filterDOMProps";
 
@@ -32,7 +32,9 @@ const BaseCard = React.memo(
     const speakerMessage = useMemo(() => {
       if (!speaker) return "";
       const baseMessage = translate(speaker);
-      return disabled ? `${baseMessage} ${translate("common.deactivated")}` : baseMessage;
+      return disabled
+        ? `${baseMessage} ${translate("common.deactivated")}`
+        : baseMessage;
     }, [speaker, disabled]);
 
     const handleFocus = useCallback(
@@ -45,43 +47,7 @@ const BaseCard = React.memo(
       [onFocus, speakerMessage]
     );
 
-    const handleKeyDown = useCallback(
-      (e: React.KeyboardEvent) => {
-        onKeyDown?.(e);
-
-        if (e.defaultPrevented) {
-          // 외부 onKeyDown에서 이미 처리(성공)했으면 더 이상 실행하지 않음
-          return;
-        }
-
-        const directionMap = {
-          ArrowUp: "up",
-          ArrowDown: "down",
-          ArrowLeft: "left",
-          ArrowRight: "right",
-        } as const;
-
-        const directionMessages = {
-          up: translate("common.screenAlreadyAtTop"),
-          down: translate("common.screenAlreadyAtBottom"),
-          left: translate("common.screenAlreadyAtVeryLeft"),
-          right: translate("common.screenAlreadyAtVeryRight"),
-        };
-
-        const direction = directionMap[e.key as keyof typeof directionMap];
-        if (direction) {
-          const current = Spotlight.getCurrent();
-
-          requestAnimationFrame(() => {
-            const after = Spotlight.getCurrent();
-            if (current === after) {
-              speak(directionMessages[direction]);
-            }
-          });
-        }
-      },
-      [onKeyDown]
-    );
+    const handleKeyDown = useSpeakWhenFocusBlocked({ onKeyDown });
 
     return (
       <Component {...safeProps} onFocus={handleFocus} onKeyDown={handleKeyDown}>
