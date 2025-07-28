@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { accountSlice } from "./slices/accountSlice";
 import { dialogSlice } from "./slices/dialogSlice";
 import { gnbSlice } from "./slices/gnbSlice";
 import { homeSlice } from "./slices/homeSlice";
 import { spinnerSlice } from "./slices/spinnerSlice";
+import { tvSystemSlice } from "./slices/tvSystemSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +12,8 @@ const store = configureStore({
     home: homeSlice.reducer,
     dialog: dialogSlice.reducer,
     spinner: spinnerSlice.reducer,
+    tvSystem: tvSystemSlice.reducer,
+    account: accountSlice.reducer,
   },
 });
 

@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
 
 import IBack from "../../../../assets/icons/IBack";
+import IOption from "../../../../assets/icons/IOption";
 
 import { rem } from "../../../utils/rem";
 import { translate } from "../../../utils/translate";
@@ -13,7 +14,7 @@ interface IconButtonProps {
   onClick?: () => void;
   speaker?: string;
   isLarge?: boolean;
-  type?: "back" | "delete" | "info" | "caption" | "luggage";
+  type?: "back" | "option" | "delete" | "info" | "caption" | "luggage";
   className?: string;
   [key: string]: any;
 }
@@ -21,6 +22,7 @@ interface IconButtonProps {
 // 필요한 아이콘 리소스 추가하면 됨
 const iconMap = {
   back: IBack,
+  option: IOption,
   delete: IBack,
   info: IBack,
   caption: IBack,
@@ -53,7 +55,9 @@ const IconButton = ({
   const iconSize = isLarge ? "54" : "39";
 
   const getComponent = useCallback(
-    (props: IconButtonProps) => <IconButtonBase {...props} $isLarge={isLarge} />,
+    (props: IconButtonProps) => (
+      <IconButtonBase {...props} $isLarge={isLarge} />
+    ),
     [isLarge]
   );
 

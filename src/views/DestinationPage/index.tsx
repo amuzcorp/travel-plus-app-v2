@@ -1,22 +1,30 @@
-import Button from "@enact/sandstone/Button";
-import { Cell, Column } from "@enact/ui/Layout";
-import React, { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useMemo } from "react";
+import styled from "styled-components";
+
+import Header from "../../components/Headers/Header";
+import { translate } from "../../utils/translate";
 
 const DestinationPage = React.memo(() => {
-  const navigate = useNavigate();
-
-  const onClick = useCallback(() => {
-    navigate("/");
-  }, [navigate]);
-
+  const stepList = useMemo(
+    () => [
+      translate("destinations.continent"),
+      translate("destinations.country"),
+      translate("destinations.city"),
+    ],
+    []
+  );
   return (
-    <Column>
-      <Cell>
-        <Button onClick={onClick}>Go Back</Button>
-      </Cell>
-    </Column>
+    <DestinationWrapper>
+      <Header
+        title={translate("navigation.destinations")}
+        subtitle={translate("destinations.pickDestination")}
+        stepList={stepList}
+        activeStepIndex={0}
+      />
+    </DestinationWrapper>
   );
 });
 
 export default DestinationPage;
+
+const DestinationWrapper = styled.div``;

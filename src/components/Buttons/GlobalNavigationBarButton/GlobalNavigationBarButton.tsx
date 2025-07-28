@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
+
 import BaseAccessibleComponent from "../../../components/BaseAccessibleComponent";
+
+import IGnbUser from "../../../../assets/icons/gnb/IGnbUser";
+import IGnbUserSelected from "../../../../assets/icons/gnb/IGnbUserSelected";
+
+import IGnbUser6 from "../../../../assets/icons/gnb/IGnbUser6";
+import IGnbUserSelected6 from "../../../../assets/icons/gnb/IGnbUserSelected6";
 
 import IGnbHome from "../../../../assets/icons/gnb/IGnbHome";
 import IGnbHomeSelected from "../../../../assets/icons/gnb/IGnbHomeSelected";
@@ -22,15 +29,21 @@ import IGnbExitSelected from "../../../../assets/icons/gnb/IGnbExitSelected";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../core/store";
 import { GnbState } from "../../../core/store/slices/gnbSlice";
+import useAccountStatus from "../../../hooks/useAccountStatus";
+import useIsWebOS6 from "../../../hooks/useIsWebOS6";
 import { translate } from "../../../utils/translate";
 import {
   GlobalNavigationChild,
+  GlobalNavigationChildDescription,
   GlobalNavigationChildIcon,
   GlobalNavigationChildLabel,
+  GlobalNavigationChildLabelBox,
   IconWrapper,
 } from "./GlobalNavigationBarButton.style";
+import ProfileIcon from "./ProfileIcon";
 
 export interface GnbType {
+  account: ElementOption;
   home: ElementOption;
   search: ElementOption;
   destination: ElementOption;
@@ -46,6 +59,11 @@ interface ElementOption {
 }
 
 export const gnbTypeData: GnbType = {
+  account: {
+    label: "account.lgAccount",
+    element: IGnbUser,
+    selectedElement: IGnbUserSelected,
+  },
   home: {
     label: "navigation.home",
     element: IGnbHome,
@@ -94,6 +112,14 @@ export default React.memo(
     onClick = () => {},
     onKeyDown = (ev) => {},
   }: GlobalNavigationBarButtonProps) => {
+    /// 로그인 정보
+    const accountState = useAccountStatus();
+
+    /// webOS6 여부
+    const isWebOS6 = useIsWebOS6();
+
+    console.log("accountState", accountState);
+
     /// 기본 상태
     const Idle = gnbTypeData[type].element;
 
@@ -110,26 +136,81 @@ export default React.memo(
       setExpand(gnbState === GnbState.Expanded);
     }, [gnbState]);
 
-    const Icon = React.memo(() => {
+    const Icon = () => {
+      let iconElement;
+
+      if (type !== "account" || !accountState.isLoggedIn) {
+        iconElement = (
+          <>
+            <IconWrapper className="idle">
+              <Idle />
+            </IconWrapper>
+            <IconWrapper className="focused">
+              <Focused />
+            </IconWrapper>
+          </>
+        );
+      } else if (isWebOS6) {
+        iconElement = (
+          <>
+            <IconWrapper className="idle">
+              <IGnbUser6 />
+            </IconWrapper>
+            <IconWrapper className="focused">
+              <IGnbUserSelected6 />
+            </IconWrapper>
+          </>
+        );
+      } else {
+        iconElement = (
+          <IconWrapper>
+            <ProfileIcon
+              text={accountState.iconNick ?? "U"}
+              bgColor={accountState.profileBg}
+            />
+          </IconWrapper>
+        );
+      }
+
       return (
         <GlobalNavigationChildIcon className="icon">
-          <IconWrapper className="idle">
-            <Idle />
-          </IconWrapper>
-          <IconWrapper className="focused">
-            <Focused />
-          </IconWrapper>
+          {iconElement}
         </GlobalNavigationChildIcon>
       );
-    });
+    };
 
-    const Label = React.memo(() => {
-      return (
-        <GlobalNavigationChildLabel className="label">
-          {translate(gnbTypeData[type].label)}
-        </GlobalNavigationChildLabel>
-      );
-    });
+    const Label = () => {
+      let labelElement;
+
+      if (type === "account") {
+        const useInfo = accountState.isLoggedIn
+          ? isWebOS6
+            ? accountState.userEmail
+            : accountState.nickName
+          : "account.lgAccount";
+
+        labelElement = (
+          <GlobalNavigationChildLabelBox>
+            <GlobalNavigationChildLabel className="label">
+              {translate(useInfo)}
+            </GlobalNavigationChildLabel>
+            {accountState.isLoggedIn && (
+              <GlobalNavigationChildDescription className="description">
+                {translate("navigation.switchAccount")}
+              </GlobalNavigationChildDescription>
+            )}
+          </GlobalNavigationChildLabelBox>
+        );
+      } else {
+        labelElement = (
+          <GlobalNavigationChildLabel className="label">
+            {translate(gnbTypeData[type].label)}
+          </GlobalNavigationChildLabel>
+        );
+      }
+
+      return labelElement;
+    };
 
     return (
       <BaseAccessibleComponent

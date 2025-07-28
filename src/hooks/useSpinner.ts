@@ -1,6 +1,7 @@
-import Spotlight from "@enact/spotlight";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import Spotlight from "@enact/spotlight";
 
 import { RootState } from "../core/store";
 import { hide, show } from "../core/store/slices/spinnerSlice";
@@ -12,7 +13,9 @@ interface SpinnerPayload {
 export const useSpinner = () => {
   const dispatch = useDispatch();
   const start = useSelector((state: RootState) => state.spinner.start);
-  const focusIdOnDismiss = useSelector((state: RootState) => state.spinner.focusIdOnDismiss);
+  const focusIdOnDismiss = useSelector(
+    (state: RootState) => state.spinner.focusIdOnDismiss
+  );
 
   const showSpinner = (payload: SpinnerPayload) => {
     dispatch(show(payload));
