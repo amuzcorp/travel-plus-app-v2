@@ -241,7 +241,7 @@ export default React.memo(() => {
   return (
     <SectionWrapper $marginLeft={180}>
       <Text textStyle="titleMdSb">
-        {translate("destinations.placesMemories")}
+        {translate("luggage.favoriteVideosInLuggage")}
       </Text>
 
       <RelativeBox>
