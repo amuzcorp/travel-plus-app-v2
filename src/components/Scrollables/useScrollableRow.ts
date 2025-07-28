@@ -1,50 +1,121 @@
 import Spotlight from "@enact/spotlight";
-import React, { ReactNode, useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+
+const ARROWRIGHT = "ArrowRight";
+const ARROWLEFT = "ArrowLeft";
+
+export interface ScrollToTargetProps {
+  targetIndex: number;
+  useScroll?: boolean;
+}
 
 export interface UseScrollableRowResult {
   ref: React.RefObject<any>;
-
-  onKeyDown: (ev: React.KeyboardEvent<Element>) => void;
+  offset: number;
+  onKeyDown: (ev: React.KeyboardEvent, index: number) => void;
+  onKeyUp: (ev: React.KeyboardEvent, index: number) => void;
+  scrollToTarget: ({ targetIndex, useScroll }: ScrollToTargetProps) => void;
 }
 
 export interface useScrollerRowHookProps {
-  spaceOfContent?: number;
+  containerId: string;
+  contentWidth: number;
+  contentGap: number;
+  maxDataLength: number;
+  onScroll?: (index: number, children: React.ReactNode[]) => void;
 }
 
 const useScrollableRowHook = ({
-  spaceOfContent = 0,
+  containerId,
+  contentWidth,
+  contentGap,
+  maxDataLength,
+  onScroll = (index: number, children: React.ReactNode[]) => {},
 }: useScrollerRowHookProps): UseScrollableRowResult => {
   const ref = useRef<any>(null);
+  const [offset, setOffset] = useState<number>(0);
+
+  const hasMounted = useRef(false);
+
+  const scrollToTarget = useCallback(
+    ({
+      targetIndex = 0,
+      useScroll = true,
+    }: {
+      targetIndex: number;
+      useScroll?: boolean;
+    }) => {
+      const targetOffset = targetIndex * (contentWidth + contentGap);
+
+      const spottableChildren = Spotlight.getSpottableDescendants(containerId);
+      for (let i = 0; i < spottableChildren.length; i++) {
+        const child = spottableChildren[i];
+
+        if (!(child instanceof HTMLElement)) continue;
+
+        if (i < targetIndex) {
+          child.classList.add("hided");
+        } else {
+          child.classList.remove("hided");
+        }
+      }
+
+      onScroll(targetIndex, spottableChildren);
+
+      if (useScroll) {
+        const el = document.getElementById(containerId);
+
+        if (el instanceof HTMLElement) {
+          el.style.transform = `translateX(-${targetOffset}px)`;
+          setOffset(-targetOffset);
+        }
+      }
+    },
+    [containerId, contentWidth, contentGap, onScroll]
+  );
 
   const onKeyDown = useCallback(
-    (ev: React.KeyboardEvent<Element>) => {
-      let target: null | ReactNode | Element;
+    (ev: React.KeyboardEvent, index: number) => {
+      let targetIndex = 0;
+      let useScroll = false;
 
-      requestAnimationFrame(() => {
-        target = Spotlight.getCurrent();
+      if (ev.key === ARROWRIGHT) {
+        targetIndex = Math.min(index + 1, maxDataLength - 1);
+        useScroll = true;
+      } else if (ev.key === ARROWLEFT) {
+        targetIndex = Math.max(index - 1, 0);
+        useScroll = true;
+      }
 
-        if (target instanceof Element) {
-          const targetRect = target.getBoundingClientRect();
-          const targetLeft = targetRect.left;
-          const diff = targetLeft - 130;
-
-          const wrapper = ref.current as HTMLElement;
-
-          const scrollLeft = wrapper.scrollLeft;
-
-          wrapper.scroll({
-            left: Math.max(0, scrollLeft + diff),
-            behavior: "smooth",
-          });
-        }
-      });
+      if (useScroll) {
+        scrollToTarget({ targetIndex: targetIndex });
+      }
     },
-    [ref]
+    [maxDataLength, scrollToTarget]
   );
+
+  const onKeyUp = useCallback(
+    (ev: React.KeyboardEvent, index: number) => {
+      if (ev.key === ARROWRIGHT || ev.key === ARROWLEFT) {
+        scrollToTarget({ targetIndex: index });
+      }
+    },
+    [scrollToTarget]
+  );
+
+  useEffect(() => {
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      scrollToTarget({ targetIndex: 0, useScroll: false });
+    }
+  }, [scrollToTarget]);
 
   return {
     ref: ref,
+    offset: offset,
     onKeyDown: onKeyDown,
+    onKeyUp: onKeyUp,
+    scrollToTarget: scrollToTarget,
   };
 };
 
