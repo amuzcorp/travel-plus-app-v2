@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import CarouselRow from "./components/CarouselRow/CarouselRow";
 import CityRow from "./components/CityRow/CityRow";
+import DealsRow from "./components/DealsRow/DealsRow";
 import FavoriteRow from "./components/FavoriteRow/FavoriteRow";
 
 const HomePage: React.FC = React.memo(() => {
@@ -11,9 +12,7 @@ const HomePage: React.FC = React.memo(() => {
       <CarouselRow />
       <CityRow />
       <FavoriteRow />
-      {/* <CityRow />
-      <CityRow />
-      <CityRow /> */}
+      <DealsRow />
     </HomeWrapper>
   );
 });

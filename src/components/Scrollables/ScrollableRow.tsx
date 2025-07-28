@@ -1,10 +1,10 @@
-import Spotlight from "@enact/spotlight";
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
 interface ScrollableRow {
   scrollerRef: React.RefObject<any>;
+  spotlightId: string;
   $marginLeft?: number;
   $gap?: number;
   $spaceOfContent?: number;
@@ -13,63 +13,20 @@ interface ScrollableRow {
 
 export default React.memo(
   ({
+    spotlightId,
     scrollerRef,
     $marginLeft = 0,
     $gap = 24,
-    $spaceOfContent = 0,
     children,
   }: ScrollableRow) => {
-    const scrollHandler = useCallback(() => {
-      const spottableChildren = Spotlight.getSpottableDescendants(
-        "scrollable-row-container"
-      );
-
-      let foundFirstView = false;
-
-      for (let i = 0; i < spottableChildren.length; i++) {
-        const child = spottableChildren[i];
-
-        if (child instanceof Element) {
-          const current = child.getBoundingClientRect();
-          const currentWidth = current.width;
-          const currentLeft = current.left;
-
-          const diff = $marginLeft - currentWidth;
-
-          child.classList.remove("space");
-
-          if (currentLeft < diff) {
-            child.classList.add("hided");
-          } else {
-            child.classList.remove("hided");
-
-            if (!foundFirstView) {
-              child.classList.add("space");
-              foundFirstView = true;
-            }
-          }
-        }
-      }
-    }, [$marginLeft]);
-
-    useEffect(() => {
-      const el = scrollerRef.current;
-
-      el?.addEventListener("scroll", scrollHandler);
-
-      return () => {
-        el?.removeEventListener("scroll", scrollHandler);
-      };
-    }, [scrollerRef, scrollHandler]);
-
     return (
       <NormalizeWrapper>
-        <ScrollWrapper ref={scrollerRef} $marginLeft={$marginLeft}>
+        <ScrollWrapper>
           <SpottableWrapper
+            id={spotlightId}
+            spotlightId={spotlightId}
             $marginLeft={$marginLeft}
             $gap={$gap}
-            $spaceOfContent={$spaceOfContent}
-            spotlightId="scrollable-row-container"
           >
             {children}
           </SpottableWrapper>
@@ -79,45 +36,34 @@ export default React.memo(
   }
 );
 
-const Wrapper = styled.div<{
-  $marginLeft: number;
-  $gap: number;
-  $spaceOfContent: number;
-}>`
+export const RowWrapper = styled.div<{ $marginLeft: number; $gap: number }>`
   position: relative;
 
   display: flex;
 
-  padding-left: ${({ $marginLeft }) => `${$marginLeft}px`};
+  padding-left: ${({ $marginLeft }) => $marginLeft ?? 0}px;
+  padding-right: ${({ $marginLeft }) => `calc(100vw - ${$marginLeft ?? 0}px)`};
+
+  transition: transform ease 0.3s;
 
   & > :not(:last-child) {
-    margin-right: ${({ $gap }) => `${$gap}px`};
-  }
-
-  & > .hided {
-    background: yellow;
-
-    opacity: 0.3;
-  }
-
-  & > .space {
-    padding-right: ${({ $spaceOfContent }) => `${$spaceOfContent}px`};
+    margin-right: ${({ $gap }) => $gap ?? 0}px;
   }
 `;
 
-const SpottableWrapper = SpotlightContainerDecorator(Wrapper);
+export const SpottableWrapper = SpotlightContainerDecorator(RowWrapper);
 
-const NormalizeWrapper = styled.div``;
-
-const ScrollWrapper = styled.div<{ $marginLeft: number }>`
+export const NormalizeWrapper = styled.div`
   position: relative;
+`;
 
+export const ScrollWrapper = styled.div`
   display: flex;
 
-  overflow-x: scroll;
+  overflow-x: hidden;
   overflow-y: visible;
 
-  margin-left: ${({ $marginLeft }) => `-${$marginLeft}px`};
+  margin-left: -180px;
 
   padding: 24px 0;
 `;

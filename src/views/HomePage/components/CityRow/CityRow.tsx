@@ -1,8 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import React, { useMemo } from "react";
 
 import Spotlight from "@enact/spotlight";
 
 import BaseAccessibleComponent from "../../../../components/BaseAccessibleComponent";
+import ScrollableRow from "../../../../components/Scrollables/ScrollableRow";
+import { useScrollableRow } from "../../../../components/Scrollables/useScrollableRow";
 import Spacing from "../../../../components/Spacing/Spacing";
 import Text from "../../../../components/Texts/Text";
 import {
@@ -17,15 +19,86 @@ import {
   LargeCard,
   LargeCardWrapper,
   LeftSection,
-  NormalizeWrapper,
   RelativeBox,
   RightSection,
-  ScrollWrapper,
   SectionWrapper,
   SmallCard,
   SmallCardTitle,
-  SpottableWrapper,
 } from "./CityRow.style";
+
+const cards = [
+  {
+    title: "Chiang Mai",
+    city: "Thailand",
+    location: "Southeast Asia",
+    bestTimeToVisit: "Sep-Nov",
+    color: "orange",
+  },
+  {
+    title: "London",
+    city: "UK",
+    location: "Western Europe",
+    bestTimeToVisit: "Sep-Nov",
+    color: "red",
+  },
+  {
+    title: "Rome",
+    city: "Italy",
+    location: "Southern Europe",
+    bestTimeToVisit: "Sep-Nov",
+    color: "green",
+  },
+  {
+    title: "Ester Island",
+    city: "Chile",
+    location: "South America",
+    bestTimeToVisit: "Sep-Nov",
+    color: "blue",
+  },
+  {
+    title: "Rome",
+    city: "Italy",
+    location: "Southern Europe",
+    bestTimeToVisit: "Sep-Nov",
+    color: "purple",
+  },
+
+  {
+    title: "Rome",
+    city: "Italy",
+    location: "Southern Europe",
+    bestTimeToVisit: "Sep-Nov",
+    color: "purple",
+  },
+  {
+    title: "Rome",
+    city: "Italy",
+    location: "Southern Europe",
+    bestTimeToVisit: "Sep-Nov",
+    color: "purple",
+  },
+  {
+    title: "Rome",
+    city: "Italy",
+    location: "Southern Europe",
+    bestTimeToVisit: "Sep-Nov",
+    color: "purple",
+  },
+  {
+    title: "Rome",
+    city: "Italy",
+    location: "Southern Europe",
+    bestTimeToVisit: "Sep-Nov",
+    color: "purple",
+  },
+  {
+    title: "Rome",
+    city: "Italy",
+    location: "Southern Europe",
+    bestTimeToVisit: "Sep-Nov",
+    color: "purple",
+  },
+];
 
 const CityRow = React.memo(() => {
   const cardWidth = cityCardWidth;
@@ -35,110 +108,37 @@ const CityRow = React.memo(() => {
   const cardHeight = cityCardHeight;
   const cardGap = cityCardGap;
 
-  const scrollChildRef = useRef<any>(null);
+  const containerId = "home-city-row-container";
 
-  const cards = useMemo(() => {
-    return [
-      {
-        title: "Chiang Mai",
-        city: "Thailand",
-        location: "Southeast Asia",
-        bestTimeToVisit: "Sep-Nov",
-        color: "orange",
-      },
-      {
-        title: "London",
-        city: "UK",
-        location: "Western Europe",
-        bestTimeToVisit: "Sep-Nov",
-        color: "red",
-      },
-      {
-        title: "Rome",
-        city: "Italy",
-        location: "Southern Europe",
-        bestTimeToVisit: "Sep-Nov",
-        color: "green",
-      },
-      {
-        title: "Ester Island",
-        city: "Chile",
-        location: "South America",
-        bestTimeToVisit: "Sep-Nov",
-        color: "blue",
-      },
-      {
-        title: "Rome",
-        city: "Italy",
-        location: "Southern Europe",
-        bestTimeToVisit: "Sep-Nov",
-        color: "purple",
-      },
+  const {
+    ref: scrollerRef,
+    onKeyDown,
+    onKeyUp,
+    scrollToTarget,
+  } = useScrollableRow({
+    containerId: containerId,
+    contentWidth: smallCardWidth,
+    contentGap: cardGap,
+    maxDataLength: cards.length,
+    onScroll: (index: number, children: React.ReactNode[]) => {
+      for (let i = 0; i < children.length; i++) {
+        const child = children[i];
 
-      {
-        title: "Rome",
-        city: "Italy",
-        location: "Southern Europe",
-        bestTimeToVisit: "Sep-Nov",
-        color: "purple",
-      },
-      {
-        title: "Rome",
-        city: "Italy",
-        location: "Southern Europe",
-        bestTimeToVisit: "Sep-Nov",
-        color: "purple",
-      },
-      {
-        title: "Rome",
-        city: "Italy",
-        location: "Southern Europe",
-        bestTimeToVisit: "Sep-Nov",
-        color: "purple",
-      },
-      {
-        title: "Rome",
-        city: "Italy",
-        location: "Southern Europe",
-        bestTimeToVisit: "Sep-Nov",
-        color: "purple",
-      },
-      {
-        title: "Rome",
-        city: "Italy",
-        location: "Southern Europe",
-        bestTimeToVisit: "Sep-Nov",
-        color: "purple",
-      },
-    ];
-  }, []);
-
-  const scrollToTarget = useCallback(
-    (targetIndex: number, useScroll = true) => {
-      const targetOffset = targetIndex * (smallCardWidth + cardGap);
-
-      const spottableChildren = Spotlight.getSpottableDescendants(
-        "home-city-row-container"
-      );
-
-      for (let i = 0; i < spottableChildren.length; i++) {
-        const spottableChild = spottableChildren[i];
-
-        if (spottableChild instanceof Element) {
-          if (i !== targetIndex) {
-            spottableChild.classList.remove("selected");
+        if (child instanceof HTMLElement) {
+          if (i !== index) {
+            child.classList.remove("selected");
           } else {
-            spottableChild.classList.add("selected");
+            child.classList.add("selected");
           }
 
-          spottableChild.classList.remove("hovered");
+          child.classList.remove("hovered");
         }
 
         const largeId = "home-city-row-large-" + i;
         const large = document.getElementById(largeId);
 
         if (large instanceof HTMLElement) {
-          if (i === targetIndex) {
+          if (i === index) {
             large.classList.add("selected");
           } else {
             large.classList.remove("selected");
@@ -147,69 +147,47 @@ const CityRow = React.memo(() => {
           large.classList.remove("hovered");
 
           if (Spotlight.getPointerMode()) {
-            const targetLargeId = "home-city-row-large-" + targetIndex;
+            const targetLargeId = "home-city-row-large-" + index;
             const targetLarge = document.getElementById(targetLargeId);
 
             targetLarge?.classList.add("hovered");
           }
         }
       }
-
-      if (useScroll) {
-        const el = document.getElementById("home-city-row-container");
-
-        if (el instanceof HTMLElement) {
-          el.style.transform = `translateX(-${targetOffset}px)`;
-        }
-      }
     },
-    [cardGap, smallCardWidth]
-  );
-
-  useEffect(() => {
-    scrollToTarget(0, false);
-  }, [scrollToTarget]);
+  });
 
   const onClicks = useMemo(() => {
     return cards.map((__, index) => {
       return (ev: any) => {
         const targetIndex = index;
 
-        scrollToTarget(targetIndex);
+        scrollToTarget({ targetIndex: targetIndex });
       };
     });
-  }, [scrollToTarget, cards]);
+  }, [scrollToTarget]);
 
   const onFocuses = useMemo(() => {
     return cards.map((__, index) => {
       return (ev: any) => {
         if (!Spotlight.getPointerMode()) {
-          scrollToTarget(index);
+          scrollToTarget({ targetIndex: index });
         }
       };
     });
-  }, [cards, scrollToTarget]);
+  }, [scrollToTarget]);
 
   const onKeyDowns = useMemo(() => {
     return cards.map((__, index) => {
-      return (ev: React.KeyboardEvent) => {
-        let targetIndex = 0;
-        let useScroll = false;
-
-        if (ev.key === "ArrowRight") {
-          targetIndex = Math.min(index + 1, cards.length - 1);
-          useScroll = true;
-        } else if (ev.key === "ArrowLeft") {
-          targetIndex = Math.max(index - 1, 0);
-          useScroll = true;
-        }
-
-        if (useScroll) {
-          scrollToTarget(targetIndex);
-        }
-      };
+      return (ev: React.KeyboardEvent) => onKeyDown(ev, index);
     });
-  }, [cards, scrollToTarget]);
+  }, [onKeyDown]);
+
+  const onKeyUps = useMemo(() => {
+    return cards.map(
+      (__, index) => (ev: React.KeyboardEvent) => onKeyUp(ev, index)
+    );
+  }, [onKeyUp]);
 
   const onMouseEnters = useMemo(() => {
     return cards.map((__, index) => {
@@ -237,7 +215,7 @@ const CityRow = React.memo(() => {
         }
       };
     });
-  }, [cards]);
+  }, []);
 
   const onMouseLeaves = useMemo(() => {
     return cards.map((__, index) => {
@@ -276,7 +254,87 @@ const CityRow = React.memo(() => {
         }
       };
     });
-  }, [cards]);
+  }, []);
+
+  const smallCards = useMemo(() => {
+    return cards.map((card, index) => {
+      return (
+        <BaseAccessibleComponent
+          id={"home-city-row-small-" + index}
+          component={SmallCard}
+          key={index}
+          $cardWidth={smallCardWidth}
+          $cardHeight={cardHeight}
+          $cardDiff={cardDiff}
+          $background={card.color}
+          onFocus={onFocuses[index]}
+          onKeyDown={onKeyDowns[index]}
+          onKeyUp={onKeyUps[index]}
+          onClick={onClicks[index]}
+          onMouseEnter={onMouseEnters[index]}
+          onMouseLeave={onMouseLeaves[index]}
+        >
+          <SmallCardTitle textStyle="headerXlSb">{card.title}</SmallCardTitle>
+        </BaseAccessibleComponent>
+      );
+    });
+  }, [
+    smallCardWidth,
+    cardHeight,
+    cardDiff,
+    onFocuses,
+    onKeyDowns,
+    onKeyUps,
+    onClicks,
+    onMouseEnters,
+    onMouseLeaves,
+  ]);
+
+  const largeCards = useMemo(() => {
+    return cards.map((card, index) => {
+      return (
+        <LargeCard
+          id={"home-city-row-large-" + index}
+          $cardWidth={cardWidth}
+          $cardHeight={cardHeight}
+          $background={card.color}
+          key={index}
+        >
+          <LargeCardWrapper>
+            <LeftSection>
+              <Text textStyle="headerHugeSb">{card.title}</Text>
+              <Spacing size={16} />
+              <Text textStyle="titleMdSb">
+                <Description>
+                  <div>{card.city}</div>
+                  <div>{card.location}</div>
+                </Description>
+              </Text>
+              <Spacing size={8} />
+              <Text textStyle="titleMdSb">
+                Best Time to visit : {card.bestTimeToVisit}
+              </Text>
+            </LeftSection>
+            <RightSection>
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  background: "darkkhaki",
+                  borderRadius: "12px",
+                }}
+              >
+                <span>
+                  <p>123123</p>
+                  <p>{card.title}</p>
+                </span>
+              </div>
+            </RightSection>
+          </LargeCardWrapper>
+        </LargeCard>
+      );
+    });
+  }, [cardWidth, cardHeight]);
 
   return (
     <SectionWrapper $marginLeft={180}>
@@ -285,82 +343,15 @@ const CityRow = React.memo(() => {
       </Text>
 
       <RelativeBox>
-        <NormalizeWrapper>
-          <ScrollWrapper>
-            <SpottableWrapper
-              id={"home-city-row-container"}
-              spotlightId="home-city-row-container"
-              ref={scrollChildRef}
-            >
-              {cards.map((card, index) => {
-                return (
-                  <BaseAccessibleComponent
-                    id={"home-city-row-small-" + index}
-                    component={SmallCard}
-                    key={index}
-                    $cardWidth={smallCardWidth}
-                    $cardHeight={cardHeight}
-                    $cardDiff={cardDiff}
-                    $background={card.color}
-                    onFocus={onFocuses[index]}
-                    onKeyDown={onKeyDowns[index]}
-                    onClick={onClicks[index]}
-                    onMouseEnter={onMouseEnters[index]}
-                    onMouseLeave={onMouseLeaves[index]}
-                  >
-                    <SmallCardTitle textStyle="headerXlSb">
-                      {card.title}
-                    </SmallCardTitle>
-                  </BaseAccessibleComponent>
-                );
-              })}
-            </SpottableWrapper>
-          </ScrollWrapper>
-        </NormalizeWrapper>
-
-        {cards.map((card, index) => {
-          return (
-            <LargeCard
-              id={"home-city-row-large-" + index}
-              $cardWidth={cardWidth}
-              $cardHeight={cardHeight}
-              $background={card.color}
-              key={index}
-            >
-              <LargeCardWrapper>
-                <LeftSection>
-                  <Text textStyle="headerHugeSb">{card.title}</Text>
-                  <Spacing size={16} />
-                  <Text textStyle="titleMdSb">
-                    <Description>
-                      <div>{card.city}</div>
-                      <div>{card.location}</div>
-                    </Description>
-                  </Text>
-                  <Spacing size={8} />
-                  <Text textStyle="titleMdSb">
-                    Best Time to visit : {card.bestTimeToVisit}
-                  </Text>
-                </LeftSection>
-                <RightSection>
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      background: "darkkhaki",
-                      borderRadius: "12px",
-                    }}
-                  >
-                    <span>
-                      <p>123123</p>
-                      <p>{card.title}</p>
-                    </span>
-                  </div>
-                </RightSection>
-              </LargeCardWrapper>
-            </LargeCard>
-          );
-        })}
+        <ScrollableRow
+          spotlightId={containerId}
+          scrollerRef={scrollerRef}
+          $marginLeft={180}
+          $gap={24}
+        >
+          {smallCards}
+        </ScrollableRow>
+        {largeCards}
       </RelativeBox>
     </SectionWrapper>
   );

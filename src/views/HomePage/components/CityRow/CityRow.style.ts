@@ -42,6 +42,8 @@ export const CardBase = styled.div<{
 
 export const RelativeBox = styled.div`
   position: relative;
+
+  margin-bottom: -24px;
 `;
 
 export const LargeCard = styled(CardBase)`
@@ -128,6 +130,10 @@ export const SmallCard = styled(CardBase)<{ $cardDiff: number }>`
 
   &.hovered {
     outline: 3px solid #e6e6e6;
+  }
+
+  &.hided {
+    opacity: 0.2;
   }
 `;
 
