@@ -1,24 +1,34 @@
 import React from "react";
+
+import { I18nContextDecorator } from "@enact/i18n/I18nDecorator";
 import ThemeDecorator from "@enact/sandstone/ThemeDecorator";
-import { Cell, Row } from "@enact/ui/Layout";
+import SpotlightRootDecorator from "@enact/spotlight/SpotlightRootDecorator";
+
 import { Outlet } from "react-router-dom";
-import GlobalNavigationBar from "../components/GlobalNavigationBar/GlobalNavigationBar";
+import useInitSystemInfo from "../hooks/useInitSystemInfo";
+import useLocaleChange from "../hooks/useLocaleChange";
+import useNetworkMonitor from "../hooks/useNetworkMonitor";
+
+const RootContainer = SpotlightRootDecorator({}, `div`);
 
 const App: React.FC = () => {
+  useLocaleChange(); // 언어 변경 감지
+  useNetworkMonitor(); // 네트워크 상태 감지
+  useInitSystemInfo(); // TV 시스템 정보(webOS 6.0 여부 등) 초기화, 계정 정보 초기화
+
+  if (typeof window !== "undefined") {
+    window.localStorage.clear();
+  }
+
   return (
-    <Row>
-      <Cell>
-        <GlobalNavigationBar />
-      </Cell>
-      <Cell
-        style={{
-          marginLeft: "130px",
-        }}
-      >
-        <Outlet />
-      </Cell>
-    </Row>
+    // <div style={{ width: "100px", height: "200px", background: "orange" }}>
+    //   hello
+    // </div>
+
+    <RootContainer>
+      <Outlet />
+    </RootContainer>
   );
 };
 
-export default ThemeDecorator(App);
+export default I18nContextDecorator(ThemeDecorator(App));

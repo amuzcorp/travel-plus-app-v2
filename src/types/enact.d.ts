@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-declare module '@enact/ui/Layout' {
+declare module "@enact/ui/Layout" {
   interface RowProps {
     children?: React.ReactNode;
   }
@@ -18,23 +18,51 @@ declare module '@enact/ui/Layout' {
   }
 }
 
+declare module "*.svg" {
+  import * as React from "react";
+  export const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>;
+
+  const src: string;
+  export default src;
+}
+
+declare module "*.png" {
+  const value: string;
+  export default value;
+}
+
+declare module "*.jpg" {
+  const value: string;
+  export default value;
+}
+
+declare module "*.jpeg" {
+  const value: string;
+  export default value;
+}
+
+declare module "*.gif" {
+  const value: string;
+  export default value;
+}
+
 // Spotlight 타입 확장
-declare module '@enact/spotlight/SpotlightContainerDecorator' {
+declare module "@enact/spotlight/SpotlightContainerDecorator" {
   interface SpotlightContainerDecoratorProps {
     children?: React.ReactNode;
   }
 }
 
 // styled-components 테마 타입 확장
-declare module 'styled-components' {
+declare module "styled-components" {
+  import zIndexes from "../core/constants/globalConstant";
+
   export interface DefaultTheme {
     size: {
       gnbCollapsed: number;
       gnbExpanded: number;
     };
-    zIndex: {
-      gnb: number;
-    };
+    zIndex: Record<string, (typeof zIndexes)[number]>;
     colors: {
       keyColor: {
         main: string;

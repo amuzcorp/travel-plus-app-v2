@@ -1,66 +1,45 @@
-import React, { useCallback } from "react";
+import React from "react";
 
-import Scroller from "@enact/sandstone/Scroller";
-import Button from "@enact/sandstone/Button";
-import { Column } from "@enact/ui/Layout";
-import Spotlight from "@enact/spotlight";
+import styled from "styled-components";
+import CarouselRow from "./components/CarouselRow/CarouselRow";
+import CityRow from "./components/CityRow/CityRow";
+import DealsRow from "./components/DealsRow/DealsRow";
+import FavoriteRow from "./components/FavoriteRow/FavoriteRow";
 
-const HomePage: React.FC = () => {
-  const list = Array.from({ length: 100 }, (__, i) => i);
-
-  const scrollTo = useCallback(() => {
-    const current = Spotlight.getCurrent() as any;
-    if (current && typeof current.scrollIntoView === 'function') {
-      current.scrollIntoView({
-        block: "center",
-        behavior: "smooth",
-      });
-    }
-  }, []);
-
-  // const throttleScrollTo = useMemo(() => {
-  //   return new Job(scrollTo, 300);
-  // }, [scrollTo]);
-
-  const onClick = useCallback(() => {
-    // throttleScrollTo.throttle();
-    scrollTo();
-  }, [scrollTo]);
-
-  const onFocus = useCallback(() => {
-    const isPointerMode = Spotlight.getPointerMode();
-    if (isPointerMode) {
-      return;
-    }
-
-    // throttleScrollTo.throttle();
-    scrollTo();
-  }, [scrollTo]);
-
-  const scrollerProps = {
-    direction: "vertical" as const,
-    verticalScrollbar: "hidden" as const,
-    scrollMode: "translate" as const,
-  };
-
-  const buttonProps = {
-    onClick: onClick,
-    onFocus: onFocus,
-  };
-
+const HomePage: React.FC = React.memo(() => {
   return (
-    <Scroller {...scrollerProps}>
-      <Column>
-        {list.map((__, index) => {
-          return (
-            <Button key={index} id={index.toString()} {...buttonProps}>
-              Click me {index}
-            </Button>
-          );
-        })}
-      </Column>
-    </Scroller>
+    <HomeWrapper>
+      <CarouselRow />
+      <CityRow />
+      <FavoriteRow />
+      <DealsRow />
+    </HomeWrapper>
   );
-};
+});
 
 export default HomePage;
+
+const HomeWrapper = styled.div`
+  width: 100vw;
+  height: 100wh;
+
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+
+  /* overflow: hidden; */
+
+  height: 100vh;
+
+  > *:not(:last-child) {
+    margin-bottom: 90px;
+    scroll-snap-align: center;
+  }
+
+  > *:first-child {
+    scroll-snap-align: start;
+  }
+
+  > *:last-child {
+    scroll-snap-align: end;
+  }
+`;

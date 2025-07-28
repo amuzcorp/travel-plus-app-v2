@@ -17,18 +17,12 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@/components/*": ["src/components/*"],
-      "@/views/*": ["src/views/*"],
-      "@/core/*": ["src/core/*"]
+      // "@components/*": ["components/*"],
+      // "@views/*": ["views/*"],
+      // "@core/*": ["core/*"]
     }
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "build",
-    "dist"
-  ]
-} 
+
+  "include": ["src/**/*", "src/types/enact.d.ts", "assets"],
+  "exclude": ["node_modules", "build", "dist"]
+}

@@ -1,56 +1,61 @@
-import React from 'react';
-import { DefaultTheme, useTheme } from 'styled-components';
-
-import Marquee from '@enact/sandstone/Marquee';
-
-type MarqueeType = 'none' | 'focus' | 'render';
+import React, { useMemo } from "react";
+import { DefaultTheme, useTheme } from "styled-components";
 
 interface TextProps {
   children: React.ReactNode;
-  textStyle?: keyof DefaultTheme['textStyle'];
+  textStyle?: keyof DefaultTheme["textStyle"];
   color?: string;
-  marqueeType?: MarqueeType;
-  active?: boolean;
   maxLine?: number;
+  lineHeight?: string | number;
+  wordBreak?: "normal" | "break-all" | "keep-all" | "break-word";
 }
 
-const Text = ({
-  children,
-  color,
-  textStyle = 'titleSmSb',
-  marqueeType = 'render',
-  active,
-  maxLine = 1,
-}: TextProps) => {
-  const theme = useTheme();
+const Text = React.memo(
+  ({
+    children,
+    textStyle = "titleSmSb",
+    color,
+    maxLine = 1,
+    lineHeight = "normal",
+    wordBreak = "break-word",
+    ...rest
+  }: TextProps) => {
+    const theme = useTheme();
 
-  const style: React.CSSProperties = {
-    fontSize: theme.textStyle[textStyle].fontSize,
-    fontWeight: theme.textStyle[textStyle].fontWeight,
-    color: color ? color : theme.colors.text.primary,
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  };
+    const hasMaxLine = maxLine >= 1;
 
-  if (marqueeType === 'none') {
-    if (maxLine === 1) {
-      style.whiteSpace = 'nowrap';
-    } else {
-      style.display = '-webkit-box';
-      style.WebkitLineClamp = maxLine;
-      style.WebkitBoxOrient = 'vertical'; // webOS에서는 유효한 값
-    }
-  }
+    const style = useMemo(() => {
+      const baseStyle: React.CSSProperties = {
+        fontFamily: "LGSmartUI",
+        fontSize: theme.textStyle[textStyle].fontSize,
+        fontWeight: theme.textStyle[textStyle].fontWeight,
+        color: color ?? theme.colors.text.primary,
+        lineHeight,
 
-  // 최종 marquee 여부 결정
-  const marqueeOn: 'render' | undefined =
-    marqueeType === 'render' || (marqueeType === 'focus' && active) ? 'render' : undefined;
+        wordBreak,
+        ...(hasMaxLine && {
+          display: "-webkit-box",
+          WebkitLineClamp: maxLine,
+          WebkitBoxOrient: "vertical",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }),
+      };
 
-  return (
-    <Marquee marqueeOn={marqueeOn} style={style}>
-      {children}
-    </Marquee>
-  );
-};
+      return baseStyle;
+    }, [theme, textStyle, color, maxLine, lineHeight, hasMaxLine, wordBreak]);
+
+    return (
+      <div style={style} {...rest}>
+        {children}
+      </div>
+    );
+  },
+  (prevProps, nextProps) =>
+    prevProps.children === nextProps.children &&
+    prevProps.textStyle === nextProps.textStyle &&
+    prevProps.color === nextProps.color &&
+    prevProps.maxLine === nextProps.maxLine
+);
 
 export default Text;

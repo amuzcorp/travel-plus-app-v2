@@ -1,46 +1,58 @@
-import { Cell } from "@enact/ui/Layout";
 import styled from "styled-components";
 
-interface GNBWrapperProps {
-  $expanded: boolean;
-}
+export const GNBWrapper = styled.div`
+  position: fixed;
 
-interface GNBOverlayProps {
-  $expanded: boolean;
-}
+  width: calc(79 / 24 * 1rem);
 
-export const GNBWrapper = styled(Cell)<GNBWrapperProps>`
-  position: fixed !important;
-  left: 0;
+  height: calc(100vh - 100 / 24 * 1rem);
 
-  width: ${({ theme, $expanded }) =>
-    $expanded ? `${theme.size.gnbExpanded}px` : `${theme.size.gnbCollapsed}px`};
-  // 100vh - (padding + margin)
-  height: calc(100vh - 100px);
+  margin: calc(20 / 24 * 1rem) 0;
+  padding: calc(30 / 24 * 1rem) calc(25.5 / 24 * 1rem);
 
-  margin: 20px 0;
-  padding: 30px 0;
-
-  background: orange;
+  border-top-right-radius: calc(12 / 24 * 1rem);
+  border-bottom-right-radius: calc(12 / 24 * 1rem);
 
   z-index: ${({ theme }) => theme.zIndex.gnb};
 
   transition: width ease 0.2s;
   will-change: width;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &.expanded {
+    width: calc(390 / 24 * 1rem);
+
+    background: rgba(0, 0, 0, 0.9);
+    /* backdrop-filter: blur(25px); */
+    box-shadow: inset 0 1px 0 0 ${({ theme }) => theme.colors.text.primaryVari},
+      inset -1px 0 0 0 ${({ theme }) => theme.colors.text.primaryVari},
+      inset 0 -1px 0 0 ${({ theme }) => theme.colors.text.primaryVari};
+  }
 `;
 
-export const GNBOverlay = styled.div<GNBOverlayProps>`
+export const GNBOverlay = styled.div`
   position: fixed;
 
   width: 100vw;
   height: 100vh;
 
-  background: rgba(0, 0, 0, 0.7);
-
-  opacity: ${({ $expanded }) => ($expanded ? 1 : 0)};
-
   z-index: ${({ theme }) => theme.zIndex.gnb};
 
   transition: opacity ease 0.2s;
   will-change: opacity;
+
+  pointer-events: none;
+
+  &.expanded {
+    background: rgba(0, 0, 0, 0.7);
+
+    opacity: 1;
+
+    pointer-events: auto;
+  }
 `;
+
+export const SectionWrapper = styled.div``;

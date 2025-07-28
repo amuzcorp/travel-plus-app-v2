@@ -1,0 +1,14 @@
+body {
+  background: black;
+  padding: 0;
+  margin: 0;
+
+  & > * {
+    font-family: "LGSmartUI";
+    font-size: 30px;
+    color: #e6e6e6;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+}
