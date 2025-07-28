@@ -1,0 +1,126 @@
+import Marquee from "@enact/ui/Marquee";
+import styled from "styled-components";
+
+export const ContentCardWrapper = styled.div<{ $width?: number }>`
+  width: ${({ $width }) => $width ?? 0}px;
+  height: auto;
+
+  transition: transform ease 0.3s, opacity ease 0.3s;
+  will-change: transform, opacity;
+
+  opacity: 1;
+
+  &:focus {
+    transform: scale(1.1);
+
+    .image-wrapper {
+      outline: solid 3px ${({ theme }) => theme.colors.text.primary};
+
+      &::after {
+        box-shadow: none;
+      }
+    }
+  }
+
+  &.hided {
+    opacity: 0.2;
+  }
+`;
+
+export const ImageWrapper = styled.div<{ $width?: number }>`
+  position: relative;
+
+  width: ${({ $width }) => $width ?? 0}px;
+  aspect-ratio: 16/9;
+
+  border-radius: 12px;
+  background: hotpink;
+
+  margin-bottom: 16px;
+
+  &::after {
+    display: block;
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    box-shadow: ${({ theme }) =>
+      `inset 0 0 0 1px ${theme.colors.deactive.normal}`};
+
+    border-radius: 12px;
+  }
+`;
+
+export const BadgeWrapper = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+`;
+
+export const FeatureWrapper = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  & > :not(:last-child) {
+    margin-right: 6px;
+  }
+`;
+
+export const TitleWrapper = styled(Marquee)`
+  width: 100%;
+  height: auto;
+
+  margin-bottom: 4px;
+
+  font-size: ${({ theme }) => theme.textStyle.titleSmSb.fontSize};
+  font-weight: 600;
+  font-family: "LGSmartUI";
+`;
+
+export const DescriptionWrapper = styled.div`
+  width: 100%;
+
+  overflow: hidden;
+
+  font-size: ${({ theme }) => theme.textStyle.titleTinySb.fontSize};
+  font-family: "LGSmartUI";
+  color: ${({ theme }) => theme.colors.text.primary};
+
+  opacity: 0.7;
+`;
+
+export const DateWrapper = styled.div`
+  display: flex;
+
+  overflow: hidden;
+
+  & > :not(:last-child) {
+    display: flex;
+
+    align-items: center;
+
+    &::after {
+      display: block;
+      content: "";
+
+      width: 4px;
+      height: 4px;
+
+      background: ${({ theme }) => theme.colors.deactive.normal};
+
+      border-radius: 50%;
+
+      margin: 0 6px;
+    }
+  }
+
+  & > * {
+    margin: 0 0;
+  }
+`;

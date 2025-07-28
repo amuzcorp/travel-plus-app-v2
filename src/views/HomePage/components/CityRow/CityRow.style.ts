@@ -120,7 +120,8 @@ export const SmallCard = styled(CardBase)<{ $cardDiff: number }>`
 
   opacity: 1;
 
-  transition: opacity ease 0.5s, transform ease 0.1s;
+  transition: opacity ease 0.3s, transform ease 0.3s;
+  will-change: opacity, transform;
 
   &.selected {
     opacity: 0;

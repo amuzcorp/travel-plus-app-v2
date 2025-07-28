@@ -12,7 +12,6 @@ export interface ScrollToTargetProps {
 export interface UseScrollableRowResult {
   ref: React.RefObject<any>;
   offset: number;
-
   onKeyDown: (ev: React.KeyboardEvent, index: number) => void;
   onKeyUp: (ev: React.KeyboardEvent, index: number) => void;
   scrollToTarget: ({ targetIndex, useScroll }: ScrollToTargetProps) => void;
@@ -35,6 +34,8 @@ const useScrollableRowHook = ({
 }: useScrollerRowHookProps): UseScrollableRowResult => {
   const ref = useRef<any>(null);
   const [offset, setOffset] = useState<number>(0);
+
+  const hasMounted = useRef(false);
 
   const scrollToTarget = useCallback(
     ({
@@ -103,7 +104,10 @@ const useScrollableRowHook = ({
   );
 
   useEffect(() => {
-    scrollToTarget({ targetIndex: 0, useScroll: false });
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      scrollToTarget({ targetIndex: 0, useScroll: false });
+    }
   }, [scrollToTarget]);
 
   return {
