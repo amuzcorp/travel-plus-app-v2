@@ -23,7 +23,7 @@ export const GNBWrapper = styled.div`
   justify-content: space-between;
 
   &.expanded {
-    width: calc(350 / 24 * 1rem);
+    width: calc(390 / 24 * 1rem);
 
     background: rgba(0, 0, 0, 0.9);
     /* backdrop-filter: blur(25px); */

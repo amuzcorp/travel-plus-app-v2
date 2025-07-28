@@ -21,6 +21,7 @@ import {
   select,
   updateWantToCollapse,
 } from "../../core/store/slices/gnbSlice";
+import useCallLgAccountApp from "../../hooks/useCallLgAccountApp";
 import { speak } from "../../utils/audioGuidance";
 import { translate } from "../../utils/translate";
 import GlobalNavigationBarButton, {
@@ -40,7 +41,7 @@ const spotlightConfig: SpotlightContainerDecoratorConfig = {
 
 const SpotlightContainer = SpotlightContainerDecorator(spotlightConfig, "div");
 
-const topSections: string[] = [];
+const topSections: string[] = ["account"];
 const middleSections: string[] = ["home", "search", "destination", "luggage"];
 const bottomSections: string[] = ["settings", "exit"];
 
@@ -124,9 +125,17 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
     };
   }, [expanded, onFocus, onBlur, expandGnb, collapseGnb]);
 
+  const callLgAccountApp = useCallLgAccountApp();
+
   const onClickButton = useCallback(
-    (target: string) => {
+    async (target: string) => {
+      if (target === "account") {
+        await callLgAccountApp(true);
+        return;
+      }
+
       dispatch(select(target));
+      collapseGnb();
 
       let targetPath: string;
 
@@ -158,7 +167,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
 
       collapseGnb();
     },
-    [dispatch, navigate, collapseGnb]
+    [dispatch, navigate, collapseGnb, callLgAccountApp]
   );
 
   const onKeyDown = useCallback(
@@ -180,6 +189,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
         selected={typeValue === selectedButton}
         onClick={onClick}
         onKeyDown={onKeyDown}
+        key={"gnb-menu-" + typeValue}
       />
     ),
     [selectedButton, onKeyDown]

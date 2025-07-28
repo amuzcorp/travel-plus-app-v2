@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import Marquee from "@enact/ui/Marquee";
+
 export interface GlobalNavigationChildProps {
   $marginBottom?: number;
 }
@@ -45,6 +47,12 @@ export const GlobalNavigationChild = styled.button<GlobalNavigationChildProps>`
 
     .label {
       color: ${({ theme }) => theme.colors.text.primaryVari};
+
+      font-weight: 600;
+    }
+
+    .description {
+      color: ${({ theme }) => theme.colors.text.focused};
     }
   }
 
@@ -72,6 +80,10 @@ export const GlobalNavigationChild = styled.button<GlobalNavigationChildProps>`
 
       font-weight: 600;
     }
+
+    .description {
+      color: ${({ theme }) => theme.colors.text.focused};
+    }
   }
 
   &.selected.expanded {
@@ -84,6 +96,10 @@ export const GlobalNavigationChild = styled.button<GlobalNavigationChildProps>`
 
   &.expanded {
     .label {
+      display: block;
+    }
+
+    .description {
       display: block;
     }
 
@@ -105,18 +121,30 @@ export const GlobalNavigationChildIcon = styled.div`
   flex: 0 0 auto;
 `;
 
-export const GlobalNavigationChildLabel = styled.span`
+export const GlobalNavigationChildLabelBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`;
+
+export const GlobalNavigationChildLabel = styled(Marquee)`
   display: none;
 
   padding-left: calc(16.5 / 24 * 1rem);
 
-  flex-grow: 1;
-
   font-family: "LGSmartUI";
   font-weight: 400;
   color: rgba(230, 230, 230, 0.8);
+  line-height: 35px;
 
-  white-space: nowrap;
+  overflow: hidden;
+`;
+
+export const GlobalNavigationChildDescription = styled(
+  GlobalNavigationChildLabel
+)`
+  font-size: 18px;
+  line-height: 21px;
 `;
 
 export const IconWrapper = styled.div`

@@ -8,6 +8,7 @@ import RoundButton from "../../../components/Buttons/RoundButton/RoundButton";
 import Spacing from "../../../components/Spacing/Spacing";
 import Text from "../../../components/Texts/Text";
 import useBlockFocusDirection from "../../../hooks/useBlockFocusDirection";
+import useCallLgAccountApp from "../../../hooks/useCallLgAccountApp";
 import { rem } from "../../../utils/rem";
 import { translate } from "../../../utils/translate";
 import LogoutBackground from "./LogoutBackground";
@@ -75,11 +76,17 @@ const LogoutScreen = React.memo(() => {
     blockDirections: ["ArrowUp", "ArrowDown", "ArrowLeft"],
     onKeyDown: (e) => {
       if (e.key === "ArrowLeft") {
-        Spotlight.focus("luggage");
+        Spotlight.focus("luggage"); // 안먹힘
         e.preventDefault();
       }
     },
   });
+
+  const callLgAccountApp = useCallLgAccountApp();
+
+  const handleLogin = useCallback(async () => {
+    await callLgAccountApp(true);
+  }, [callLgAccountApp]);
 
   return (
     <SpotlightLogoutContainer
@@ -109,6 +116,7 @@ const LogoutScreen = React.memo(() => {
           spotlightId="logout-signin"
           speaker={getSpeakerText(["account.signIn", "common.button"])}
           onKeyDown={onKeyDown}
+          onClick={handleLogin}
         >
           {translate("account.signIn")}
         </RoundButton>

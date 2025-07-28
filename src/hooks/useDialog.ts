@@ -1,6 +1,7 @@
-import Spotlight from "@enact/spotlight";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import Spotlight from "@enact/spotlight";
 
 import { RootState } from "../core/store";
 import { hide, show } from "../core/store/slices/dialogSlice";
