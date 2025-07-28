@@ -1,14 +1,16 @@
 import React from "react";
 
 import styled from "styled-components";
-import CarouselRow from "./components/CarouselRow";
-import CityRow from "./components/CityRow";
+import CarouselRow from "./components/CarouselRow/CarouselRow";
+import CityRow from "./components/CityRow/CityRow";
+import FavoriteRow from "./components/FavoriteRow/FavoriteRow";
 
 const HomePage: React.FC = React.memo(() => {
   return (
     <HomeWrapper>
       <CarouselRow />
       <CityRow />
+      <FavoriteRow />
       {/* <CityRow />
       <CityRow />
       <CityRow /> */}
