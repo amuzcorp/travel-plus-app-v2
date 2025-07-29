@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "LG Travel Plus",
   "author": "LG Electronics",
-  "main": "src/index.jsx",
+  "main": "src/index.tsx",
   "scripts": {
     "serve": "enact serve",
     "pack": "enact pack",

@@ -130,6 +130,7 @@ export default React.memo(() => {
     ref: scrollerRef,
     onKeyDown,
     onKeyUp,
+    onFocus,
   } = useScrollableRow({
     containerId: containerId,
     contentWidth: contentCardWidth,
@@ -149,6 +150,12 @@ export default React.memo(() => {
     });
   }, [onKeyUp]);
 
+  const onFocuses = useMemo(() => {
+    return datas.map((__, index) => {
+      return (ev: any) => onFocus(ev, index);
+    });
+  }, [onFocus]);
+
   const cards = useMemo(() => {
     return datas.map((data, index) => {
       return (
@@ -158,10 +165,11 @@ export default React.memo(() => {
           data={data}
           onKeyDown={onKeyDowns[index]}
           onKeyUp={onKeyUps[index]}
+          onFocus={onFocuses[index]}
         />
       );
     });
-  }, [onKeyDowns, onKeyUps]);
+  }, [onKeyDowns, onKeyUps, onFocuses]);
 
   return (
     <SectionWrapper $marginLeft={180}>
