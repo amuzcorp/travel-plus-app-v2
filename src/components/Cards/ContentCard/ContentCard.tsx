@@ -202,7 +202,7 @@ function getComponentDescription(data: BaseData): string | React.ReactNode {
 function getComponentBadges(data: BaseData): React.ReactNode {
   let badges: React.ReactNode;
 
-  badges = data.badges.map((badge, index) => {
+  badges = data.badges.map((badge, __) => {
     switch (badge) {
       case Badges.HOT:
         return <IHot />;
@@ -222,7 +222,7 @@ function getComponentFeatures(data: BaseData): React.ReactNode {
   if (data instanceof VideoData) {
     const sortedFeatures = [...data.features].sort((a, b) => a - b);
 
-    features = sortedFeatures.map((feature, index) => {
+    features = sortedFeatures.map((feature, __) => {
       switch (feature) {
         case VideoFeatures.FOUR_K:
           return <I4k />;
@@ -241,7 +241,7 @@ function getComponentFeatures(data: BaseData): React.ReactNode {
       }
     });
   } else if (data instanceof PanoramaData) {
-    features = data.features.map((feature, index) => {
+    features = data.features.map((feature, __) => {
       switch (feature) {
         case PanoramaFeatures.PANORAMA:
           return <IPanorama />;
