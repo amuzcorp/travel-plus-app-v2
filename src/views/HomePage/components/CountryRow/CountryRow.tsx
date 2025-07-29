@@ -131,7 +131,7 @@ export default React.memo(() => {
         />
       );
     });
-  }, [datas, onKeyDowns, onKeyUps]);
+  }, [onKeyDowns, onKeyUps]);
 
   return (
     <SectionWrapper $marginLeft={180}>

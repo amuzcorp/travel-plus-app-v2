@@ -2,10 +2,8 @@ import React, { useMemo } from "react";
 
 import Spotlight from "@enact/spotlight";
 
-import BaseAccessibleComponent from "../../../../components/BaseAccessibleComponent";
 import ScrollableRow from "../../../../components/Scrollables/ScrollableRow";
 import { useScrollableRow } from "../../../../components/Scrollables/useScrollableRow";
-import Spacing from "../../../../components/Spacing/Spacing";
 import Text from "../../../../components/Texts/Text";
 import {
   cityCardGap,
@@ -14,17 +12,9 @@ import {
   cityCardWidth,
 } from "../../../../core/constants/globalConstant";
 import { translate } from "../../../../utils/translate";
-import {
-  Description,
-  LargeCard,
-  LargeCardWrapper,
-  LeftSection,
-  RelativeBox,
-  RightSection,
-  SectionWrapper,
-  SmallCard,
-  SmallCardTitle,
-} from "./CityRow.style";
+import { RelativeBox, SectionWrapper } from "./CityRow.style";
+import LargeCard from "./LargeCard";
+import SmallCard from "./SmallCard";
 
 const cards = [
   {
@@ -260,23 +250,19 @@ const CityRow = React.memo(
     const smallCards = useMemo(() => {
       return cards.map((card, index) => {
         return (
-          <BaseAccessibleComponent
-            id={"home-city-row-small-" + index}
-            component={SmallCard}
-            key={index}
-            $cardWidth={smallCardWidth}
-            $cardHeight={cardHeight}
-            $cardDiff={cardDiff}
-            $background={card.color}
+          <SmallCard
+            index={index}
+            cardWidth={smallCardWidth}
+            cardHeight={cardHeight}
+            cardDiff={cardDiff}
+            card={card}
+            onClick={onClicks[index]}
             onFocus={onFocuses[index]}
             onKeyDown={onKeyDowns[index]}
             onKeyUp={onKeyUps[index]}
-            onClick={onClicks[index]}
             onMouseEnter={onMouseEnters[index]}
             onMouseLeave={onMouseLeaves[index]}
-          >
-            <SmallCardTitle textStyle="headerXlSb">{card.title}</SmallCardTitle>
-          </BaseAccessibleComponent>
+          />
         );
       });
     }, [
@@ -295,44 +281,11 @@ const CityRow = React.memo(
       return cards.map((card, index) => {
         return (
           <LargeCard
-            id={"home-city-row-large-" + index}
-            $cardWidth={cardWidth}
-            $cardHeight={cardHeight}
-            $background={card.color}
-            key={index}
-          >
-            <LargeCardWrapper>
-              <LeftSection>
-                <Text textStyle="headerHugeSb">{card.title}</Text>
-                <Spacing size={16} />
-                <Text textStyle="titleMdSb">
-                  <Description>
-                    <div>{card.city}</div>
-                    <div>{card.location}</div>
-                  </Description>
-                </Text>
-                <Spacing size={8} />
-                <Text textStyle="titleMdSb">
-                  Best Time to visit : {card.bestTimeToVisit}
-                </Text>
-              </LeftSection>
-              <RightSection>
-                <div
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    background: "darkkhaki",
-                    borderRadius: "12px",
-                  }}
-                >
-                  <span>
-                    <p>123123</p>
-                    <p>{card.title}</p>
-                  </span>
-                </div>
-              </RightSection>
-            </LargeCardWrapper>
-          </LargeCard>
+            index={index}
+            cardWidth={cardWidth}
+            cardHeight={cardHeight}
+            card={card}
+          />
         );
       });
     }, [cardWidth, cardHeight]);
