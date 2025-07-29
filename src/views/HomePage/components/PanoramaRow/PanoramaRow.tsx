@@ -1,5 +1,182 @@
-import React from "react";
+import React, { useMemo } from "react";
+import ContentCard, {
+  Badges,
+  BaseData,
+  PanoramaData,
+  PanoramaFeatures,
+} from "../../../../components/Cards/ContentCard/ContentCard";
+import ScrollableRow from "../../../../components/Scrollables/ScrollableRow";
+import { useScrollableRow } from "../../../../components/Scrollables/useScrollableRow";
+import Text from "../../../../components/Texts/Text";
+import {
+  contentCardGap,
+  contentCardWidth,
+} from "../../../../core/constants/globalConstant";
+import { translate } from "../../../../utils/translate";
+import { RelativeBox, SectionWrapper } from "../CityRow/CityRow.style";
+
+const datas: BaseData[] = [
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [],
+    title: "Famous Destinations in Italy",
+    country: "Italy",
+    city: "Roma",
+  }),
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [Badges.HOT],
+    title: "View of Dubai from Burj Kahlifa",
+    country: "United Arab Emirates",
+    city: "Dubai",
+  }),
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [Badges.NEW],
+    title: "View of Tbilisi Old Town",
+    country: "Georgia",
+    city: "Tbilisi",
+  }),
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [],
+    title: "Famous Destinations in Italy",
+    country: "Italy",
+    city: "Roma",
+  }),
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [Badges.HOT],
+    title: "View of Dubai from Burj Kahlifa",
+    country: "United Arab Emirates",
+    city: "Dubai",
+  }),
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [Badges.NEW],
+    title: "View of Tbilisi Old Town",
+    country: "Georgia",
+    city: "Tbilisi",
+  }),
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [],
+    title: "Famous Destinations in Italy",
+    country: "Italy",
+    city: "Roma",
+  }),
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [Badges.HOT],
+    title: "View of Dubai from Burj Kahlifa",
+    country: "United Arab Emirates",
+    city: "Dubai",
+  }),
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [Badges.NEW],
+    title: "View of Tbilisi Old Town",
+    country: "Georgia",
+    city: "Tbilisi",
+  }),
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [],
+    title: "Famous Destinations in Italy",
+    country: "Italy",
+    city: "Roma",
+  }),
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [Badges.HOT],
+    title: "View of Dubai from Burj Kahlifa",
+    country: "United Arab Emirates",
+    city: "Dubai",
+  }),
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [Badges.NEW],
+    title: "View of Tbilisi Old Town",
+    country: "Georgia",
+    city: "Tbilisi",
+  }),
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [],
+    title: "Famous Destinations in Italy",
+    country: "Italy",
+    city: "Roma",
+  }),
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [Badges.HOT],
+    title: "View of Dubai from Burj Kahlifa",
+    country: "United Arab Emirates",
+    city: "Dubai",
+  }),
+  new PanoramaData({
+    features: [PanoramaFeatures.PANORAMA],
+    badges: [Badges.NEW],
+    title: "View of Tbilisi Old Town",
+    country: "Georgia",
+    city: "Tbilisi",
+  }),
+];
 
 export default React.memo(() => {
-  return <div></div>;
+  const containerId = "home-panorama-row-container";
+
+  const {
+    ref: scrollerRef,
+    onKeyDown,
+    onKeyUp,
+  } = useScrollableRow({
+    containerId: containerId,
+    contentWidth: contentCardWidth,
+    contentGap: contentCardGap,
+    maxDataLength: datas.length,
+  });
+
+  const onKeyDowns = useMemo(() => {
+    return datas.map((__, index) => {
+      return (ev: React.KeyboardEvent) => onKeyDown(ev, index);
+    });
+  }, [onKeyDown]);
+
+  const onKeyUps = useMemo(() => {
+    return datas.map((__, index) => {
+      return (ev: React.KeyboardEvent) => onKeyUp(ev, index);
+    });
+  }, [onKeyUp]);
+
+  const cards = useMemo(() => {
+    return datas.map((data, index) => {
+      return (
+        <ContentCard
+          id={index}
+          key={index}
+          data={data}
+          onKeyDown={onKeyDowns[index]}
+          onKeyUp={onKeyUps[index]}
+        />
+      );
+    });
+  }, [onKeyDowns, onKeyUps]);
+
+  return (
+    <SectionWrapper $marginLeft={180}>
+      <Text textStyle="titleMdSb">{translate("video.panoramasOfCities")}</Text>
+
+      <RelativeBox>
+        <ScrollableRow
+          spotlightId={containerId}
+          scrollerRef={scrollerRef}
+          $marginLeft={180}
+          $gap={24}
+        >
+          {cards}
+        </ScrollableRow>
+      </RelativeBox>
+    </SectionWrapper>
+  );
 });
