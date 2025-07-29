@@ -7,6 +7,7 @@ export interface TVSystemInfo {
   sdkVersion: string;
   boardType: string;
   isWebOS6: boolean;
+  tvMemory: string | null | undefined;
 }
 
 interface TVSystemState {

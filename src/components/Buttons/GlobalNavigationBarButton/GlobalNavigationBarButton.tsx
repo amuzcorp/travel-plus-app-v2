@@ -118,8 +118,6 @@ export default React.memo(
     /// webOS6 여부
     const isWebOS6 = useIsWebOS6();
 
-    console.log("accountState", accountState);
-
     /// 기본 상태
     const Idle = gnbTypeData[type].element;
 

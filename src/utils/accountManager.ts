@@ -7,6 +7,7 @@ import {
 } from "../core/store/slices/tvSystemSlice";
 import env from "../env";
 
+import { loginToAmuz } from "../core/api/auth";
 import { appId } from "../core/constants/globalConstant";
 import store from "../core/store";
 
@@ -29,50 +30,56 @@ export const fetchAccountInfo = () => async (dispatch: AppDispatch) => {
     const isWebOS6 = selectIsWebOS6(store.getState());
 
     if (isLoggedIn) {
-      dispatch(
-        setAccountState({
-          isLoggedIn: true,
-          lastSignInUserNo: res.userData.userNumber,
-          userEmail: res.id,
-          emp_number: res.userData.userNumber,
-          ...(isWebOS6
-            ? {}
-            : {
-                nickName: res.userData.profileNick,
-                iconNick: res.userData.iconNick,
-                profileBg: res.userData.profileBg,
-              }),
-        })
-      );
+      const accountInfo = {
+        isLoggedIn: true,
+        lastSignInUserNo: res.userData.userNumber,
+        userEmail: res.id,
+        emp_number: res.userData.userNumber,
+        ...(isWebOS6
+          ? {}
+          : {
+              nickName: res.userData.profileNick,
+              iconNick: res.userData.iconNick,
+              profileBg: res.userData.profileBg,
+            }),
+      };
+
+      // AMUZ 로그인
+      await dispatch(loginToAmuz(res.userData.userNumber, accountInfo));
+
+      return {
+        success: true,
+        isLoggedIn: true,
+        lastSignInUserNo: res.userData.userNumber,
+      };
     } else {
       dispatch(setAccountState({ isLoggedIn: false }));
+      return {
+        success: true,
+        isLoggedIn: false,
+      };
     }
-
-    return {
-      success: true,
-      isLoggedIn,
-      lastSignInUserNo: res.userData.userNumber,
-    };
   } catch (err: any) {
     console.error("계정 정보 조회 실패:", err);
 
     if (env.IS_LOCAL || env.IS_DEVELOPMENT) {
       const isWebOS6 = selectIsWebOS6(store.getState());
-      dispatch(
-        setAccountState({
-          isLoggedIn: true,
-          lastSignInUserNo: env.USER_NUMBER,
-          userEmail: "soo@amuz.co.kr",
-          emp_number: env.USER_NUMBER,
-          ...(isWebOS6
-            ? {}
-            : {
-                nickName: "SOOEUN01",
-                iconNick: "S",
-                profileBg: "#7360E7",
-              }),
-        })
-      );
+      const devAccount = {
+        isLoggedIn: true,
+        lastSignInUserNo: env.USER_NUMBER,
+        userEmail: "soo@amuz.co.kr",
+        emp_number: env.USER_NUMBER,
+        ...(isWebOS6
+          ? {}
+          : {
+              nickName: "SOOEUN01",
+              iconNick: "S",
+              profileBg: "#7360E7",
+            }),
+      };
+
+      await dispatch(loginToAmuz(env.USER_NUMBER, devAccount));
+
       return {
         success: true,
         isLoggedIn: true,
