@@ -2,10 +2,10 @@ import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDeco
 import React from "react";
 import styled from "styled-components";
 
-interface ScrollableRowProps {
+interface ScrollableColumnProps {
   scrollerRef: React.RefObject<any>;
   spotlightId: string;
-  $marginLeft?: number;
+  $marginTop?: number;
   $gap?: number;
   $spaceOfContent?: number;
   children?: React.ReactNode;
@@ -15,17 +15,17 @@ export default React.memo(
   ({
     spotlightId,
     scrollerRef,
-    $marginLeft = 0,
+    $marginTop = 0,
     $gap = 24,
     children,
-  }: ScrollableRowProps) => {
+  }: ScrollableColumnProps) => {
     return (
       <NormalizeWrapper>
-        <ScrollWrapper $marginLeft={$marginLeft}>
+        <ScrollWrapper $marginTop={$marginTop}>
           <SpottableWrapper
             id={spotlightId}
             spotlightId={spotlightId}
-            $marginLeft={$marginLeft}
+            $marginTop={$marginTop}
             $gap={$gap}
           >
             {children}
@@ -36,34 +36,34 @@ export default React.memo(
   }
 );
 
-const RowWrapper = styled.div<{ $marginLeft: number; $gap: number }>`
+const ColumnWrapper = styled.div<{ $marginTop: number; $gap: number }>`
   position: relative;
 
   display: flex;
+  flex-direction: column;
 
-  padding-left: ${({ $marginLeft }) => $marginLeft ?? 0}px;
-  padding-right: ${({ $marginLeft }) => `calc(100vw - ${$marginLeft ?? 0}px)`};
+  padding-top: ${({ $marginTop }) => $marginTop ?? 0}px;
+  padding-bottom: ${({ $marginTop }) => `calc(100vh - ${$marginTop ?? 0}px)`};
 
   transition: transform ease 0.3s;
 
   & > :not(:last-child) {
-    margin-right: ${({ $gap }) => $gap ?? 0}px;
+    margin-bottom: ${({ $gap }) => $gap ?? 0}px;
   }
 `;
 
-const SpottableWrapper = SpotlightContainerDecorator(RowWrapper);
+const SpottableWrapper = SpotlightContainerDecorator(ColumnWrapper);
 
 const NormalizeWrapper = styled.div`
   position: relative;
 `;
 
-const ScrollWrapper = styled.div<{ $marginLeft: number }>`
+const ScrollWrapper = styled.div<{ $marginTop: number }>`
   display: flex;
+  flex-direction: column;
 
-  overflow-x: hidden;
-  overflow-y: visible;
+  overflow-x: visible;
+  overflow-y: hidden;
 
-  margin-left: -${({ $marginLeft }) => $marginLeft ?? 0}px;
-
-  padding: 24px 0;
+  margin-top: -${({ $marginTop }) => $marginTop ?? 0}px;
 `;
