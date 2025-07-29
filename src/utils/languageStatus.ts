@@ -3,7 +3,11 @@ import LS2Request from "@enact/webos/LS2Request";
 import { localStorageLanguageCode } from "../core/constants/globalConstant";
 import env from "../env";
 
-const requestLS2 = (service: string, method: string, parameters: object): Promise<any> => {
+const requestLS2 = (
+  service: string,
+  method: string,
+  parameters: object
+): Promise<any> => {
   return new Promise((resolve, reject) => {
     new LS2Request().send({
       service,
@@ -17,9 +21,13 @@ const requestLS2 = (service: string, method: string, parameters: object): Promis
 
 export const setLanguageCode = async () => {
   try {
-    const res = await requestLS2("luna://com.webos.settingsservice", "getSystemSettings", {
-      keys: ["localeInfo"],
-    });
+    const res = await requestLS2(
+      "luna://com.webos.settingsservice",
+      "getSystemSettings",
+      {
+        keys: ["localeInfo"],
+      }
+    );
 
     const languageCode = res?.settings?.localeInfo?.locales?.UI;
     if (languageCode) {

@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { speak } from "../utils/audioGuidance";
 import { translate } from "../utils/translate";
 
+// 막고 싶은 이동 방향
 type DirectionKey = "ArrowUp" | "ArrowDown" | "ArrowLeft" | "ArrowRight";
 
 interface Options {

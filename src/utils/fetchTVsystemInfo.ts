@@ -24,20 +24,49 @@ const requestSystemInfo = (): Promise<any> => {
   });
 };
 
+const requestTVMemory = (): Promise<string | null> => {
+  return new Promise((resolve) => {
+    new LS2Request().send({
+      service: "luna://com.webos.service.config",
+      method: "getConfigs",
+      parameters: {
+        configNames: ["tv.hw.ddrSize"],
+      },
+      onSuccess: (res: any) => {
+        if (res && res.returnValue === true) {
+          resolve(res.configs["tv.hw.ddrSize"] || null);
+        } else {
+          console.warn("getConfigsDirect 실패 응답:", res);
+          resolve(null);
+        }
+      },
+      onFailure: (err: any) => {
+        console.warn("getConfigsDirect 실패:", err);
+        resolve(null);
+      },
+    });
+  });
+};
+
 export const fetchTVSystemInfo = () => async (dispatch: AppDispatch) => {
   try {
-    const res = await requestSystemInfo();
-    const sdkVersion = res.sdkVersion || "0.0.0";
+    const [sysInfo, tvMemory] = await Promise.all([
+      requestSystemInfo(),
+      requestTVMemory(),
+    ]);
+
+    const sdkVersion = sysInfo.sdkVersion || "0.0.0";
     const isWebOS6 = parseInt(sdkVersion.split(".")[0]) <= 6;
 
     dispatch(
       setTVSystemInfo({
-        modelName: res.modelName || "",
-        firmwareVersion: res.firmwareVersion || "",
-        isUHD: res.UHD === "true",
-        sdkVersion,
-        boardType: res.boardType || "",
-        isWebOS6,
+        modelName: sysInfo.modelName || "",
+        firmwareVersion: sysInfo.firmwareVersion || "",
+        isUHD: sysInfo.UHD === "true",
+        sdkVersion: sdkVersion,
+        boardType: sysInfo.boardType || "",
+        isWebOS6: isWebOS6,
+        tvMemory: tvMemory || undefined,
       })
     );
   } catch (err) {
@@ -51,6 +80,7 @@ export const fetchTVSystemInfo = () => async (dispatch: AppDispatch) => {
           sdkVersion: "8.2.0",
           boardType: "OLED55C4XLA.DTRQLJL",
           isWebOS6: false,
+          tvMemory: null,
         })
       );
     }
