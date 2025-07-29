@@ -3,38 +3,35 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 
 const ARROWRIGHT = "ArrowRight";
 const ARROWLEFT = "ArrowLeft";
-// const ARROWUP = "ArrowUp";
-// const ARROWDOWN = "ArrowDown";
 
 export interface ScrollToTargetProps {
   targetIndex: number;
   useScroll?: boolean;
 }
 
-export interface UseScrollableRowResult {
+export interface UseScrollableColumnResult {
   ref: React.RefObject<any>;
   offset: number;
   onKeyDown: (ev: React.KeyboardEvent, index: number) => void;
   onKeyUp: (ev: React.KeyboardEvent, index: number) => void;
-  onFocus: (ev: any, index: number) => void;
   scrollToTarget: ({ targetIndex, useScroll }: ScrollToTargetProps) => void;
 }
 
-export interface useScrollableRowHookProps {
+export interface useScrollableColumnHookProps {
   containerId: string;
-  contentWidth: number;
+  contentHeight: number;
   contentGap: number;
   maxDataLength: number;
   onScroll?: (index: number, children: React.ReactNode[]) => void;
 }
 
-const useScrollableRowHook = ({
+const useScrollableColumnHook = ({
   containerId,
-  contentWidth,
+  contentHeight,
   contentGap,
   maxDataLength,
   onScroll = (index: number, children: React.ReactNode[]) => {},
-}: useScrollableRowHookProps): UseScrollableRowResult => {
+}: useScrollableColumnHookProps) => {
   const ref = useRef<any>(null);
   const [offset, setOffset] = useState<number>(0);
 
@@ -48,7 +45,7 @@ const useScrollableRowHook = ({
       targetIndex: number;
       useScroll?: boolean;
     }) => {
-      const targetOffset = targetIndex * (contentWidth + contentGap);
+      const targetOffset = targetIndex * (contentHeight + contentGap);
 
       const spottableChildren = Spotlight.getSpottableDescendants(containerId);
       for (let i = 0; i < spottableChildren.length; i++) {
@@ -74,7 +71,7 @@ const useScrollableRowHook = ({
         }
       }
     },
-    [containerId, contentWidth, contentGap, onScroll]
+    [containerId, contentHeight, contentGap, onScroll]
   );
 
   const onKeyDown = useCallback(
@@ -127,4 +124,4 @@ const useScrollableRowHook = ({
   };
 };
 
-export const useScrollableRow = useScrollableRowHook;
+export const useScrollableColumn = useScrollableColumnHook;

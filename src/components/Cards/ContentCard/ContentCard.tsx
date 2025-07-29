@@ -152,6 +152,7 @@ export interface ContentCardProps {
   data: BaseData;
   onKeyDown?: (ev: React.KeyboardEvent) => void;
   onKeyUp?: (ev: React.KeyboardEvent) => void;
+  onFocus?: (ev: any) => void;
 }
 
 function getComponentData(data: BaseData) {
@@ -262,7 +263,15 @@ function getComponentFeatures(data: BaseData): React.ReactNode {
 }
 
 export default React.memo(
-  ({ id, key, data, onKeyDown, onKeyUp, ...rest }: ContentCardProps) => {
+  ({
+    id,
+    key,
+    data,
+    onKeyDown,
+    onKeyUp,
+    onFocus,
+    ...rest
+  }: ContentCardProps) => {
     const { title, description, badges, features } = getComponentData(data);
 
     return (
@@ -273,6 +282,7 @@ export default React.memo(
         component={ContentCardWrapper}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
+        onFocus={onFocus}
         {...rest}
       >
         <ImageWrapper className={"image-wrapper"} $width={contentCardWidth}>

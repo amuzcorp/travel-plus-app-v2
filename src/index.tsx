@@ -28,7 +28,7 @@ if (typeof window !== "undefined") {
   // if(false) {}
   // hydrateRoot(container, appElement);
   // } else {
-  createRoot(container).render(appElement);
+  createRoot(container!).render(appElement);
   // }
 }
 
