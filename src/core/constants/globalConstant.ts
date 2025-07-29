@@ -5,7 +5,6 @@ export const zIndexes = [
   "header",
   "gnb",
   "popup",
-  "netWorkError",
   "spinner",
 ] as const;
 
