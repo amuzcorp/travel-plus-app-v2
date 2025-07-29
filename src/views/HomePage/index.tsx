@@ -3,8 +3,10 @@ import React from "react";
 import styled from "styled-components";
 import CarouselRow from "./components/CarouselRow/CarouselRow";
 import CityRow from "./components/CityRow/CityRow";
+import CountryRow from "./components/CountryRow/CountryRow";
 import DealsRow from "./components/DealsRow/DealsRow";
 import FavoriteRow from "./components/FavoriteRow/FavoriteRow";
+import PanoramaRow from "./components/PanoramaRow/PanoramaRow";
 
 const HomePage: React.FC = React.memo(() => {
   return (
@@ -13,6 +15,8 @@ const HomePage: React.FC = React.memo(() => {
       <CityRow />
       <FavoriteRow />
       <DealsRow />
+      <PanoramaRow />
+      <CountryRow />
     </HomeWrapper>
   );
 });

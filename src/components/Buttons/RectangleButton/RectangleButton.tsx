@@ -73,11 +73,13 @@ export const RectangleButtonBase = styled(Marquee)<{ $isLarge?: boolean }>`
 
   cursor: pointer;
 
+  border-radius: ${rem(12)};
+
   ${({ $isLarge }) =>
     $isLarge
       ? css`
           width: ${rem(240)};
-          padding: ${rem(18.5)} ${rem(40)};
+          padding: ${rem(19.5)} ${rem(40)};
         `
       : css`
           width: ${rem(87)};
