@@ -84,12 +84,28 @@ export const GlobalNavigationChild = styled.button<GlobalNavigationChildProps>`
     .description {
       color: ${({ theme }) => theme.colors.text.focused};
     }
-  }
 
-  &.selected.expanded {
-    .icon {
-      path {
-        fill: ${({ theme }) => theme.colors.keyColor.item};
+    &.expanded {
+      .icon {
+        path {
+          fill: ${({ theme }) => theme.colors.keyColor.item};
+        }
+      }
+    }
+
+    &:focus {
+      color: ${({ theme }) => theme.colors.text.primaryVari};
+
+      .icon {
+        path {
+          fill: ${({ theme }) => theme.colors.text.primaryVari};
+        }
+      }
+
+      .label {
+        color: ${({ theme }) => theme.colors.text.primaryVari};
+
+        font-weight: 600;
       }
     }
   }
