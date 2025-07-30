@@ -131,6 +131,15 @@ const CityRow = React.memo(() => {
     });
   }, [scrollToTarget]);
 
+  const onClicks = useMemo(() => {
+    return cards.map((__, index) => {
+      return () => {
+        scrollToTarget({ targetIndex: index });
+        setExpandedIndex(index);
+      };
+    });
+  }, [scrollToTarget]);
+
   const onKeyDowns = useMemo(() => {
     return cards.map((__, index) => {
       return (ev: React.KeyboardEvent) => {
@@ -198,6 +207,7 @@ const CityRow = React.memo(() => {
           cardDiff={cardDiff}
           card={card}
           onFocus={onFocuses[index]}
+          onClick={onClicks[index]}
           onKeyDown={onKeyDowns[index]}
           onKeyUp={onKeyUps[index]}
         />
