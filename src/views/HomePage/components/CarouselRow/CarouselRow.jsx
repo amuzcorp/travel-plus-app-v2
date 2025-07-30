@@ -8,7 +8,6 @@ import ViewMoreSmallButton from "../../../../components/Buttons/ViewMoreButtons/
 import Spacing from "../../../../components/Spacing/Spacing";
 import Text from "../../../../components/Texts/Text";
 import { useDialog } from "../../../../hooks/useDialog";
-import { rem } from "../../../../utils/rem";
 import {
   ArrowButtonWrapper,
   CarouselContainer,
@@ -108,8 +107,8 @@ export default React.memo(({ title, description }) => {
         <MapWrapper>
           <div
             style={{
-              width: rem(216),
-              height: rem(260),
+              width: "216px",
+              height: "260px",
               background: "tomato",
             }}
           />

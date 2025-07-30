@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { rem } from "../../../utils/rem";
 
 const ArrowIcon = React.memo(() => {
   return (
@@ -35,8 +34,8 @@ export default React.memo(({ onClick = () => {} }: ArrowRightButtonProps) => {
 const Button = styled.button`
   all: unset;
 
-  width: ${rem(71)};
-  height: ${rem(71)};
+  width: 71px;
+  height: 71px;
 
   display: flex;
   justify-content: center;
@@ -71,7 +70,7 @@ const Button = styled.button`
 
     &::before {
       background-color: ${({ theme }) => theme.colors.text.primary};
-      box-shadow: 0 ${rem(14)} ${rem(30)} 0 rgba(0, 0, 0, 0.3);
+      box-shadow: 0 14px 30px 0 rgba(0, 0, 0, 0.3);
       transform: scale(1.05);
 
       pointer-events: none;

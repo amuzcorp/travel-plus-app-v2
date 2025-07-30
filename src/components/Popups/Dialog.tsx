@@ -8,7 +8,6 @@ import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDeco
 import { Cell, Column } from "@enact/ui/Layout";
 
 import { useDialog } from "../../hooks/useDialog";
-import { rem } from "../../utils/rem";
 import { translate } from "../../utils/translate";
 import RectangleButton from "../Buttons/RectangleButton/RectangleButton";
 import MarqueeText from "../Texts/MarqueeText";
@@ -29,17 +28,17 @@ const Backdrop = styled.div`
 `;
 
 const DialogBox = styled.div`
-  padding: ${rem(40)} 0 ${rem(24)};
+  padding: 40px 0 24px;
   background-color: rgba(55, 58, 65, 0.95);
-  box-shadow: 0px ${rem(14)} ${rem(30)} 0px rgba(0, 0, 0, 0.95);
-  border-radius: ${rem(24)};
+  box-shadow: 0px 14px 30px 0px rgba(0, 0, 0, 0.95);
+  border-radius: 24px;
 `;
 
 const ContentBox = styled.div`
-  padding-left: ${rem(50)};
-  padding-right: ${rem(50)};
-  width: ${rem(1052)};
-  height: ${rem(404)};
+  padding-left: 50px;
+  padding-right: 50px;
+  width: 1052px;
+  height: 404px;
   display: flex;
   flex-direction: column;
 `;
@@ -85,10 +84,10 @@ const Dialog = React.memo(() => {
       <div onClick={stopPropagation}>
         <SpotlightDialogBox spotlightId="dialog" spotlightRestrict="self-only">
           <Column>
-            <Cell shrink style={{ padding: `0 ${rem(50)}` }}>
+            <Cell shrink style={{ padding: `0 50px` }}>
               <MarqueeText textStyle="titleXlSb">{title}</MarqueeText>
             </Cell>
-            <Cell size={rem(36)} />
+            <Cell size={36} />
             <Cell shrink>
               <ContentBox>
                 <Scroller>
@@ -102,7 +101,7 @@ const Dialog = React.memo(() => {
                 </Scroller>
               </ContentBox>
             </Cell>
-            <Cell size={rem(42)} />
+            <Cell size={42} />
             <Cell
               shrink
               style={{
