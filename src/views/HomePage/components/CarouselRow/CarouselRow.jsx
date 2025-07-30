@@ -16,7 +16,6 @@ import Spacing from "../../../../components/Spacing/Spacing";
 import Text from "../../../../components/Texts/Text";
 import { homeKeys } from "../../../../core/constants/globalConstant";
 import { useDialog } from "../../../../hooks/useDialog";
-import { rem } from "../../../../utils/rem";
 import { useHomePageSroll } from "../../useHomePageScroll";
 import {
   ArrowButtonWrapper,
@@ -149,8 +148,8 @@ export default React.memo(
             <MapWrapper>
               <div
                 style={{
-                  width: rem(216),
-                  height: rem(260),
+                  width: 216,
+                  height: 260,
                   background: "tomato",
                 }}
               />
