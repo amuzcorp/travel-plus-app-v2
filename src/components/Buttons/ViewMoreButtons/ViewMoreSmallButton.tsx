@@ -1,6 +1,7 @@
 import Marquee from "@enact/ui/Marquee";
 import React from "react";
 import styled from "styled-components";
+
 import BaseAccessibleComponent from "../../../components/BaseAccessibleComponent";
 import Spacing from "../../../components/Spacing/Spacing";
 import { translate } from "../../../utils/translate";
@@ -8,10 +9,15 @@ import { translate } from "../../../utils/translate";
 interface ViewMoreSmallButtonProps {
   spotlightId?: string;
   onClick?: () => void;
+  onKeyDown?: (ev: React.KeyboardEvent) => void;
 }
 
 export default React.memo(
-  ({ spotlightId, onClick = () => {} }: ViewMoreSmallButtonProps) => {
+  ({
+    spotlightId,
+    onClick = () => {},
+    onKeyDown = (ev) => {},
+  }: ViewMoreSmallButtonProps) => {
     const speakerArr = [
       "media.moreInfo",
       "common.button",
@@ -20,10 +26,12 @@ export default React.memo(
 
     return (
       <BaseAccessibleComponent
+        id={spotlightId}
+        spotlightId={spotlightId}
         component={Button}
         speaker={translate(speakerArr)}
         onClick={onClick}
-        spotlightId={spotlightId}
+        onKeyDown={onKeyDown}
       >
         <TextWrapper>
           <p>{translate("More")}</p>

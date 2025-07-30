@@ -5,6 +5,7 @@ import Marquee from "@enact/ui/Marquee";
 import BaseAccessibleComponent from "../../BaseAccessibleComponent";
 
 interface RoundButtonProps {
+  spotlightId?: string;
   disabled?: boolean;
   onClick?: () => void;
   onKeyDown?: (ev: React.KeyboardEvent<any>) => void;
@@ -16,6 +17,7 @@ interface RoundButtonProps {
 }
 
 const RoundButton = ({
+  spotlightId,
   disabled = false,
   onClick = () => {},
   onKeyDown = (ev) => {},
@@ -46,6 +48,7 @@ const RoundButton = ({
 
   return (
     <BaseAccessibleComponent
+      spotlightId={spotlightId}
       component={getComponent}
       className={mergedClassName}
       onClick={onClickHandler}

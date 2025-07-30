@@ -1,13 +1,23 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import GradientBottomComponent from "../../../../../assets/gradients/GradientCarouselBottom";
 import GradientLeftComponent from "../../../../../assets/gradients/GradientCarouselLeft";
 import ArrowRightButton from "../../../../components/Buttons/ArrowButtons/ArrowRightButton";
 import RoundButton from "../../../../components/Buttons/RoundButton/RoundButton";
 import ViewMoreSmallButton from "../../../../components/Buttons/ViewMoreButtons/ViewMoreSmallButton";
+import { useGlobalNavigationBar } from "../../../../components/GlobalNavigationBar/useGlobalNavigationBar";
 import Spacing from "../../../../components/Spacing/Spacing";
 import Text from "../../../../components/Texts/Text";
+import { homeKeys } from "../../../../core/constants/globalConstant";
 import { useDialog } from "../../../../hooks/useDialog";
+import { rem } from "../../../../utils/rem";
+import { useHomePageSroll } from "../../useHomePageScroll";
 import {
   ArrowButtonWrapper,
   CarouselContainer,
@@ -21,107 +31,141 @@ import {
   VideoWrapper,
 } from "./CarouselRow.style";
 
-export default React.memo(({ title, description }) => {
-  const descriptionRef = useRef(null);
-  const { showDialog } = useDialog();
+export const viewMoreId = "home-carousel-row-view-more";
 
-  const viewMoreId = "home-carousel-row-view-more";
+export default React.memo(
+  ({ title, description }) => {
+    const descriptionRef = useRef(null);
+    const { showDialog } = useDialog();
 
-  const titleText = "eifjao;sdjf;ijkelfasjdfioej;alksdjfa;lisejf;asldkjf;";
-  const descriptionText =
-    "Experience Milan's Piazza del Duomo—featuring the breathtaking cathedral, historic galleria, and vibrant cultural charm all in one iconic location! Experience Milan's Piazza del Duomo—featuring the breathtaking cathedral,";
+    const titleText = "eifjao;sdjf;ijkelfasjdfioej;alksdjfa;lisejf;asldkjf;";
+    const descriptionText =
+      "Experience Milan's Piazza del Duomo—featuring the breathtaking cathedral, historic galleria, and vibrant cultural charm all in one iconic location! Experience Milan's Piazza del Duomo—featuring the breathtaking cathedral,";
 
-  const [showViewMore, setShowViewMore] = useState(false);
+    const [showViewMore, setShowViewMore] = useState(false);
 
-  useEffect(() => {
-    const target = descriptionRef.current;
+    const { focus } = useGlobalNavigationBar();
+    const { homeScrollTo } = useHomePageSroll();
 
-    if (target) {
-      const showViewMore = target.clientHeight < target.scrollHeight;
-      setShowViewMore(showViewMore);
-    }
-  }, []);
-
-  const onClickViewMore = useCallback(() => {
-    showDialog({
-      title: titleText,
-      content: descriptionText,
-      focusIdOnDismiss: viewMoreId,
+    const onClickViewMore = useCallback(() => {
+      showDialog({
+        title: titleText,
+        content: descriptionText,
+        focusIdOnDismiss: viewMoreId,
+      });
     });
-  });
 
-  useEffect(() => {
-    console.log(viewMoreId);
-    // Spotlight.focus(viewMoreId);
-  }, []);
+    const onKeyDown = useCallback(
+      (ev) => {
+        if (ev.key === "ArrowLeft") {
+          focus(homeKeys.carousel.defaultKey);
+        }
+      },
+      [focus]
+    );
 
-  return (
-    <CarouselContainer>
-      {/* Video */}
-      <VideoWrapper />
+    useEffect(() => {
+      const target = descriptionRef.current;
 
-      {/* Gradients */}
-      <GradientLeft>
-        <GradientLeftComponent
-          width="67vw"
-          height="100%"
-          preserveAspectRatio="none"
-        />
-      </GradientLeft>
-      <GradientBottom>
-        <GradientBottomComponent
-          width="100vw"
-          height="100%"
-          preserveAspectRatio="none"
-        />
-      </GradientBottom>
+      if (target) {
+        const showViewMore = target.clientHeight < target.scrollHeight;
+        setShowViewMore(showViewMore);
+      }
+    }, []);
 
-      {/* Contents */}
-      <ContentWrapper>
-        <HeaderText textStyle={"headerHugeSb"}>{titleText}</HeaderText>
+    const travelButton = useMemo(() => {
+      const id = homeKeys.carousel.defaultKey;
 
-        <Spacing size={16} />
+      return (
+        <RoundButton
+          spotlightId={id}
+          onKeyDown={(ev) => {
+            if (ev.key === "ArrowDown") {
+              ev.preventDefault();
+              ev.stopPropagation();
+              homeScrollTo(homeKeys.city);
+            }
+          }}
+        >
+          Travel Now
+        </RoundButton>
+      );
+    }, []);
 
-        <InfoWrapper>
-          <Text>국가</Text>
-          <Text>국가</Text>
-          <Text>국가</Text>
-        </InfoWrapper>
+    return (
+      <div id={homeKeys.carousel.sectionKey}>
+        <CarouselContainer
+          spotlightId={homeKeys.carousel.containerKey}
+          spotlightRestrict="self-first"
+          onKeyDown={onKeyDown}
+        >
+          {/* Video */}
+          <VideoWrapper />
 
-        <Text ref={descriptionRef} textStyle={"bodyMdRg"} maxLine={3}>
-          {descriptionText}
-        </Text>
+          {/* Gradients */}
+          <GradientLeft>
+            <GradientLeftComponent
+              width="67vw"
+              height="100%"
+              preserveAspectRatio="none"
+            />
+          </GradientLeft>
+          <GradientBottom>
+            <GradientBottomComponent
+              width="100vw"
+              height="100%"
+              preserveAspectRatio="none"
+            />
+          </GradientBottom>
 
-        <MoreWrapper>
-          <Spacing size={16} />
-          {showViewMore && (
-            <ViewMoreSmallButton
-              spotlightId={viewMoreId}
-              onClick={onClickViewMore}
-            >
-              View More
-            </ViewMoreSmallButton>
-          )}
-        </MoreWrapper>
+          {/* Contents */}
+          <ContentWrapper>
+            <HeaderText textStyle={"headerHugeSb"}>{titleText}</HeaderText>
 
-        <MapWrapper>
-          <div
-            style={{
-              width: "216px",
-              height: "260px",
-              background: "tomato",
-            }}
-          />
-        </MapWrapper>
+            <Spacing size={16} />
 
-        <Spacing size={60} />
+            <InfoWrapper>
+              <Text>국가</Text>
+              <Text>국가</Text>
+              <Text>국가</Text>
+            </InfoWrapper>
 
-        <RoundButton>Travel Now</RoundButton>
-      </ContentWrapper>
+            <Text ref={descriptionRef} textStyle={"bodyMdRg"} maxLine={3}>
+              {descriptionText}
+            </Text>
 
-      <ArrowButtonWrapper>
-        <ArrowRightButton />
-      </ArrowButtonWrapper>
-    </CarouselContainer>
-  );
-});
+            <MoreWrapper>
+              <Spacing size={16} />
+              {showViewMore && (
+                <ViewMoreSmallButton
+                  spotlightId={viewMoreId}
+                  onClick={onClickViewMore}
+                >
+                  View More
+                </ViewMoreSmallButton>
+              )}
+            </MoreWrapper>
+
+            <MapWrapper>
+              <div
+                style={{
+                  width: rem(216),
+                  height: rem(260),
+                  background: "tomato",
+                }}
+              />
+            </MapWrapper>
+
+            <Spacing size={60} />
+            {travelButton}
+          </ContentWrapper>
+
+          <ArrowButtonWrapper>
+            <ArrowRightButton />
+          </ArrowButtonWrapper>
+        </CarouselContainer>
+      </div>
+    );
+  },
+  (prev, next) => true
+);

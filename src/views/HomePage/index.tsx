@@ -10,7 +10,7 @@ import PanoramaRow from "./components/PanoramaRow/PanoramaRow";
 
 const HomePage: React.FC = React.memo(() => {
   return (
-    <HomeWrapper>
+    <HomeWrapper id={"home-main-container"}>
       <CarouselRow />
       <CityRow />
       <FavoriteRow />
@@ -25,14 +25,13 @@ export default HomePage;
 
 const HomeWrapper = styled.div`
   width: 100vw;
-  height: 100wh;
+  height: 100vh;
 
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
-
   /* overflow: hidden; */
 
-  height: 100vh;
+  transition: transform ease 0.3s;
 
   > *:not(:last-child) {
     margin-bottom: 90px;
