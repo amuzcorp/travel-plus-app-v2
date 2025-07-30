@@ -7,15 +7,6 @@ import splashLottieAnimation from "../../../assets/lottie/splash_luggage.json";
 import { speak } from "../../utils/audioGuidance";
 import { translate } from "../../utils/translate";
 
-const SplashContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
-
 const SplashPage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -51,3 +42,12 @@ const SplashPage: React.FC = () => {
 };
 
 export default SplashPage;
+
+const SplashContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+`;
