@@ -92,11 +92,11 @@ export const SmallCard = styled(CardBase)<{ $cardDiff: number }>`
 
   &.hovered {
     outline: 3px solid #e6e6e6;
-  }
+  } */
 
   &.hided {
     opacity: 0.2;
-  } */
+  }
 `;
 
 export const SmallCardTitle = styled(Text)`
