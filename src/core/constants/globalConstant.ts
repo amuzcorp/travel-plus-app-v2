@@ -39,6 +39,10 @@ export const homeKeys: Record<string, keyInfo> = {
     sectionKey: "home-favorite-section",
     containerKey: "home-favorite-container",
   },
+  deals: {
+    sectionKey: "home-deals-section",
+    containerKey: "home-deals-container",
+  },
 };
 export interface keyInfo {
   sectionKey: string;

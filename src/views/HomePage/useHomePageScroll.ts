@@ -22,18 +22,12 @@ const useHomePageScrollHook = (): UseHomePageScrollResult => {
 
   const homeScrollTo = useCallback(
     (section: homeSectionType, scrollPosition: homeScrollPositionType) => {
-      // Spotlight.setActiveContainer(section.containerKey);
-
-      // const el = document.getElementById('home-main-container');
-
-      // if(el instanceof HTMLElement) {
-
-      // }
-
       const parent = document.getElementById("home-main-container");
       const child = document.getElementById(section.sectionKey);
 
       if (parent instanceof HTMLElement && child instanceof HTMLElement) {
+        setCurrentSection(section);
+
         child.scrollIntoView({
           block: "center",
           behavior: "smooth",
@@ -41,12 +35,9 @@ const useHomePageScrollHook = (): UseHomePageScrollResult => {
 
         const key = section.defaultKey ?? section.containerKey;
 
-        console.log(key);
-        // console.log(
         Spotlight.focus(key, {
           preventScroll: true,
         });
-        // );
       }
     },
     []

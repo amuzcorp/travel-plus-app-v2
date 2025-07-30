@@ -9,6 +9,7 @@ import React, {
 import GradientBottomComponent from "../../../../../assets/gradients/GradientCarouselBottom";
 import GradientLeftComponent from "../../../../../assets/gradients/GradientCarouselLeft";
 import ArrowRightButton from "../../../../components/Buttons/ArrowButtons/ArrowRightButton";
+import RoundButton from "../../../../components/Buttons/RoundButton/RoundButton";
 import ViewMoreSmallButton from "../../../../components/Buttons/ViewMoreButtons/ViewMoreSmallButton";
 import { useGlobalNavigationBar } from "../../../../components/GlobalNavigationBar/useGlobalNavigationBar";
 import Spacing from "../../../../components/Spacing/Spacing";
@@ -78,7 +79,7 @@ export default React.memo(
       console.log(id);
 
       return (
-        <ViewMoreSmallButton
+        <RoundButton
           spotlightId={id}
           onKeyDown={(ev) => {
             if (ev.key === "ArrowDown") {
@@ -89,7 +90,7 @@ export default React.memo(
           }}
         >
           Travel Now
-        </ViewMoreSmallButton>
+        </RoundButton>
       );
     }, []);
 

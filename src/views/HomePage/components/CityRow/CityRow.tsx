@@ -191,7 +191,7 @@ const CityRow = React.memo(
           }
         };
       });
-    }, [onKeyDown]);
+    }, [onKeyDownOnScrollable, onKeyDown]);
 
     const onKeyUps = useMemo(() => {
       return cards.map((__, index) => (ev: React.KeyboardEvent) => {
@@ -204,9 +204,11 @@ const CityRow = React.memo(
         } else if (index === cards.length - 1 && ev.key === "ArrowRight") {
           ev.preventDefault();
           ev.stopPropagation();
+        } else {
+          onKeyUp(ev, index);
         }
       });
-    }, [onKeyUp]);
+    }, [onKeyUpOnScrollable, focus, onKeyUp]);
 
     const onMouseEnters = useMemo(() => {
       return cards.map((__, index) => {
