@@ -63,6 +63,30 @@ export default React.memo(
       [focus]
     );
 
+    const onTravelNowKeyDown = useCallback(
+      (ev) => {
+        if (ev.key === "ArrowDown") {
+          ev.preventDefault();
+          ev.stopPropagation();
+          homeScrollTo(homeKeys.city);
+        } else if (ev.key === "ArrowRight") {
+          ev.preventDefault();
+          ev.stopPropagation();
+        }
+      },
+      [homeScrollTo]
+    );
+
+    const travelButton = useMemo(() => {
+      const id = homeKeys.carousel.defaultKey;
+
+      return (
+        <RoundButton spotlightId={id} onKeyDown={onTravelNowKeyDown}>
+          Travel Now
+        </RoundButton>
+      );
+    }, [onTravelNowKeyDown]);
+
     useEffect(() => {
       const target = descriptionRef.current;
 
@@ -70,25 +94,6 @@ export default React.memo(
         const showViewMore = target.clientHeight < target.scrollHeight;
         setShowViewMore(showViewMore);
       }
-    }, []);
-
-    const travelButton = useMemo(() => {
-      const id = homeKeys.carousel.defaultKey;
-
-      return (
-        <RoundButton
-          spotlightId={id}
-          onKeyDown={(ev) => {
-            if (ev.key === "ArrowDown") {
-              ev.preventDefault();
-              ev.stopPropagation();
-              homeScrollTo(homeKeys.city);
-            }
-          }}
-        >
-          Travel Now
-        </RoundButton>
-      );
     }, []);
 
     return (
@@ -166,5 +171,5 @@ export default React.memo(
       </div>
     );
   },
-  (prev, next) => true
+  (__, ___) => true
 );
