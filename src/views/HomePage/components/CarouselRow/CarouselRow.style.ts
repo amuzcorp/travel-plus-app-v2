@@ -2,7 +2,6 @@ import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDeco
 import styled from "styled-components";
 
 import MarqueeText from "../../../../components/Texts/MarqueeText";
-import { rem } from "../../../../utils/rem";
 
 const CarouselWrapper = styled.div`
   position: relative;
@@ -73,11 +72,11 @@ export const InfoWrapper = styled.div`
 `;
 
 export const MoreWrapper = styled.div`
-  height: ${rem(81)};
+  height: 81px;
 `;
 
 export const MapWrapper = styled.div`
-  margin: 0 ${rem(33)};
+  margin: 0 33px;
 `;
 
 export const ArrowButtonWrapper = styled.div`

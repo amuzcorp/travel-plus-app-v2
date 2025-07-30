@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import styled, { css } from "styled-components";
 
 import Marquee from "@enact/ui/Marquee";
-import { rem } from "../../../utils/rem";
 import BaseAccessibleComponent from "../../BaseAccessibleComponent";
 
 interface RoundButtonProps {
@@ -34,7 +33,9 @@ const RoundButton = ({
     [disabled, onClick]
   );
 
-  const mergedClassName = [className, disabled ? "dimmed" : ""].filter(Boolean).join(" ");
+  const mergedClassName = [className, disabled ? "dimmed" : ""]
+    .filter(Boolean)
+    .join(" ");
 
   const getComponent = useCallback(
     (props: RoundButtonProps) => {
@@ -64,10 +65,10 @@ export const RoundButtonBase = styled(Marquee)<{ $isSmall?: boolean }>`
   position: relative;
 
   width: fit-content;
-  min-width: ${rem(160)};
+  min-width: 160px;
   max-width: 20vw;
 
-  padding: ${rem(16.5)} ${rem(55)};
+  padding: 16.5px 55px;
 
   color: ${({ theme }) => theme.colors.text.primary};
 
@@ -85,7 +86,7 @@ export const RoundButtonBase = styled(Marquee)<{ $isSmall?: boolean }>`
   ${({ $isSmall, theme }) =>
     $isSmall &&
     css`
-      min-width: ${rem(98)};
+      min-width: 98px;
       font-size: ${theme.textStyle.titleMdSb.fontSize};
     `}
 
@@ -102,7 +103,7 @@ export const RoundButtonBase = styled(Marquee)<{ $isSmall?: boolean }>`
 
     background: rgba(0, 0, 0, 0.4);
     box-shadow: ${({ theme }) =>
-      `inset 0 0 0 ${rem(2)} ${theme.colors.deactive.normal}`};
+      `inset 0 0 0 2px ${theme.colors.deactive.normal}`};
 
     border-radius: 1000px;
 
@@ -114,7 +115,7 @@ export const RoundButtonBase = styled(Marquee)<{ $isSmall?: boolean }>`
 
   &:focus::before {
     background: ${({ theme }) => theme.colors.text.primary};
-    box-shadow: 0 ${rem(14)} ${rem(30)} 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 14px 30px 0 rgba(0, 0, 0, 0.3);
     transform: scale(1.05);
 
     pointer-events: none;

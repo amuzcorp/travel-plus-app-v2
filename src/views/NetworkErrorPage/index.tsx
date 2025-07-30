@@ -11,15 +11,17 @@ import Spacing from "../../components/Spacing/Spacing";
 import Text from "../../components/Texts/Text";
 import { useSpinner } from "../../hooks/useSpinner";
 import { exitApp } from "../../utils/exitApp";
-import { checkNetworkStatus, launchNetworkSettings } from "../../utils/networkStatus";
-import { rem } from "../../utils/rem";
+import {
+  checkNetworkStatus,
+  launchNetworkSettings,
+} from "../../utils/networkStatus";
 import { translate } from "../../utils/translate";
 
 const ContainerBase = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: ${rem(87)};
+  padding-top: 87px;
   height: 100vh;
   box-sizing: border-box;
 `;
@@ -34,7 +36,7 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: calc(100vh - ${rem(87)});
+  height: calc(100vh - 87px);
 `;
 
 const NetworkErrorPage = React.memo(() => {
@@ -107,7 +109,10 @@ const NetworkErrorPage = React.memo(() => {
   }, []);
 
   return (
-    <SpotlightNetworkErrorContainer spotlightId="networkError" spotlightRestrict="self-only">
+    <SpotlightNetworkErrorContainer
+      spotlightId="networkError"
+      spotlightRestrict="self-only"
+    >
       <ContentWrapper>
         <ErrorIcon />
         <Spacing size={40} />
