@@ -1,8 +1,9 @@
-import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
+import SpotlightContainerDecorator, {
+  SpotlightContainerDecoratorConfig,
+} from "@enact/spotlight/SpotlightContainerDecorator";
 import styled from "styled-components";
 
 import MarqueeText from "../../../../components/Texts/MarqueeText";
-import { rem } from "../../../../utils/rem";
 
 const CarouselWrapper = styled.div`
   position: relative;
@@ -13,7 +14,14 @@ const CarouselWrapper = styled.div`
   background: red;
 `;
 
-export const CarouselContainer = SpotlightContainerDecorator(CarouselWrapper);
+const spotlightConfig: SpotlightContainerDecoratorConfig = {
+  restrict: "self-first",
+};
+
+export const CarouselContainer = SpotlightContainerDecorator(
+  spotlightConfig,
+  CarouselWrapper
+);
 
 export const VideoWrapper = styled.div`
   position: absolute;
@@ -73,11 +81,11 @@ export const InfoWrapper = styled.div`
 `;
 
 export const MoreWrapper = styled.div`
-  height: ${rem(81)};
+  height: 81px;
 `;
 
 export const MapWrapper = styled.div`
-  margin: 0 ${rem(33)};
+  margin: 0 33px;
 `;
 
 export const ArrowButtonWrapper = styled.div`

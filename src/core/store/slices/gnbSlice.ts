@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { homeKeys } from "../../../core/constants/globalConstant";
 
 export const GnbState = {
   Collapsed: 0,
@@ -10,13 +11,13 @@ export type GnbStateType = (typeof GnbState)[keyof typeof GnbState];
 interface GnbStateInterface {
   value: GnbStateType;
   selectedButton: string;
-  wantToCollapse: boolean;
+  lastEnterKey: string;
 }
 
 const initialState: GnbStateInterface = {
   value: GnbState.Collapsed,
   selectedButton: "home",
-  wantToCollapse: false,
+  lastEnterKey: homeKeys.carousel.containerKey,
 };
 
 export const gnbSlice = createSlice({
@@ -32,11 +33,10 @@ export const gnbSlice = createSlice({
     select: (state, action: PayloadAction<string>) => {
       state.selectedButton = action.payload;
     },
-    updateWantToCollapse: (state, action: PayloadAction<boolean>) => {
-      state.wantToCollapse = action.payload;
+    setLastEnterKey: (state, action: PayloadAction<string>) => {
+      state.lastEnterKey = action.payload;
     },
   },
 });
 
-export const { expand, collapse, select, updateWantToCollapse } =
-  gnbSlice.actions;
+export const { expand, collapse, select, setLastEnterKey } = gnbSlice.actions;

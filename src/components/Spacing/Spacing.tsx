@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { rem } from "../../utils/rem";
 
 interface SpacingProps {
   size?: number;
@@ -8,7 +7,7 @@ interface SpacingProps {
 
 const Spacer = styled.div<Required<SpacingProps>>`
   ${({ direction, size }) =>
-    direction === "vertical" ? `height: ${rem(size)};` : `width: ${rem(size)};`}
+    direction === "vertical" ? `height: ${size}px;` : `width: ${size}px;`}
   flex-shrink: 0;
 `;
 

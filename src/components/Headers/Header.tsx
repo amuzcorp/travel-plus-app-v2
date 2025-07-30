@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import styled, { useTheme } from "styled-components";
 
 import IDestinationNext from "../../../assets/icons/IDestinationNext";
-import { rem } from "../../utils/rem";
 import IconButton from "../Buttons/IconButtons/IconButton";
 import Spacing from "../Spacing/Spacing";
 import MarqueeText from "../Texts/MarqueeText";
@@ -121,11 +120,11 @@ const HeaderContainer = styled.header`
   top: 0;
   left: 0;
   right: 0;
-  min-height: ${rem(107)};
+  min-height: 107px;
   background-color: #000;
   display: flex;
   justify-content: space-between;
-  padding: ${rem(54)} ${rem(72)} ${rem(37)} ${rem(72)};
+  padding: 54px 72px 37px 72px;
   z-index: ${({ theme }) => `${theme.zIndex.header}`};
 `;
 
@@ -136,8 +135,8 @@ const Left = styled.div`
 `;
 
 const BackWrapper = styled.div`
-  width: ${rem(93)};
-  height: ${rem(93)};
+  width: 93px;
+  height: 93px;
   display: flex;
   justify-content: left;
 `;
@@ -169,7 +168,7 @@ const StepListWrapper = styled.ul`
   list-style: none;
 
   & > *:not(:last-child) {
-    margin-right: ${rem(10)};
+    margin-right: 10px;
   }
 `;
 
@@ -184,10 +183,10 @@ const SubTitleList = styled.li<{ $active?: boolean }>`
 
 const Right = styled.div`
   display: flex;
-  padding-left: ${rem(32)};
+  padding-left: 32px;
 `;
 
 const RightButton = styled.div<{ isFirst: boolean }>`
   display: flex;
-  ${(props) => !props.isFirst && `margin-left: ${rem(33)};`}
+  ${(props) => !props.isFirst && `margin-left: 33px;`}
 `;

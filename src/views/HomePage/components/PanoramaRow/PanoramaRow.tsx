@@ -136,6 +136,7 @@ export default React.memo(() => {
     contentWidth: contentCardWidth,
     contentGap: contentCardGap,
     maxDataLength: datas.length,
+    useScrollToEnd: false,
   });
 
   const onKeyDowns = useMemo(() => {

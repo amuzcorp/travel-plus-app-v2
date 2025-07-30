@@ -97,6 +97,8 @@ export const gnbTypeData: GnbType = {
 };
 
 interface GlobalNavigationBarButtonProps {
+  id: string;
+  spotlightId: string;
   type: keyof GnbType;
   selected?: boolean;
   marginBottom?: number;
@@ -106,6 +108,8 @@ interface GlobalNavigationBarButtonProps {
 
 export default React.memo(
   ({
+    id,
+    spotlightId,
     type = "home",
     selected = false,
     marginBottom,
@@ -212,6 +216,8 @@ export default React.memo(
 
     return (
       <BaseAccessibleComponent
+        id={id}
+        spotlightId={spotlightId}
         component={GlobalNavigationChild}
         className={`${selected ? "selected" : ""} ${
           expanded ? "expanded" : ""
@@ -219,7 +225,6 @@ export default React.memo(
         onClick={onClick}
         onKeyDown={onKeyDown}
         $marginBottom={marginBottom}
-        data-spot-id={type}
       >
         <Icon />
         <Label />

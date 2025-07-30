@@ -4,7 +4,6 @@ import styled from "styled-components";
 import IBack from "../../../../assets/icons/IBack";
 import IOption from "../../../../assets/icons/IOption";
 
-import { rem } from "../../../utils/rem";
 import { translate } from "../../../utils/translate";
 import BaseAccessibleComponent from "../../BaseAccessibleComponent";
 
@@ -86,8 +85,8 @@ export const IconButtonBase = styled.div<{ $isLarge?: boolean }>`
   cursor: pointer;
   height: fit-content;
 
-  padding: ${({ $isLarge }) => ($isLarge ? rem(13.5) : rem(12))};
-  border-radius: ${rem(12)};
+  padding: ${({ $isLarge }) => ($isLarge ? "13.5px" : "12px")};
+  border-radius: 12px;
   z-index: 1;
   color: ${({ theme }) => theme.colors.text.primary};
 
@@ -99,7 +98,7 @@ export const IconButtonBase = styled.div<{ $isLarge?: boolean }>`
     width: 100%;
     height: 100%;
     background-color: ${({ theme }) => theme.colors.background.black};
-    border-radius: ${rem(12)};
+    border-radius: 12px;
     transition: transform 0.3s ease, background-color 0.3s ease;
     z-index: -1;
   }
