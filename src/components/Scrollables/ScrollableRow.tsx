@@ -42,7 +42,6 @@ const RowWrapper = styled.div<{ $marginLeft: number; $gap: number }>`
   display: flex;
 
   padding-left: ${({ $marginLeft }) => $marginLeft ?? 0}px;
-  padding-right: ${({ $marginLeft }) => `calc(100vw - ${$marginLeft ?? 0}px)`};
 
   transition: transform ease 0.3s;
 
@@ -60,8 +59,7 @@ const NormalizeWrapper = styled.div`
 const ScrollWrapper = styled.div<{ $marginLeft: number }>`
   display: flex;
 
-  overflow-x: hidden;
-  overflow-y: visible;
+  overflow: hidden;
 
   margin-left: -${({ $marginLeft }) => $marginLeft ?? 0}px;
 

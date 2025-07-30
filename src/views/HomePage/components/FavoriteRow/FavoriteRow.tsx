@@ -14,6 +14,7 @@ import Text from "../../../../components/Texts/Text";
 import {
   contentCardGap,
   contentCardWidth,
+  homeContainerKeys,
 } from "../../../../core/constants/globalConstant";
 import { translate } from "../../../../utils/translate";
 import { RelativeBox, SectionWrapper } from "../CityRow/CityRow.style";
@@ -199,17 +200,16 @@ const datas: BaseData[] = [
 ];
 
 export default React.memo(() => {
-  const containerId = "home-favorite-row-container";
-
   const {
     ref: scrollerRef,
     onKeyDown,
     onKeyUp,
   } = useScrollableRow({
-    containerId: containerId,
+    containerId: homeContainerKeys.favorite,
     contentWidth: contentCardWidth,
     contentGap: contentCardGap,
     maxDataLength: datas.length,
+    useScrollToEnd: false,
   });
 
   const onKeyDowns = useMemo(() => {
@@ -246,7 +246,7 @@ export default React.memo(() => {
 
       <RelativeBox>
         <ScrollableRow
-          spotlightId={containerId}
+          spotlightId={homeContainerKeys.favorite}
           scrollerRef={scrollerRef}
           $marginLeft={180}
           $gap={24}

@@ -10,6 +10,7 @@ import {
   cityCardHeight,
   cityCardSmallWidth,
   cityCardWidth,
+  homeContainerKeys,
 } from "../../../../core/constants/globalConstant";
 import { translate } from "../../../../utils/translate";
 import { RelativeBox, SectionWrapper } from "./CityRow.style";
@@ -99,15 +100,13 @@ const CityRow = React.memo(
     const cardHeight = cityCardHeight;
     const cardGap = cityCardGap;
 
-    const containerId = "home-city-row-container";
-
     const {
       ref: scrollerRef,
       onKeyDown,
       onKeyUp,
       scrollToTarget,
     } = useScrollableRow({
-      containerId: containerId,
+      containerId: homeContainerKeys.city,
       contentWidth: smallCardWidth,
       contentGap: cardGap,
       maxDataLength: cards.length,
@@ -298,7 +297,7 @@ const CityRow = React.memo(
 
         <RelativeBox>
           <ScrollableRow
-            spotlightId={containerId}
+            spotlightId={homeContainerKeys.city}
             scrollerRef={scrollerRef}
             $marginLeft={180}
             $gap={24}

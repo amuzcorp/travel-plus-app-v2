@@ -17,6 +17,20 @@ export const localStorageVisited = {
   value: "you visited",
 };
 
+export const GnbTopSections = ["account"];
+export const GnbMiddleSections = ["home", "search", "destination", "luggage"];
+export const GnbBottomSections = ["settings", "exit"];
+
+export const gnbContainerKeys = {
+  gnb: "gnb-container",
+};
+
+export const homeContainerKeys = {
+  carousel: "home-carousel-container",
+  city: "home-city-container",
+  favorite: "home-favorite-container",
+};
+
 export const contentCardWidth = 403;
 export const contentCardGap = 24;
 

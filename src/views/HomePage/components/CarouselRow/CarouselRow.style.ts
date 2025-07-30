@@ -1,4 +1,6 @@
-import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
+import SpotlightContainerDecorator, {
+  SpotlightContainerDecoratorConfig,
+} from "@enact/spotlight/SpotlightContainerDecorator";
 import styled from "styled-components";
 
 import MarqueeText from "../../../../components/Texts/MarqueeText";
@@ -13,7 +15,15 @@ const CarouselWrapper = styled.div`
   background: red;
 `;
 
-export const CarouselContainer = SpotlightContainerDecorator(CarouselWrapper);
+const spotlightConfig: SpotlightContainerDecoratorConfig = {
+  restrict: "self-only",
+  enterTo: "last-focused",
+};
+
+export const CarouselContainer = SpotlightContainerDecorator(
+  spotlightConfig,
+  CarouselWrapper
+);
 
 export const VideoWrapper = styled.div`
   position: absolute;

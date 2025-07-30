@@ -25,6 +25,7 @@ export interface useScrollableRowHookProps {
   contentWidth: number;
   contentGap: number;
   maxDataLength: number;
+  useScrollToEnd?: boolean;
   onScroll?: (index: number, children: React.ReactNode[]) => void;
 }
 
@@ -33,6 +34,7 @@ const useScrollableRowHook = ({
   contentWidth,
   contentGap,
   maxDataLength,
+  useScrollToEnd = true,
   onScroll = (index: number, children: React.ReactNode[]) => {},
 }: useScrollableRowHookProps): UseScrollableRowResult => {
   const ref = useRef<any>(null);
@@ -48,7 +50,25 @@ const useScrollableRowHook = ({
       targetIndex: number;
       useScroll?: boolean;
     }) => {
-      const targetOffset = targetIndex * (contentWidth + contentGap);
+      let targetOffset = targetIndex * (contentWidth + contentGap);
+      let hideIndex = targetIndex;
+
+      const container = document.getElementById(containerId);
+
+      if (!useScrollToEnd) {
+        const scrollContentWidth = container?.scrollWidth ?? 0;
+        const containerWidth = window.innerWidth;
+        const tempWidth = Math.max(scrollContentWidth - containerWidth, 0);
+
+        for (let i = targetIndex; i >= 0; i--) {
+          const tempOffset = i * (contentWidth + contentGap);
+
+          if (tempOffset > tempWidth) {
+            hideIndex = i;
+            targetOffset = tempOffset;
+          }
+        }
+      }
 
       const spottableChildren = Spotlight.getSpottableDescendants(containerId);
       for (let i = 0; i < spottableChildren.length; i++) {
@@ -56,14 +76,14 @@ const useScrollableRowHook = ({
 
         if (!(child instanceof HTMLElement)) continue;
 
-        if (i < targetIndex) {
+        if (i < hideIndex) {
           child.classList.add("hided");
         } else {
           child.classList.remove("hided");
         }
       }
 
-      onScroll(targetIndex, spottableChildren);
+      onScroll(hideIndex, spottableChildren);
 
       if (useScroll) {
         const el = document.getElementById(containerId);
@@ -74,7 +94,7 @@ const useScrollableRowHook = ({
         }
       }
     },
-    [containerId, contentWidth, contentGap, onScroll]
+    [containerId, contentWidth, contentGap, onScroll, useScrollToEnd]
   );
 
   const onKeyDown = useCallback(

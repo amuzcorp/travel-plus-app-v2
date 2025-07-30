@@ -1,4 +1,21 @@
+import SpotlightContainerDecorator, {
+  SpotlightContainerDecoratorConfig,
+} from "@enact/spotlight/SpotlightContainerDecorator";
 import styled from "styled-components";
+
+const ContainerWarapper = styled.div``;
+
+const spotlightConfig: SpotlightContainerDecoratorConfig = {
+  restrict: "self-only",
+  enterTo: "default-element",
+  defaultElement: ["gnb-menu-home"],
+  continue5WayHold: true,
+};
+
+export const SpotlightContainer = SpotlightContainerDecorator(
+  spotlightConfig,
+  ContainerWarapper
+);
 
 export const GNBWrapper = styled.div`
   position: fixed;
@@ -25,8 +42,7 @@ export const GNBWrapper = styled.div`
   &.expanded {
     width: calc(390 / 24 * 1rem);
 
-    background: rgba(0, 0, 0, 0.9);
-    /* backdrop-filter: blur(25px); */
+    background: rgba(0, 0, 0, 0.8);
     box-shadow: inset 0 1px 0 0 ${({ theme }) => theme.colors.text.primaryVari},
       inset -1px 0 0 0 ${({ theme }) => theme.colors.text.primaryVari},
       inset 0 -1px 0 0 ${({ theme }) => theme.colors.text.primaryVari};

@@ -1,26 +1,17 @@
-import React, {
-  KeyboardEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { KeyboardEvent, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Spotlight from "@enact/spotlight";
-import SpotlightContainerDecorator, {
-  SpotlightContainerDecoratorConfig,
-} from "@enact/spotlight/SpotlightContainerDecorator";
 
 import { useNavigate } from "react-router-dom";
-import { RootState } from "../../core/store";
 import {
-  collapse,
-  expand,
-  GnbState,
-  select,
-  updateWantToCollapse,
-} from "../../core/store/slices/gnbSlice";
+  GnbBottomSections,
+  gnbContainerKeys,
+  GnbMiddleSections,
+  GnbTopSections,
+} from "../../core/constants/globalConstant";
+import { RootState } from "../../core/store";
+import { select } from "../../core/store/slices/gnbSlice";
 import useCallLgAccountApp from "../../hooks/useCallLgAccountApp";
 import { speak } from "../../utils/audioGuidance";
 import { translate } from "../../utils/translate";
@@ -32,45 +23,20 @@ import {
   GNBOverlay,
   GNBWrapper,
   SectionWrapper,
+  SpotlightContainer,
 } from "./GlobalNavigationBar.style";
-
-const spotlightConfig: SpotlightContainerDecoratorConfig = {
-  restrict: "self-only",
-  defaultElement: "luggage",
-};
-
-const SpotlightContainer = SpotlightContainerDecorator(spotlightConfig, "div");
-
-const topSections: string[] = ["account"];
-const middleSections: string[] = ["home", "search", "destination", "luggage"];
-const bottomSections: string[] = ["settings", "exit"];
+import { useGlobalNavigationBar } from "./useGlobalNavigationBar";
 
 const GlobalNavigationBar: React.FC = React.memo(() => {
-  const gnbState = useSelector((state: RootState) => state.gnb.value);
-  const wantToCollapse = useSelector(
-    (state: RootState) => state.gnb.wantToCollapse
-  );
   const selectedButton = useSelector(
     (state: RootState) => state.gnb.selectedButton,
     (prev, next) => prev === next
   );
   const dispatch = useDispatch();
 
-  const [expanded, setExpanded] = useState(false);
-
   const navigate = useNavigate();
 
-  const collapseGnb = useCallback(() => {
-    dispatch(collapse());
-
-    dispatch(updateWantToCollapse(true));
-  }, [dispatch]);
-
-  const expandGnb = useCallback(() => {
-    dispatch(expand());
-
-    dispatch(updateWantToCollapse(false));
-  }, [dispatch]);
+  const { expanded, expandGnb, collapseGnb, blur } = useGlobalNavigationBar();
 
   const onFocus = useCallback(() => {
     const isMouse = Spotlight.getPointerMode();
@@ -173,71 +139,94 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
   const onKeyDown = useCallback(
     (ev: KeyboardEvent) => {
       if (ev.key === "ArrowRight") {
-        collapseGnb();
-        Spotlight.move("right");
-        ev.preventDefault();
+        blur();
+      } else if (ev.key === "ArrowUp") {
+        const currentUp = Spotlight.getCurrent();
+
+        if (currentUp instanceof HTMLElement) {
+          if (currentUp.id === "gnb-menu-account") {
+            ev.preventDefault();
+            ev.stopPropagation();
+            Spotlight.focus("gnb-menu-exit");
+          }
+        }
+      } else if (ev.key === "ArrowDown") {
+        const currentDown = Spotlight.getCurrent();
+
+        if (currentDown instanceof HTMLElement) {
+          if (currentDown.id === "gnb-menu-exit") {
+            ev.preventDefault();
+            ev.stopPropagation();
+            Spotlight.focus("gnb-menu-account");
+          }
+        }
       }
     },
-    [collapseGnb]
+    [blur]
   );
 
   const generateButton = useCallback(
-    (typeValue: keyof GnbType, isLast: boolean, onClick: Function) => (
-      <GlobalNavigationBarButton
-        type={typeValue}
-        marginBottom={!isLast ? 20 : 0}
-        selected={typeValue === selectedButton}
-        onClick={onClick}
-        onKeyDown={onKeyDown}
-        key={"gnb-menu-" + typeValue}
-      />
-    ),
-    [selectedButton, onKeyDown]
+    (typeValue: keyof GnbType, isLast: boolean, onClick: Function) => {
+      const id = "gnb-menu-" + typeValue;
+
+      return (
+        <GlobalNavigationBarButton
+          id={id}
+          spotlightId={id}
+          key={id}
+          type={typeValue}
+          marginBottom={!isLast ? 20 : 0}
+          selected={typeValue === selectedButton}
+          onClick={onClick}
+        />
+      );
+    },
+    [selectedButton]
   );
 
-  useEffect(() => {
-    if (gnbState === GnbState.Expanded) {
-      setExpanded(true);
-    } else {
-      setExpanded(false);
-    }
-  }, [gnbState]);
+  const topSection = useMemo(() => {
+    return GnbTopSections.map((value, index) =>
+      generateButton(
+        value as keyof GnbType,
+        index === GnbTopSections.length - 1,
+        () => onClickButton(value)
+      )
+    );
+  }, [generateButton, onClickButton]);
+
+  const middleSection = useMemo(() => {
+    return GnbMiddleSections.map((value, index) => {
+      return generateButton(
+        value as keyof GnbType,
+        index === GnbMiddleSections.length - 1,
+        () => onClickButton(value)
+      );
+    });
+  }, [generateButton, onClickButton]);
+
+  const bottomSection = useMemo(() => {
+    return GnbBottomSections.map((value, index) => {
+      return generateButton(
+        value as keyof GnbType,
+        index === GnbBottomSections.length - 1,
+        () => onClickButton(value)
+      );
+    });
+  }, [generateButton, onClickButton]);
 
   return (
     <SpotlightContainer
-      spotlightRestrict={wantToCollapse ? "self-first" : "self-only"}
+      spotlightId={gnbContainerKeys.gnb}
+      spotlightRestrict="self-only"
+      onKeyDown={onKeyDown}
     >
       <GNBOverlay {...GNBOverlayProps} />
       <GNBWrapper {...GNBWrapperProps}>
-        <SectionWrapper>
-          {topSections.map((value, index) => {
-            return generateButton(
-              value as keyof GnbType,
-              index === topSections.length - 1,
-              () => onClickButton(value)
-            );
-          })}
-        </SectionWrapper>
+        <SectionWrapper>{topSection}</SectionWrapper>
 
-        <SectionWrapper>
-          {middleSections.map((value, index) => {
-            return generateButton(
-              value as keyof GnbType,
-              index === middleSections.length - 1,
-              () => onClickButton(value)
-            );
-          })}
-        </SectionWrapper>
+        <SectionWrapper>{middleSection}</SectionWrapper>
 
-        <SectionWrapper>
-          {bottomSections.map((value, index) => {
-            return generateButton(
-              value as keyof GnbType,
-              index === bottomSections.length - 1,
-              () => onClickButton(value)
-            );
-          })}
-        </SectionWrapper>
+        <SectionWrapper>{bottomSection}</SectionWrapper>
       </GNBWrapper>
     </SpotlightContainer>
   );
