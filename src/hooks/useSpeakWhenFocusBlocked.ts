@@ -1,7 +1,4 @@
-import Spotlight from "@enact/spotlight";
 import { useCallback } from "react";
-import { speak } from "../utils/audioGuidance";
-import { translate } from "../utils/translate";
 
 // 이동할 수 없는 방향으로 포커스 이동을 시도할 때 음성 안내
 type DirectionKey = "ArrowUp" | "ArrowDown" | "ArrowLeft" | "ArrowRight";
@@ -24,21 +21,19 @@ export default function useSpeakWhenFocusBlocked({ onKeyDown }: Options = {}) {
         key === "ArrowLeft" ||
         key === "ArrowRight"
       ) {
-        const current = Spotlight.getCurrent();
-
-        requestAnimationFrame(() => {
-          const after = Spotlight.getCurrent();
-          if (current === after) {
-            const message = {
-              ArrowUp: translate("common.screenAlreadyAtTop"),
-              ArrowDown: translate("common.screenAlreadyAtBottom"),
-              ArrowLeft: translate("common.screenAlreadyAtVeryLeft"),
-              ArrowRight: translate("common.screenAlreadyAtVeryRight"),
-            }[key];
-
-            if (message) speak(message);
-          }
-        });
+        // const current = Spotlight.getCurrent();
+        // requestAnimationFrame(() => {
+        //   const after = Spotlight.getCurrent();
+        //   if (current === after) {
+        //     const message = {
+        //       ArrowUp: translate("common.screenAlreadyAtTop"),
+        //       ArrowDown: translate("common.screenAlreadyAtBottom"),
+        //       ArrowLeft: translate("common.screenAlreadyAtVeryLeft"),
+        //       ArrowRight: translate("common.screenAlreadyAtVeryRight"),
+        //     }[key];
+        //     if (message) speak(message);
+        //   }
+        // });
       }
     },
     [onKeyDown]

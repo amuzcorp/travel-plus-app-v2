@@ -16,7 +16,6 @@ import Spacing from "../../../../components/Spacing/Spacing";
 import Text from "../../../../components/Texts/Text";
 import { homeKeys } from "../../../../core/constants/globalConstant";
 import { useDialog } from "../../../../hooks/useDialog";
-import { rem } from "../../../../utils/rem";
 import { useHomePageSroll } from "../../useHomePageScroll";
 import {
   ArrowButtonWrapper,
@@ -64,6 +63,30 @@ export default React.memo(
       [focus]
     );
 
+    const onTravelNowKeyDown = useCallback(
+      (ev) => {
+        if (ev.key === "ArrowDown") {
+          ev.preventDefault();
+          ev.stopPropagation();
+          homeScrollTo(homeKeys.city);
+        } else if (ev.key === "ArrowRight") {
+          ev.preventDefault();
+          ev.stopPropagation();
+        }
+      },
+      [homeScrollTo]
+    );
+
+    const travelButton = useMemo(() => {
+      const id = homeKeys.carousel.defaultKey;
+
+      return (
+        <RoundButton spotlightId={id} onKeyDown={onTravelNowKeyDown}>
+          Travel Now
+        </RoundButton>
+      );
+    }, [onTravelNowKeyDown]);
+
     useEffect(() => {
       const target = descriptionRef.current;
 
@@ -71,25 +94,6 @@ export default React.memo(
         const showViewMore = target.clientHeight < target.scrollHeight;
         setShowViewMore(showViewMore);
       }
-    }, []);
-
-    const travelButton = useMemo(() => {
-      const id = homeKeys.carousel.defaultKey;
-
-      return (
-        <RoundButton
-          spotlightId={id}
-          onKeyDown={(ev) => {
-            if (ev.key === "ArrowDown") {
-              ev.preventDefault();
-              ev.stopPropagation();
-              homeScrollTo(homeKeys.city);
-            }
-          }}
-        >
-          Travel Now
-        </RoundButton>
-      );
     }, []);
 
     return (
@@ -149,8 +153,8 @@ export default React.memo(
             <MapWrapper>
               <div
                 style={{
-                  width: rem(216),
-                  height: rem(260),
+                  width: 216,
+                  height: 260,
                   background: "tomato",
                 }}
               />
@@ -167,5 +171,5 @@ export default React.memo(
       </div>
     );
   },
-  (prev, next) => true
+  (__, ___) => true
 );

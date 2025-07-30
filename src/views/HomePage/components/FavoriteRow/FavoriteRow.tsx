@@ -12,6 +12,7 @@ import { useGlobalNavigationBar } from "../../../../components/GlobalNavigationB
 import ScrollableRow from "../../../../components/Scrollables/ScrollableRow";
 import { useScrollableRow } from "../../../../components/Scrollables/useScrollableRow";
 import Text from "../../../../components/Texts/Text";
+import SectionWrapper from "../../../../components/Wrapper/SectionWrapper";
 import {
   contentCardGap,
   contentCardWidth,
@@ -19,7 +20,7 @@ import {
 } from "../../../../core/constants/globalConstant";
 import { translate } from "../../../../utils/translate";
 import { useHomePageSroll } from "../../useHomePageScroll";
-import { RelativeBox, SectionWrapper } from "../CityRow/CityRow.style";
+import { RelativeBox } from "../CityRow/CityRow.style";
 
 //-----------------------------------------------------------------------------------------------------
 
@@ -286,11 +287,16 @@ export default React.memo(() => {
     [homeScrollTo]
   );
 
+  const onRowClick = useCallback(() => {
+    homeScrollTo(homeKeys.favorite, "center");
+  }, [homeScrollTo]);
+
   return (
     <SectionWrapper
       id={homeKeys.favorite.sectionKey}
       $marginLeft={180}
       onKeyDown={onRowKeyDown}
+      onClick={onRowClick}
     >
       <Text textStyle="titleMdSb">
         {translate("luggage.favoriteVideosInLuggage")}

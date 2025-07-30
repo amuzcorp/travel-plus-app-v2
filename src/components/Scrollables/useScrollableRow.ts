@@ -12,7 +12,7 @@ export interface ScrollToTargetProps {
 export interface UseScrollableRowResult {
   ref: React.RefObject<any>;
   offset: number;
-  onKeyDown: (ev: React.KeyboardEvent, index: number) => void;
+  onKeyDown: (ev: React.KeyboardEvent, index: number) => number;
   onKeyUp: (ev: React.KeyboardEvent, index: number) => void;
   onFocus: (ev: any, index: number) => void;
   scrollToTarget: ({ targetIndex, useScroll }: ScrollToTargetProps) => void;
@@ -110,7 +110,10 @@ const useScrollableRowHook = ({
 
       if (useScroll) {
         scrollToTarget({ targetIndex: targetIndex });
+        return targetIndex;
       }
+
+      return -1;
     },
     [maxDataLength, scrollToTarget]
   );

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import Spotlight from "@enact/spotlight";
 
@@ -6,6 +6,7 @@ import { useGlobalNavigationBar } from "../../../../components/GlobalNavigationB
 import ScrollableRow from "../../../../components/Scrollables/ScrollableRow";
 import { useScrollableRow } from "../../../../components/Scrollables/useScrollableRow";
 import Text from "../../../../components/Texts/Text";
+import SectionWrapper from "../../../../components/Wrapper/SectionWrapper";
 import {
   cityCardGap,
   cityCardHeight,
@@ -15,7 +16,7 @@ import {
 } from "../../../../core/constants/globalConstant";
 import { translate } from "../../../../utils/translate";
 import { useHomePageSroll } from "../../useHomePageScroll";
-import { RelativeBox, SectionWrapper } from "./CityRow.style";
+import { RelativeBox } from "./CityRow.style";
 import LargeCard from "./LargeCard";
 import SmallCard from "./SmallCard";
 
@@ -93,274 +94,184 @@ const cards = [
   },
 ];
 
-const CityRow = React.memo(
-  () => {
-    const cardWidth = cityCardWidth;
-    const smallCardWidth = cityCardSmallWidth;
-    const cardDiff = cardWidth - smallCardWidth;
+const CityRow = React.memo(() => {
+  const cardWidth = cityCardWidth;
+  const smallCardWidth = cityCardSmallWidth;
+  const cardDiff = cardWidth - smallCardWidth;
 
-    const cardHeight = cityCardHeight;
-    const cardGap = cityCardGap;
+  const cardHeight = cityCardHeight;
+  const cardGap = cityCardGap;
 
-    const {
-      ref: scrollerRef,
-      onKeyDown,
-      onKeyUp,
-      scrollToTarget,
-    } = useScrollableRow({
-      containerId: homeKeys.city.containerKey,
-      contentWidth: smallCardWidth,
-      contentGap: cardGap,
-      maxDataLength: cards.length,
-      onScroll: (index: number, children: React.ReactNode[]) => {
-        for (let i = 0; i < children.length; i++) {
-          const child = children[i];
+  const [expandedIndex, setExpandedIndex] = useState(0);
 
-          if (child instanceof HTMLElement) {
-            if (i !== index) {
-              child.classList.remove("selected");
-            } else {
-              child.classList.add("selected");
-            }
+  const {
+    ref: scrollerRef,
+    onKeyDown,
+    onKeyUp,
+    scrollToTarget,
+  } = useScrollableRow({
+    containerId: homeKeys.city.containerKey,
+    contentWidth: smallCardWidth,
+    contentGap: cardGap,
+    maxDataLength: cards.length,
+  });
 
-            child.classList.remove("hovered");
-          }
+  const { focus, onKeyDownOnScrollable, onKeyUpOnScrollable } =
+    useGlobalNavigationBar();
+  const { homeScrollTo } = useHomePageSroll();
 
-          const largeId = "home-city-row-large-" + i;
-          const large = document.getElementById(largeId);
-
-          if (large instanceof HTMLElement) {
-            if (i === index) {
-              large.classList.add("selected");
-            } else {
-              large.classList.remove("selected");
-            }
-
-            large.classList.remove("hovered");
-
-            if (Spotlight.getPointerMode()) {
-              const targetLargeId = "home-city-row-large-" + index;
-              const targetLarge = document.getElementById(targetLargeId);
-
-              targetLarge?.classList.add("hovered");
-            }
-          }
+  const onFocuses = useMemo(() => {
+    return cards.map((__, index) => {
+      return (ev: any) => {
+        if (!Spotlight.getPointerMode()) {
+          scrollToTarget({ targetIndex: index });
+          setExpandedIndex(index);
         }
-      },
+      };
     });
+  }, [scrollToTarget]);
 
-    const { focus, onKeyDownOnScrollable, onKeyUpOnScrollable } =
-      useGlobalNavigationBar();
-    const { homeScrollTo } = useHomePageSroll();
+  const onClicks = useMemo(() => {
+    return cards.map((__, index) => {
+      return () => {
+        scrollToTarget({ targetIndex: index });
+        setExpandedIndex(index);
+      };
+    });
+  }, [scrollToTarget]);
 
-    const onClicks = useMemo(() => {
-      return cards.map((__, index) => {
-        return (ev: any) => {
-          const targetIndex = index;
+  const onKeyDowns = useMemo(() => {
+    return cards.map((__, index) => {
+      return (ev: React.KeyboardEvent) => {
+        onKeyDownOnScrollable(ev, index);
 
-          scrollToTarget({ targetIndex: targetIndex });
-        };
-      });
-    }, [scrollToTarget]);
+        const atRightOffset = cards.length - 1;
 
-    const onFocuses = useMemo(() => {
-      return cards.map((__, index) => {
-        return (ev: any) => {
-          if (!Spotlight.getPointerMode()) {
-            scrollToTarget({ targetIndex: index });
-          }
-        };
-      });
-    }, [scrollToTarget]);
+        const atRight = ev.key === "ArrowRight" && index === atRightOffset;
+        const atLeft = ev.key === "ArrowLeft" && index === 0;
 
-    const onKeyDowns = useMemo(() => {
-      return cards.map((__, index) => {
-        return (ev: React.KeyboardEvent) => {
-          onKeyDownOnScrollable(ev, index);
-
-          const atRightOffset = cards.length - 1;
-
-          const atRight = ev.key === "ArrowRight" && index === atRightOffset;
-          const atLeft = ev.key === "ArrowLeft" && index === 0;
-
-          if (atLeft || atRight) {
-            ev.preventDefault();
-            ev.stopPropagation();
-          } else {
-            onKeyDown(ev, index);
-          }
-        };
-      });
-    }, [onKeyDownOnScrollable, onKeyDown]);
-
-    const onKeyUps = useMemo(() => {
-      return cards.map((__, index) => (ev: React.KeyboardEvent) => {
-        const isFocus = onKeyUpOnScrollable(ev, index);
-
-        if (isFocus) {
-          ev.preventDefault();
-          ev.stopPropagation();
-          focus(homeKeys.city.containerKey);
-        } else if (index === cards.length - 1 && ev.key === "ArrowRight") {
+        if (atLeft || atRight) {
           ev.preventDefault();
           ev.stopPropagation();
         } else {
-          onKeyUp(ev, index);
+          const targetIndex = onKeyDown(ev, index);
+
+          if (targetIndex !== -1) {
+            setExpandedIndex(targetIndex);
+          }
         }
-      });
-    }, [onKeyUpOnScrollable, focus, onKeyUp]);
+      };
+    });
+  }, [onKeyDownOnScrollable, onKeyDown]);
 
-    const onMouseEnters = useMemo(() => {
-      return cards.map((__, index) => {
-        return (ev: any) => {
-          const smallId = "home-city-row-small-" + index;
-          const el = document.getElementById(smallId);
+  const onKeyUps = useMemo(() => {
+    return cards.map((__, index) => (ev: React.KeyboardEvent) => {
+      const isFocus = onKeyUpOnScrollable(ev, index);
 
-          if (el instanceof HTMLElement) {
-            el.classList.add("hovered");
-          }
+      if (isFocus) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        focus(homeKeys.city.containerKey);
+      } else if (index === cards.length - 1 && ev.key === "ArrowRight") {
+        ev.preventDefault();
+        ev.stopPropagation();
+      } else {
+        onKeyUp(ev, index);
+      }
+    });
+  }, [onKeyUpOnScrollable, focus, onKeyUp]);
 
-          for (let i = 0; i < cards.length; i++) {
-            const largeId = "home-city-row-large-" + i;
-            const large = document.getElementById(largeId);
+  useEffect(() => {
+    for (let i = 0; i < cards.length; i++) {
+      const el = document.getElementById("home-city-row-small-" + i);
 
-            if (large instanceof HTMLElement) {
-              if (large.classList.contains("selected")) {
-                if (i === index) {
-                  large.classList.remove("hovered");
-                } else {
-                  large.classList.add("hovered");
-                }
-              }
-            }
-          }
-        };
-      });
-    }, []);
-
-    const onMouseLeaves = useMemo(() => {
-      return cards.map((__, index) => {
-        return (ev: any) => {
-          const smallId = "home-city-row-small-" + index;
-          const el = document.getElementById(smallId);
-
-          if (el instanceof HTMLElement) {
-            el.classList.remove("hovered");
-          }
-
-          for (let i = 0; i < cards.length; i++) {
-            const largeId = "home-city-row-large-" + i;
-            const large = document.getElementById(largeId);
-
-            if (large instanceof HTMLElement) {
-              if (!Spotlight.getPointerMode()) {
-                large.classList.remove("hovered");
-              }
-            }
-          }
-
-          const current = Spotlight.getCurrent();
-
-          if (current instanceof HTMLElement) {
-            const currentId = current.id;
-            const largeId = "home-city-row-large-" + index;
-
-            if (currentId === smallId) {
-              const large = document.getElementById(largeId);
-
-              if (large instanceof HTMLElement) {
-                large.classList.add("hovered");
-              }
-            }
-          }
-        };
-      });
-    }, []);
-
-    const smallCards = useMemo(() => {
-      return cards.map((card, index) => {
-        return (
-          <SmallCard
-            index={index}
-            cardWidth={smallCardWidth}
-            cardHeight={cardHeight}
-            cardDiff={cardDiff}
-            card={card}
-            onClick={onClicks[index]}
-            onFocus={onFocuses[index]}
-            onKeyDown={onKeyDowns[index]}
-            onKeyUp={onKeyUps[index]}
-            onMouseEnter={onMouseEnters[index]}
-            onMouseLeave={onMouseLeaves[index]}
-          />
-        );
-      });
-    }, [
-      smallCardWidth,
-      cardHeight,
-      cardDiff,
-      onFocuses,
-      onKeyDowns,
-      onKeyUps,
-      onClicks,
-      onMouseEnters,
-      onMouseLeaves,
-    ]);
-
-    const largeCards = useMemo(() => {
-      return cards.map((card, index) => {
-        return (
-          <LargeCard
-            index={index}
-            cardWidth={cardWidth}
-            cardHeight={cardHeight}
-            card={card}
-          />
-        );
-      });
-    }, [cardWidth, cardHeight]);
-
-    const onRowKeyDown = useCallback(
-      (ev: React.KeyboardEvent) => {
-        if (ev.key === "ArrowUp") {
-          ev.preventDefault();
-          ev.stopPropagation();
-          homeScrollTo(homeKeys.carousel, "center");
-        } else if (ev.key === "ArrowDown") {
-          ev.preventDefault();
-          ev.stopPropagation();
-          homeScrollTo(homeKeys.favorite, "center");
+      if (i !== expandedIndex) {
+        if (el instanceof HTMLElement) {
+          el.classList.remove("focused");
         }
-      },
-      [homeScrollTo]
-    );
+      } else {
+        if (el instanceof HTMLElement) {
+          el.classList.add("focused");
+        }
+      }
+    }
+  }, [expandedIndex]);
+
+  const smallCards = useMemo(() => {
+    return cards.map((card, index) => {
+      return (
+        <SmallCard
+          index={index}
+          cardWidth={smallCardWidth}
+          cardHeight={cardHeight}
+          cardDiff={cardDiff}
+          card={card}
+          onFocus={onFocuses[index]}
+          onClick={onClicks[index]}
+          onKeyDown={onKeyDowns[index]}
+          onKeyUp={onKeyUps[index]}
+        />
+      );
+    });
+  }, [smallCardWidth, cardHeight, cardDiff, onFocuses, onKeyDowns, onKeyUps]);
+
+  const largeCard = useMemo(() => {
+    const target = cards[expandedIndex];
 
     return (
-      <SectionWrapper
-        id={homeKeys.city.sectionKey}
-        data-spotlight-skip-scroll="true"
-        $marginLeft={180}
-      >
-        <Text textStyle="titleMdSb">
-          {translate("destinations.placesMemories")}
-        </Text>
-
-        <RelativeBox>
-          <ScrollableRow
-            spotlightId={homeKeys.city.containerKey}
-            scrollerRef={scrollerRef}
-            onKeyDown={onRowKeyDown}
-            $marginLeft={180}
-            $gap={24}
-          >
-            {smallCards}
-          </ScrollableRow>
-          {largeCards}
-        </RelativeBox>
-      </SectionWrapper>
+      <LargeCard
+        index={expandedIndex}
+        cardWidth={cardWidth}
+        cardHeight={cardHeight}
+        card={target}
+      />
     );
-  },
-  (prev, next) => true
-);
+  }, [cardWidth, cardHeight, expandedIndex]);
+
+  const onRowKeyDown = useCallback(
+    (ev: React.KeyboardEvent) => {
+      if (ev.key === "ArrowUp") {
+        ev.preventDefault();
+        ev.stopPropagation();
+        homeScrollTo(homeKeys.carousel, "center");
+      } else if (ev.key === "ArrowDown") {
+        ev.preventDefault();
+        ev.stopPropagation();
+        homeScrollTo(homeKeys.favorite, "center");
+      }
+    },
+    [homeScrollTo]
+  );
+
+  const onClickWrapper = useCallback(() => {
+    homeScrollTo(homeKeys.city, "center");
+  }, [homeScrollTo]);
+
+  return (
+    <SectionWrapper
+      id={homeKeys.city.sectionKey}
+      $marginLeft={180}
+      onClick={onClickWrapper}
+    >
+      <Text textStyle="titleMdSb">
+        {translate("destinations.placesMemories")}
+      </Text>
+
+      <RelativeBox>
+        <ScrollableRow
+          spotlightId={homeKeys.city.containerKey}
+          scrollerRef={scrollerRef}
+          onKeyDown={onRowKeyDown}
+          $marginLeft={180}
+          $gap={24}
+        >
+          {smallCards}
+        </ScrollableRow>
+        {/* {largeCards} */}
+        {largeCard}
+      </RelativeBox>
+    </SectionWrapper>
+  );
+});
 
 export default CityRow;

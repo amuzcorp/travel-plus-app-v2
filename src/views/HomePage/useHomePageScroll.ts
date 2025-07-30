@@ -35,6 +35,8 @@ const useHomePageScrollHook = (): UseHomePageScrollResult => {
 
         const key = section.defaultKey ?? section.containerKey;
 
+        Spotlight.setPointerMode(false);
+
         Spotlight.focus(key, {
           preventScroll: true,
         });

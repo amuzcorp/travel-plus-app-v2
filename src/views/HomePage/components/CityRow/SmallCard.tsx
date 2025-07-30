@@ -13,6 +13,7 @@ interface SmallCardProps {
   card: any;
 
   onFocus?: (ev: any) => void;
+  onBlur?: (ev: any) => void;
   onClick?: (ev: any) => void;
   onKeyDown?: (ev: React.KeyboardEvent) => void;
   onKeyUp?: (ev: React.KeyboardEvent) => void;
@@ -28,6 +29,7 @@ export default React.memo(
     cardDiff,
     card,
     onFocus = (ev: any) => {},
+    onBlur = (ev: any) => {},
     onClick = (ev: any) => {},
     onKeyDown = (ev: React.KeyboardEvent) => {},
     onKeyUp = (ev: React.KeyboardEvent) => {},
@@ -44,6 +46,7 @@ export default React.memo(
         $cardDiff={cardDiff}
         $background={card.color}
         onFocus={onFocus}
+        onBlur={onBlur}
         onClick={onClick}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
@@ -65,10 +68,26 @@ export const SmallCard = styled(CardBase)<{ $cardDiff: number }>`
   transition: opacity ease 0.3s, transform ease 0.3s;
   will-change: opacity, transform;
 
-  &.selected {
-    opacity: 0;
+  &.focused {
+    padding-right: ${({ $cardDiff }) => $cardDiff}px;
+  }
+
+  &:focus {
+    outline: 3px solid #e6e6e6;
+  }
+
+  /* &:focus {
+    width: 1031px;
+
+    outline: 3px solid #e6e6e6;
 
     padding-right: ${({ $cardDiff }) => $cardDiff}px;
+  } */
+
+  /* &.selected {
+    opacity: 0;
+
+
   }
 
   &.hovered {
@@ -77,7 +96,7 @@ export const SmallCard = styled(CardBase)<{ $cardDiff: number }>`
 
   &.hided {
     opacity: 0.2;
-  }
+  } */
 `;
 
 export const SmallCardTitle = styled(Text)`
