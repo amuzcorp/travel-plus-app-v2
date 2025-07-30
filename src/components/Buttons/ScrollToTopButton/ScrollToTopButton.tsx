@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 
 import Icon from "../../../../assets/icons/IGoToTopIcon";
-import { rem } from "../../../utils/rem";
 import { translate } from "../../../utils/translate";
 import BaseAccessibleComponent from "../../BaseAccessibleComponent";
 import { RoundButtonBase } from "../RoundButton/RoundButton";
@@ -46,14 +45,13 @@ interface StyledRoundButtonProps {
 }
 
 const StyledRoundButton = styled(RoundButtonBase)<StyledRoundButtonProps>`
-  min-width: ${rem(150)};
-  height: ${rem(39)};
-
-  ${({ $isSmall }) =>
-    $isSmall &&
-    `
-      padding: ${rem(16.5)};
-      min-width: ${rem(39)};
+  min-width: 150px;
+  height: 39px
+    ${({ $isSmall }) =>
+      $isSmall &&
+      `
+      padding: 16.5px;
+      min-width: 39px;
     `};
 
   > svg {

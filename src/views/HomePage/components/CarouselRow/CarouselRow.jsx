@@ -76,8 +76,6 @@ export default React.memo(
     const travelButton = useMemo(() => {
       const id = homeKeys.carousel.defaultKey;
 
-      console.log(id);
-
       return (
         <RoundButton
           spotlightId={id}

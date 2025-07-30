@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 import BaseAccessibleComponent from "../../../components/BaseAccessibleComponent";
 import Spacing from "../../../components/Spacing/Spacing";
-import { rem } from "../../../utils/rem";
 import { translate } from "../../../utils/translate";
 
 interface ViewMoreSmallButtonProps {
@@ -67,8 +66,8 @@ const Button = styled(Marquee)`
 
   width: fit-content;
 
-  padding: ${rem(6)} ${rem(12)};
-  padding-left: ${rem(14)};
+  padding: 6px 12px;
+  padding-left: 14px;
 
   color: ${({ theme }) => theme.colors.text.primary};
 
@@ -95,9 +94,9 @@ const Button = styled(Marquee)`
     height: 100%;
 
     background: rgba(0, 0, 0, 0.4);
-    border-radius: ${rem(8)};
+    border-radius: 8px;
     box-shadow: ${({ theme }) =>
-      ` inset 0 0 0 ${rem(1)} ${theme.colors.deactive.normal}`};
+      ` inset 0 0 0 1px ${theme.colors.deactive.normal}`};
 
     transition: transform ease 0.3s;
     will-change: transform background box-shadow;
@@ -107,7 +106,7 @@ const Button = styled(Marquee)`
 
   &:focus::before {
     background: ${({ theme }) => theme.colors.text.primary};
-    box-shadow: 0 ${rem(14)} ${rem(30)} 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 14px 30px 0 rgba(0, 0, 0, 0.3);
     transform: scale(1.05);
 
     pointer-events: none;

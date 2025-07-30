@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import Spacing from "../../../../components/Spacing/Spacing";
 import Text from "../../../../components/Texts/Text";
-import { rem } from "../../../../utils/rem";
 import { CardBase } from "./CityRow.style";
 
 interface LargeCardProps {
@@ -117,8 +116,8 @@ export const Description = styled.span`
       display: block;
       content: "";
 
-      width: ${rem(6)};
-      height: ${rem(6)};
+      width: 6px;
+      height: 6px;
 
       border-radius: 50%;
 

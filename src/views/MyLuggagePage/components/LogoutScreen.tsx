@@ -9,7 +9,6 @@ import Spacing from "../../../components/Spacing/Spacing";
 import Text from "../../../components/Texts/Text";
 import useBlockFocusDirection from "../../../hooks/useBlockFocusDirection";
 import useCallLgAccountApp from "../../../hooks/useCallLgAccountApp";
-import { rem } from "../../../utils/rem";
 import { translate } from "../../../utils/translate";
 import LogoutBackground from "./LogoutBackground";
 
@@ -32,9 +31,9 @@ const SpotlightLogoutContainer = SpotlightContainerDecorator(
 
 // Content Area
 const MyLuggageLogoutContent = styled.div`
-  width: ${rem(750)};
+  width: 750px;
   position: absolute;
-  left: ${rem(257)};
+  left: 257px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
