@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { I18nContextDecorator } from "@enact/i18n/I18nDecorator";
 import ThemeDecorator from "@enact/sandstone/ThemeDecorator";
 import SpotlightRootDecorator from "@enact/spotlight/SpotlightRootDecorator";
 
+import Spotlight from "@enact/spotlight";
 import { Outlet } from "react-router-dom";
 import useInitSystemInfo from "../hooks/useInitSystemInfo";
 import useLocaleChange from "../hooks/useLocaleChange";
@@ -20,11 +21,11 @@ const App: React.FC = () => {
     window.localStorage.clear();
   }
 
-  return (
-    // <div style={{ width: "100px", height: "200px", background: "orange" }}>
-    //   hello
-    // </div>
+  useEffect(() => {
+    Spotlight.initialize({ preventScroll: true });
+  }, []);
 
+  return (
     <RootContainer>
       <Outlet />
     </RootContainer>

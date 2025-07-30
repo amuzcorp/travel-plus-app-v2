@@ -2,11 +2,6 @@ import styled from "styled-components";
 
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
 
-export const SectionWrapper = styled.div<{ $marginLeft?: number }>`
-  width: calc(100vw - 180px);
-  margin-left: ${({ $marginLeft }) => $marginLeft ?? 0}px;
-`;
-
 export const CardBase = styled.div<{
   $cardWidth: number;
   $cardHeight: number;

@@ -8,12 +8,13 @@ import ContentCard, {
 import ScrollableRow from "../../../../components/Scrollables/ScrollableRow";
 import { useScrollableRow } from "../../../../components/Scrollables/useScrollableRow";
 import Text from "../../../../components/Texts/Text";
+import SectionWrapper from "../../../../components/Wrapper/SectionWrapper";
 import {
   contentCardGap,
   contentCardWidth,
 } from "../../../../core/constants/globalConstant";
 import { translate } from "../../../../utils/translate";
-import { RelativeBox, SectionWrapper } from "../CityRow/CityRow.style";
+import { RelativeBox } from "../CityRow/CityRow.style";
 
 const datas: BaseData[] = [
   new PanoramaData({

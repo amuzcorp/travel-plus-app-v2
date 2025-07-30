@@ -17,6 +17,7 @@ export default React.memo(
     return (
       <LargeCard
         id={"home-city-row-large-" + index}
+        className={"home-city-large"}
         $cardWidth={cardWidth}
         $cardHeight={cardHeight}
         $background={card.color}
@@ -55,8 +56,7 @@ export default React.memo(
         </LargeCardWrapper>
       </LargeCard>
     );
-  },
-  (prev, next) => true
+  }
 );
 
 export const LargeCard = styled(CardBase)`
@@ -64,19 +64,9 @@ export const LargeCard = styled(CardBase)`
   top: 24px;
   left: 0;
 
-  outline: 3px solid #e6e6e6;
+  outline: 3px solid rgba(230, 230, 230, 0.3);
 
   pointer-events: none;
-
-  opacity: 0;
-
-  &.selected {
-    opacity: 1;
-  }
-
-  &.hovered {
-    outline: ${({ theme }) => `3px solid ${theme.colors.text.focused}`};
-  }
 `;
 
 export const LargeCardWrapper = styled.div`

@@ -7,10 +7,10 @@ import RoundButton from "../../../../components/Buttons/RoundButton/RoundButton"
 import { useGlobalNavigationBar } from "../../../../components/GlobalNavigationBar/useGlobalNavigationBar";
 import Spacing from "../../../../components/Spacing/Spacing";
 import Text from "../../../../components/Texts/Text";
+import SectionWrapper from "../../../../components/Wrapper/SectionWrapper";
 import { homeKeys } from "../../../../core/constants/globalConstant";
 import { translate } from "../../../../utils/translate";
 import { useHomePageSroll } from "../../useHomePageScroll";
-import { SectionWrapper } from "../CityRow/CityRow.style";
 
 export default React.memo(() => {
   const { focus } = useGlobalNavigationBar();
@@ -29,6 +29,10 @@ export default React.memo(() => {
     },
     [homeScrollTo]
   );
+
+  const onRowClick = useCallback(() => {
+    homeScrollTo(homeKeys.deals, "center");
+  }, [homeScrollTo]);
 
   const onWatchVideoKeyDown = useCallback(
     (ev: React.KeyboardEvent) => {
@@ -53,6 +57,7 @@ export default React.memo(() => {
       id={homeKeys.deals.sectionKey}
       $marginLeft={180}
       onKeyDown={onRowKeyDown}
+      onClick={onRowClick}
     >
       <Text textStyle="titleMdSb">{translate("travel.travelDeals")}</Text>
       <Spacing size={24} />
