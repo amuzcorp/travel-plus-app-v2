@@ -25,11 +25,26 @@ export const gnbContainerKeys = {
   gnb: "gnb-container",
 };
 
-export const homeContainerKeys = {
-  carousel: "home-carousel-container",
-  city: "home-city-container",
-  favorite: "home-favorite-container",
+export const homeKeys: Record<string, keyInfo> = {
+  carousel: {
+    sectionKey: "home-carousel-section",
+    containerKey: "home-carousel-container",
+    defaultKey: "home-carousel-row-travel-now",
+  },
+  city: {
+    sectionKey: "home-city-section",
+    containerKey: "home-city-container",
+  },
+  favorite: {
+    sectionKey: "home-favorite-section",
+    containerKey: "home-favorite-container",
+  },
 };
+export interface keyInfo {
+  sectionKey: string;
+  containerKey: string;
+  defaultKey?: string;
+}
 
 export const contentCardWidth = 403;
 export const contentCardGap = 24;

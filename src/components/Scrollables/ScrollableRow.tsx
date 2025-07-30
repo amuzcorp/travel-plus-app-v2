@@ -1,13 +1,17 @@
-import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
+import SpotlightContainerDecorator, {
+  SpotlightContainerDecoratorConfig,
+  SpotlightContainerDecoratorProps,
+} from "@enact/spotlight/SpotlightContainerDecorator";
 import React from "react";
 import styled from "styled-components";
 
-interface ScrollableRowProps {
+interface ScrollableRowProps extends SpotlightContainerDecoratorProps {
   scrollerRef: React.RefObject<any>;
   spotlightId: string;
   $marginLeft?: number;
   $gap?: number;
   $spaceOfContent?: number;
+  onKeyDown?: (ev: React.KeyboardEvent) => void;
   children?: React.ReactNode;
 }
 
@@ -17,6 +21,7 @@ export default React.memo(
     scrollerRef,
     $marginLeft = 0,
     $gap = 24,
+    onKeyDown = (ev: React.KeyboardEvent) => {},
     children,
   }: ScrollableRowProps) => {
     return (
@@ -25,6 +30,7 @@ export default React.memo(
           <SpottableWrapper
             id={spotlightId}
             spotlightId={spotlightId}
+            onKeyDown={onKeyDown}
             $marginLeft={$marginLeft}
             $gap={$gap}
           >
@@ -50,7 +56,15 @@ const RowWrapper = styled.div<{ $marginLeft: number; $gap: number }>`
   }
 `;
 
-const SpottableWrapper = SpotlightContainerDecorator(RowWrapper);
+const spotlightConfig: SpotlightContainerDecoratorConfig = {
+  restrict: "self-first",
+  enterTo: "last-focused",
+};
+
+const SpottableWrapper = SpotlightContainerDecorator(
+  spotlightConfig,
+  RowWrapper
+);
 
 const NormalizeWrapper = styled.div`
   position: relative;

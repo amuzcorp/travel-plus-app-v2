@@ -16,8 +16,7 @@ const CarouselWrapper = styled.div`
 `;
 
 const spotlightConfig: SpotlightContainerDecoratorConfig = {
-  restrict: "self-only",
-  enterTo: "last-focused",
+  restrict: "self-first",
 };
 
 export const CarouselContainer = SpotlightContainerDecorator(

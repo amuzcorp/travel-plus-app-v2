@@ -14,9 +14,10 @@ import Text from "../../../../components/Texts/Text";
 import {
   contentCardGap,
   contentCardWidth,
-  homeContainerKeys,
+  homeKeys,
 } from "../../../../core/constants/globalConstant";
 import { translate } from "../../../../utils/translate";
+import { useHomePageSroll } from "../../useHomePageScroll";
 import { RelativeBox, SectionWrapper } from "../CityRow/CityRow.style";
 
 //-----------------------------------------------------------------------------------------------------
@@ -205,12 +206,13 @@ export default React.memo(() => {
     onKeyDown,
     onKeyUp,
   } = useScrollableRow({
-    containerId: homeContainerKeys.favorite,
+    containerId: homeKeys.favorite.containerKey,
     contentWidth: contentCardWidth,
     contentGap: contentCardGap,
     maxDataLength: datas.length,
     useScrollToEnd: false,
   });
+  const { homeScrollTo } = useHomePageSroll();
 
   const onKeyDowns = useMemo(() => {
     return datas.map((__, index) => {
@@ -239,14 +241,24 @@ export default React.memo(() => {
   }, [onKeyDowns, onKeyUps]);
 
   return (
-    <SectionWrapper $marginLeft={180}>
+    <SectionWrapper
+      id={homeKeys.favorite.sectionKey}
+      $marginLeft={180}
+      onKeyDown={(ev: React.KeyboardEvent) => {
+        if (ev.key === "ArrowUp") {
+          ev.preventDefault();
+          ev.stopPropagation();
+          homeScrollTo(homeKeys.city, "center");
+        }
+      }}
+    >
       <Text textStyle="titleMdSb">
         {translate("luggage.favoriteVideosInLuggage")}
       </Text>
 
       <RelativeBox>
         <ScrollableRow
-          spotlightId={homeContainerKeys.favorite}
+          spotlightId={homeKeys.favorite.containerKey}
           scrollerRef={scrollerRef}
           $marginLeft={180}
           $gap={24}

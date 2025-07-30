@@ -1,7 +1,8 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 
 import Spotlight from "@enact/spotlight";
 
+import { useGlobalNavigationBar } from "../../../../components/GlobalNavigationBar/useGlobalNavigationBar";
 import ScrollableRow from "../../../../components/Scrollables/ScrollableRow";
 import { useScrollableRow } from "../../../../components/Scrollables/useScrollableRow";
 import Text from "../../../../components/Texts/Text";
@@ -10,9 +11,10 @@ import {
   cityCardHeight,
   cityCardSmallWidth,
   cityCardWidth,
-  homeContainerKeys,
+  homeKeys,
 } from "../../../../core/constants/globalConstant";
 import { translate } from "../../../../utils/translate";
+import { useHomePageSroll } from "../../useHomePageScroll";
 import { RelativeBox, SectionWrapper } from "./CityRow.style";
 import LargeCard from "./LargeCard";
 import SmallCard from "./SmallCard";
@@ -106,7 +108,7 @@ const CityRow = React.memo(
       onKeyUp,
       scrollToTarget,
     } = useScrollableRow({
-      containerId: homeContainerKeys.city,
+      containerId: homeKeys.city.containerKey,
       contentWidth: smallCardWidth,
       contentGap: cardGap,
       maxDataLength: cards.length,
@@ -147,6 +149,10 @@ const CityRow = React.memo(
       },
     });
 
+    const { focus, onKeyDownOnScrollable, onKeyUpOnScrollable } =
+      useGlobalNavigationBar();
+    const { homeScrollTo } = useHomePageSroll();
+
     const onClicks = useMemo(() => {
       return cards.map((__, index) => {
         return (ev: any) => {
@@ -169,14 +175,37 @@ const CityRow = React.memo(
 
     const onKeyDowns = useMemo(() => {
       return cards.map((__, index) => {
-        return (ev: React.KeyboardEvent) => onKeyDown(ev, index);
+        return (ev: React.KeyboardEvent) => {
+          onKeyDownOnScrollable(ev, index);
+
+          const atRightOffset = cards.length - 1;
+
+          const atRight = ev.key === "ArrowRight" && index === atRightOffset;
+          const atLeft = ev.key === "ArrowLeft" && index === 0;
+
+          if (atLeft || atRight) {
+            ev.preventDefault();
+            ev.stopPropagation();
+          } else {
+            onKeyDown(ev, index);
+          }
+        };
       });
     }, [onKeyDown]);
 
     const onKeyUps = useMemo(() => {
-      return cards.map(
-        (__, index) => (ev: React.KeyboardEvent) => onKeyUp(ev, index)
-      );
+      return cards.map((__, index) => (ev: React.KeyboardEvent) => {
+        const isFocus = onKeyUpOnScrollable(ev, index);
+
+        if (isFocus) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          focus(homeKeys.city.containerKey);
+        } else if (index === cards.length - 1 && ev.key === "ArrowRight") {
+          ev.preventDefault();
+          ev.stopPropagation();
+        }
+      });
     }, [onKeyUp]);
 
     const onMouseEnters = useMemo(() => {
@@ -289,16 +318,36 @@ const CityRow = React.memo(
       });
     }, [cardWidth, cardHeight]);
 
+    const onRowKeyDown = useCallback(
+      (ev: React.KeyboardEvent) => {
+        if (ev.key === "ArrowUp") {
+          ev.preventDefault();
+          ev.stopPropagation();
+          homeScrollTo(homeKeys.carousel, "center");
+        } else if (ev.key === "ArrowDown") {
+          ev.preventDefault();
+          ev.stopPropagation();
+          homeScrollTo(homeKeys.favorite, "center");
+        }
+      },
+      [homeScrollTo]
+    );
+
     return (
-      <SectionWrapper $marginLeft={180}>
+      <SectionWrapper
+        id={homeKeys.city.sectionKey}
+        data-spotlight-skip-scroll="true"
+        $marginLeft={180}
+      >
         <Text textStyle="titleMdSb">
           {translate("destinations.placesMemories")}
         </Text>
 
         <RelativeBox>
           <ScrollableRow
-            spotlightId={homeContainerKeys.city}
+            spotlightId={homeKeys.city.containerKey}
             scrollerRef={scrollerRef}
+            onKeyDown={onRowKeyDown}
             $marginLeft={180}
             $gap={24}
           >

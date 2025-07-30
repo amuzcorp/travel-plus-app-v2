@@ -8,8 +8,6 @@ const ContainerWarapper = styled.div``;
 const spotlightConfig: SpotlightContainerDecoratorConfig = {
   restrict: "self-only",
   enterTo: "default-element",
-  defaultElement: ["gnb-menu-home"],
-  continue5WayHold: true,
 };
 
 export const SpotlightContainer = SpotlightContainerDecorator(

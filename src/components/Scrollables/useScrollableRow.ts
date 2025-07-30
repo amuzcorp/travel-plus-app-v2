@@ -3,8 +3,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 
 const ARROWRIGHT = "ArrowRight";
 const ARROWLEFT = "ArrowLeft";
-// const ARROWUP = "ArrowUp";
-// const ARROWDOWN = "ArrowDown";
 
 export interface ScrollToTargetProps {
   targetIndex: number;
@@ -20,7 +18,7 @@ export interface UseScrollableRowResult {
   scrollToTarget: ({ targetIndex, useScroll }: ScrollToTargetProps) => void;
 }
 
-export interface useScrollableRowHookProps {
+export interface UseScrollableRowHookProps {
   containerId: string;
   contentWidth: number;
   contentGap: number;
@@ -36,7 +34,7 @@ const useScrollableRowHook = ({
   maxDataLength,
   useScrollToEnd = true,
   onScroll = (index: number, children: React.ReactNode[]) => {},
-}: useScrollableRowHookProps): UseScrollableRowResult => {
+}: UseScrollableRowHookProps): UseScrollableRowResult => {
   const ref = useRef<any>(null);
   const [offset, setOffset] = useState<number>(0);
 

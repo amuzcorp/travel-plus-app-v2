@@ -6,6 +6,7 @@ import { rem } from "../../../utils/rem";
 import BaseAccessibleComponent from "../../BaseAccessibleComponent";
 
 interface RoundButtonProps {
+  spotlightId?: string;
   disabled?: boolean;
   onClick?: () => void;
   onKeyDown?: (ev: React.KeyboardEvent<any>) => void;
@@ -17,6 +18,7 @@ interface RoundButtonProps {
 }
 
 const RoundButton = ({
+  spotlightId,
   disabled = false,
   onClick = () => {},
   onKeyDown = (ev) => {},
@@ -34,7 +36,9 @@ const RoundButton = ({
     [disabled, onClick]
   );
 
-  const mergedClassName = [className, disabled ? "dimmed" : ""].filter(Boolean).join(" ");
+  const mergedClassName = [className, disabled ? "dimmed" : ""]
+    .filter(Boolean)
+    .join(" ");
 
   const getComponent = useCallback(
     (props: RoundButtonProps) => {
@@ -45,6 +49,7 @@ const RoundButton = ({
 
   return (
     <BaseAccessibleComponent
+      spotlightId={spotlightId}
       component={getComponent}
       className={mergedClassName}
       onClick={onClickHandler}

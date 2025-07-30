@@ -27,6 +27,7 @@ export default React.memo(
 
     return (
       <BaseAccessibleComponent
+        id={spotlightId}
         spotlightId={spotlightId}
         component={Button}
         speaker={translate(speakerArr)}

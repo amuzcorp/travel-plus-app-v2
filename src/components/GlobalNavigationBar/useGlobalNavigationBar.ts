@@ -2,16 +2,13 @@ import { useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Spotlight from "@enact/spotlight";
-import {
-  gnbContainerKeys,
-  homeContainerKeys,
-} from "../../core/constants/globalConstant";
 import { RootState } from "../../core/store";
 import {
   collapse,
   expand,
   GnbState,
   GnbStateType,
+  setLastEnterKey,
 } from "../../core/store/slices/gnbSlice";
 
 // interface UseGlobalNavigationBarProps {}
@@ -26,11 +23,15 @@ interface UseGlobalNavigationBarResult {
 
   focus: (enterKey: string) => void;
   blur: () => void;
+
+  onKeyDownOnScrollable: (ev: React.KeyboardEvent, index: number) => void;
+  onKeyUpOnScrollable: (ev: React.KeyboardEvent, index: number) => boolean;
 }
 
 const useGlobalNavigationBarHook = (): UseGlobalNavigationBarResult => {
-  const lastEnterKey = useRef<string>(homeContainerKeys.carousel);
-
+  const lastEnterKey = useSelector(
+    (state: RootState) => state.gnb.lastEnterKey
+  );
   const gnbState = useSelector((state: RootState) => state.gnb.value);
   const selectedButton = useSelector(
     (state: RootState) => state.gnb.selectedButton
@@ -47,9 +48,11 @@ const useGlobalNavigationBarHook = (): UseGlobalNavigationBarResult => {
 
   const focus = useCallback(
     (enterKey: string) => {
-      lastEnterKey.current = enterKey;
+      dispatch(setLastEnterKey(enterKey));
 
-      Spotlight.setActiveContainer(gnbContainerKeys.gnb);
+      console.log(enterKey);
+
+      // Spotlight.setActiveContainer(gnbContainerKeys.gnb);
       expandGnb();
 
       const key = "gnb-menu-" + selectedButton;
@@ -58,17 +61,46 @@ const useGlobalNavigationBarHook = (): UseGlobalNavigationBarResult => {
         Spotlight.focus(key);
       });
     },
-    [selectedButton, expandGnb]
+    [dispatch, selectedButton, expandGnb]
   );
 
   const blur = useCallback(() => {
-    Spotlight.setActiveContainer(lastEnterKey.current);
+    // Spotlight.setActiveContainer(lastEnterKey);
     collapseGnb();
 
     requestAnimationFrame(() => {
-      Spotlight.focus(lastEnterKey.current);
+      Spotlight.focus(lastEnterKey);
     });
-  }, [collapseGnb]);
+  }, [lastEnterKey, collapseGnb]);
+
+  const moving = useRef(false);
+  const startIndex = useRef(-1);
+
+  const onKeyDownOnScrollable = useCallback(
+    (ev: React.KeyboardEvent, index: number) => {
+      if (!moving.current) {
+        moving.current = true;
+        startIndex.current = index;
+      }
+    },
+    []
+  );
+
+  const onKeyUpOnScrollable = useCallback(
+    (ev: React.KeyboardEvent, index: number): boolean => {
+      let result = false;
+
+      if (startIndex.current === index && ev.key === "ArrowLeft") {
+        result = true;
+      }
+
+      moving.current = false;
+      startIndex.current = -1;
+
+      return result;
+    },
+    []
+  );
 
   return {
     gnbState: gnbState,
@@ -80,6 +112,9 @@ const useGlobalNavigationBarHook = (): UseGlobalNavigationBarResult => {
 
     focus: focus,
     blur: blur,
+
+    onKeyDownOnScrollable: onKeyDownOnScrollable,
+    onKeyUpOnScrollable: onKeyUpOnScrollable,
   };
 };
 
