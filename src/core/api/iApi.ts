@@ -90,9 +90,9 @@ export default abstract class IApi {
     );
   }
 
-  baseUrl: string;
+  private baseUrl: string;
 
-  api: AxiosInstance;
+  private api: AxiosInstance;
 
   async get<T = any>(
     url: string,
@@ -144,7 +144,7 @@ export default abstract class IApi {
     return response.data;
   }
 
-  getSystemInfo() {
+  private getSystemInfo() {
     const tvInfo = selectTVSystemInfo(store.getState());
 
     return new SystemInfo({
@@ -155,7 +155,7 @@ export default abstract class IApi {
     });
   }
 
-  excludeLocaleEndpoints = [
+  private excludeLocaleEndpoints = [
     "/tv/register",
     "/auth/login",
     "/auth/logout",

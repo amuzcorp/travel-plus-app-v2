@@ -4,10 +4,13 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import splashLottieAnimation from "../../../assets/lottie/splash_luggage.json";
+import useInitSystemInfo from "../../hooks/useInitSystemInfo";
 import { speak } from "../../utils/audioGuidance";
 import { translate } from "../../utils/translate";
 
 const SplashPage: React.FC = () => {
+  useInitSystemInfo(); // TV 시스템 정보(webOS 6.0 여부 등) 초기화, 계정 정보 초기화
+
   // const homeApi = useHomeApi();
   const navigate = useNavigate();
 

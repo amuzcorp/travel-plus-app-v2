@@ -1,186 +1,163 @@
-import LS2Request from "@enact/webos/LS2Request";
-import { AppDispatch } from "../core/store";
 import {
   selectIsWebOS6,
   selectTVSystemInfo,
 } from "../core/store/slices/tvSystemSlice";
+
+import IAuthApi from "../core/api/auth/iAuthApi";
+import ILunaApi from "../core/api/luna/iLunaApi";
+import store from "../core/store";
+import { Account } from "../entities";
 import env from "../env";
 
-import { loginToAmuz, logoutFromAmuz } from "../core/api/auth";
-import { appId } from "../core/constants/globalConstant";
-import store from "../core/store";
+export interface AccountManagerResult {
+  success: boolean;
+  account: Account;
+}
 
-const ls2 = new LS2Request();
-
-export const fetchAccountInfo = () => async (dispatch: AppDispatch) => {
-  try {
-    const res: any = await new Promise((resolve, reject) => {
-      ls2.send({
-        service: "luna://com.webos.service.accountmanager",
-        method: "getLoginUserData",
-        parameters: { serviceName: "LGE" },
-        onSuccess: resolve,
-        onFailure: reject,
-      });
-    });
-
-    const isLoggedIn =
-      res.userData.userNumber && res.userData.userNumber.length > 0;
+export default class AccountManager {
+  static async fetchAccountInfo({
+    authApi,
+    lunaApi,
+  }: {
+    authApi: IAuthApi;
+    lunaApi: ILunaApi;
+  }): Promise<AccountManagerResult> {
     const isWebOS6 = selectIsWebOS6(store.getState());
 
-    if (isLoggedIn) {
-      const accountInfo = {
-        isLoggedIn: true,
-        lastSignInUserNo: res.userData.userNumber,
-        userEmail: res.id,
-        empNumber: res.userData.userNumber,
-        ...(isWebOS6
-          ? {}
-          : {
-              nickName: res.userData.profileNick,
-              iconNick: res.userData.iconNick,
-              profileBg: res.userData.profileBg,
-            }),
-      };
-
-      // AMUZ 로그인
-      await dispatch(loginToAmuz(accountInfo));
-
-      return {
-        success: true,
-        isLoggedIn: true,
-        lastSignInUserNo: res.userData.userNumber,
-      };
-    } else {
-      // AMUZ 로그아웃
-      await dispatch(logoutFromAmuz());
-      return {
-        success: true,
-        isLoggedIn: false,
-      };
-    }
-  } catch (err: any) {
-    console.error("계정 정보 조회 실패:", err);
-
-    if (env.IS_LOCAL || env.IS_DEVELOPMENT) {
-      const isWebOS6 = selectIsWebOS6(store.getState());
-      const devAccount = {
-        isLoggedIn: true,
-        lastSignInUserNo: env.USER_NUMBER,
-        userEmail: "soo@amuz.co.kr",
-        empNumber: env.USER_NUMBER,
-        ...(isWebOS6
-          ? {}
-          : {
-              nickName: "SOOEUN01",
-              iconNick: "S",
-              profileBg: "#7360E7",
-            }),
-      };
-
-      await dispatch(loginToAmuz(devAccount));
-
-      return {
-        success: true,
-        isLoggedIn: true,
-        lastSignInUserNo: env.USER_NUMBER,
-      };
-    }
-    // AMUZ 로그아웃
-    await dispatch(logoutFromAmuz());
-    return {
-      success: false,
-      message: "계정 정보 조회 실패",
-      error: err,
-      isLoggedIn: false,
-    };
-  }
-};
-
-const launchAccountApp24 = (isLogin = true): Promise<any> => {
-  return new Promise((resolve) => {
-    ls2.send({
-      service: "luna://com.webos.applicationManager",
-      method: "launchDefaultApp",
-      parameters: {
-        category: "MembershipApp",
-        params: {
-          id: appId,
-          query: isLogin ? "login" : "occupyCertify",
-          position: "left",
-        },
-      },
-      onSuccess: (res: any) => resolve({ success: true, data: res }),
-      onFailure: (err: any) =>
-        resolve({ success: false, message: "계정 앱 실행 실패", error: err }),
-    });
-  });
-};
-
-const launchAccountApp21 = (isLogin = true): Promise<any> => {
-  return new Promise((resolve) => {
-    ls2.send({
-      service: "luna://com.webos.applicationManager",
-      method: "launch",
-      parameters: {
-        id: "com.webos.app.membership",
-        params: {
-          id: appId,
-          query: isLogin ? "login" : "occupyCertify",
-        },
-      },
-      onSuccess: (res: any) => resolve({ success: true, data: res }),
-      onFailure: (err: any) =>
-        resolve({ success: false, message: "계정 앱 실행 실패", error: err }),
-    });
-  });
-};
-
-export const callLgAccountApp =
-  (isLogin = true) =>
-  async (dispatch: AppDispatch) => {
     try {
-      const tv = selectTVSystemInfo(store.getState());
+      const result = await lunaApi.getUserData();
 
-      if (!tv) {
-        console.warn("TV 시스템 정보가 없습니다.");
+      const isLogin = this.checkLogin(result.userData);
+
+      if (!isLogin) {
+        await authApi.logoutFromAmuz();
         return {
           success: false,
-          isLoggedIn: false,
-          message: "TV 시스템 정보를 먼저 로딩해야 합니다.",
+          account: Account.empty(),
         };
       }
 
-      const sdkVersion = tv.sdkVersion;
+      const accountInfo = this.getAccountInfo(
+        result.id,
+        result.userData,
+        isWebOS6
+      );
+      const account = await authApi.loginToAmuz(accountInfo);
+
+      return {
+        success: true,
+        account: account,
+      };
+    } catch (e) {
+      const useDev = env.IS_LOCAL || env.IS_DEVELOPMENT;
+
+      if (!useDev) {
+        await authApi.logoutFromAmuz();
+        return {
+          success: false,
+          account: Account.empty(),
+        };
+      }
+
+      const devAccountInfo = this.getDevAccountInfo(isWebOS6);
+      const account = await authApi.loginToAmuz(devAccountInfo);
+
+      return { success: true, account: account };
+    }
+  }
+
+  private static checkLogin(userData: Record<string, any>): boolean {
+    const userNumber = userData.userNumber;
+
+    return userNumber && userNumber.length > 0;
+  }
+
+  private static getAccountInfo(
+    userEmail: string,
+    userData: Record<string, any>,
+    isWebOS6: boolean
+  ): Record<string, any> {
+    return {
+      lastSignInUserNo: userData.userNumber,
+      userEmail: userEmail,
+      empNumber: userData.userNumber,
+      ...(isWebOS6
+        ? {}
+        : {
+            nickName: userData.profileNick,
+            iconNick: userData.iconNick,
+            profileBg: userData.profileBg,
+          }),
+    };
+  }
+
+  private static getDevAccountInfo(isWebOS6: boolean) {
+    return {
+      lastSignInUserNo: env.USER_NUMBER!,
+      userEmail: "soo@amuz.co.kr",
+      empNumber: env.USER_NUMBER!,
+      ...(isWebOS6
+        ? {}
+        : {
+            nickName: "SOOEUN01",
+            iconNick: "S",
+            profileBg: "#7360E7",
+          }),
+    };
+  }
+
+  static async callLgAccountApp({
+    isLogin = true,
+    authApi,
+    lunaApi,
+  }: {
+    isLogin?: boolean;
+    authApi: IAuthApi;
+    lunaApi: ILunaApi;
+  }): Promise<AccountManagerResult> {
+    try {
+      const tvInfo = selectTVSystemInfo(store.getState());
+
+      if (!tvInfo) {
+        console.warn("TV 시스템 정보가 없습니다.");
+        return {
+          success: false,
+          account: Account.empty(),
+        };
+      }
+
+      const sdkVersion = tvInfo.sdkVersion;
       const useApp24 =
         sdkVersion.startsWith("9") || sdkVersion.startsWith("10");
 
       const result = useApp24
-        ? await launchAccountApp24(isLogin)
-        : await launchAccountApp21(isLogin);
+        ? await lunaApi.launcAccountApp24(isLogin)
+        : await lunaApi.launcAccountApp21(isLogin);
 
-      if (result.success) {
-        await new Promise((r) => setTimeout(r, 1000)); // 로그인 반영 딜레이 보정
-        const accountInfo = await dispatch(fetchAccountInfo());
-
-        return {
-          success: true,
-          isLoggedIn: accountInfo.isLoggedIn,
-          lastSignInUserNo: accountInfo.lastSignInUserNo,
-        };
-      } else {
+      if (!result.success) {
         return {
           success: false,
-          isLoggedIn: false,
-          message: result.message,
+          account: Account.empty(),
         };
       }
+
+      await new Promise((r) => setTimeout(r, 1000)); // 로그인 반영 딜레이 보정
+      const fetchResult = await this.fetchAccountInfo({
+        authApi: authApi,
+        lunaApi: lunaApi,
+      });
+
+      return {
+        success: true,
+        account: fetchResult.account,
+      };
     } catch (err) {
       console.error("callLgAccountApp 오류:", err);
+
       return {
         success: false,
-        isLoggedIn: false,
-        message: "계정 앱 실행 중 예외 발생",
+        account: Account.empty(),
       };
     }
-  };
+  }
+}
