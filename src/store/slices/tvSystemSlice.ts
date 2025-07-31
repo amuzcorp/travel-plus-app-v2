@@ -1,29 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export interface TVSystemInfo {
-  modelName: string;
-  firmwareVersion: string;
-  isUHD: boolean;
-  sdkVersion: string;
-  boardType: string;
-  isWebOS6: boolean;
-  tvMemory: string | null | undefined;
-}
+import TvSystemInfo from "../../entities/global/TvSystemInfo";
 
 interface TVSystemState {
-  info: TVSystemInfo | null;
+  info: ReturnType<TvSystemInfo["toJson"]>;
 }
 
 const initialState: TVSystemState = {
-  info: null,
+  info: TvSystemInfo.empty().toJson(),
 };
 
 export const tvSystemSlice = createSlice({
   name: "tvSystem",
   initialState,
   reducers: {
-    setTVSystemInfo(state, action: PayloadAction<TVSystemInfo>) {
-      state.info = action.payload;
+    setTVSystemInfo(_, action: PayloadAction<TvSystemInfo>) {
+      return {
+        info: action.payload.toJson(),
+      };
     },
   },
 });
@@ -31,7 +24,7 @@ export const tvSystemSlice = createSlice({
 export const { setTVSystemInfo } = tvSystemSlice.actions;
 
 export const selectTVSystemInfo = (state: { tvSystem: TVSystemState }) =>
-  state.tvSystem.info;
+  TvSystemInfo.fromJson(state.tvSystem.info);
 
 export const selectIsWebOS6 = (state: { tvSystem: TVSystemState }) =>
-  state.tvSystem.info?.isWebOS6 ?? false;
+  TvSystemInfo.fromJson(state.tvSystem.info).isWebOS6 ?? false;
