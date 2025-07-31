@@ -14,93 +14,21 @@ import {
   cityCardWidth,
   homeKeys,
 } from "../../../../constants/globalConstant";
-import { translate } from "../../../../utils/translate";
+import HomeSection from "../../../../entities/homeSection/HomeSection";
 import { useHomePageSroll } from "../../useHomePageScroll";
 import { RelativeBox } from "./CityRow.style";
 import LargeCard from "./LargeCard";
 import SmallCard from "./SmallCard";
 
-const cards = [
-  {
-    title: "Chiang Mai",
-    city: "Thailand",
-    location: "Southeast Asia",
-    bestTimeToVisit: "Sep-Nov",
-    color: "orange",
-  },
-  {
-    title: "London",
-    city: "UK",
-    location: "Western Europe",
-    bestTimeToVisit: "Sep-Nov",
-    color: "red",
-  },
-  {
-    title: "Rome",
-    city: "Italy",
-    location: "Southern Europe",
-    bestTimeToVisit: "Sep-Nov",
-    color: "green",
-  },
-  {
-    title: "Ester Island",
-    city: "Chile",
-    location: "South America",
-    bestTimeToVisit: "Sep-Nov",
-    color: "blue",
-  },
-  {
-    title: "Rome",
-    city: "Italy",
-    location: "Southern Europe",
-    bestTimeToVisit: "Sep-Nov",
-    color: "purple",
-  },
-
-  {
-    title: "Rome",
-    city: "Italy",
-    location: "Southern Europe",
-    bestTimeToVisit: "Sep-Nov",
-    color: "purple",
-  },
-  {
-    title: "Rome",
-    city: "Italy",
-    location: "Southern Europe",
-    bestTimeToVisit: "Sep-Nov",
-    color: "purple",
-  },
-  {
-    title: "Rome",
-    city: "Italy",
-    location: "Southern Europe",
-    bestTimeToVisit: "Sep-Nov",
-    color: "purple",
-  },
-  {
-    title: "Rome",
-    city: "Italy",
-    location: "Southern Europe",
-    bestTimeToVisit: "Sep-Nov",
-    color: "purple",
-  },
-  {
-    title: "Rome",
-    city: "Italy",
-    location: "Southern Europe",
-    bestTimeToVisit: "Sep-Nov",
-    color: "purple",
-  },
-];
-
-const CityRow = React.memo(() => {
+const CityRow = React.memo(({ section }: { section: HomeSection }) => {
   const cardWidth = cityCardWidth;
   const smallCardWidth = cityCardSmallWidth;
   const cardDiff = cardWidth - smallCardWidth;
 
   const cardHeight = cityCardHeight;
   const cardGap = cityCardGap;
+
+  const items = section.items;
 
   const [expandedIndex, setExpandedIndex] = useState(0);
 
@@ -113,7 +41,7 @@ const CityRow = React.memo(() => {
     containerId: homeKeys.city.containerKey,
     contentWidth: smallCardWidth,
     contentGap: cardGap,
-    maxDataLength: cards.length,
+    maxDataLength: items.length,
   });
 
   const { focus, onKeyDownOnScrollable, onKeyUpOnScrollable } =
@@ -121,7 +49,7 @@ const CityRow = React.memo(() => {
   const { homeScrollTo } = useHomePageSroll();
 
   const onFocuses = useMemo(() => {
-    return cards.map((__, index) => {
+    return items.map((__, index) => {
       return (ev: any) => {
         if (!Spotlight.getPointerMode()) {
           scrollToTarget({ targetIndex: index });
@@ -132,7 +60,7 @@ const CityRow = React.memo(() => {
   }, [scrollToTarget]);
 
   const onClicks = useMemo(() => {
-    return cards.map((__, index) => {
+    return items.map((__, index) => {
       return () => {
         scrollToTarget({ targetIndex: index });
         setExpandedIndex(index);
@@ -141,11 +69,11 @@ const CityRow = React.memo(() => {
   }, [scrollToTarget]);
 
   const onKeyDowns = useMemo(() => {
-    return cards.map((__, index) => {
+    return items.map((__, index) => {
       return (ev: React.KeyboardEvent) => {
         onKeyDownOnScrollable(ev, index);
 
-        const atRightOffset = cards.length - 1;
+        const atRightOffset = items.length - 1;
 
         const atRight = ev.key === "ArrowRight" && index === atRightOffset;
         const atLeft = ev.key === "ArrowLeft" && index === 0;
@@ -165,14 +93,14 @@ const CityRow = React.memo(() => {
   }, [onKeyDownOnScrollable, onKeyDown]);
 
   const onKeyUps = useMemo(() => {
-    return cards.map((__, index) => (ev: React.KeyboardEvent) => {
+    return items.map((__, index) => (ev: React.KeyboardEvent) => {
       const isFocus = onKeyUpOnScrollable(ev, index);
 
       if (isFocus) {
         ev.preventDefault();
         ev.stopPropagation();
         focus(homeKeys.city.containerKey);
-      } else if (index === cards.length - 1 && ev.key === "ArrowRight") {
+      } else if (index === items.length - 1 && ev.key === "ArrowRight") {
         ev.preventDefault();
         ev.stopPropagation();
       } else {
@@ -182,7 +110,7 @@ const CityRow = React.memo(() => {
   }, [onKeyUpOnScrollable, focus, onKeyUp]);
 
   useEffect(() => {
-    for (let i = 0; i < cards.length; i++) {
+    for (let i = 0; i < items.length; i++) {
       const el = document.getElementById("home-city-row-small-" + i);
 
       if (i !== expandedIndex) {
@@ -198,14 +126,14 @@ const CityRow = React.memo(() => {
   }, [expandedIndex]);
 
   const smallCards = useMemo(() => {
-    return cards.map((card, index) => {
+    return items.map((item, index) => {
       return (
         <SmallCard
           index={index}
           cardWidth={smallCardWidth}
           cardHeight={cardHeight}
           cardDiff={cardDiff}
-          card={card}
+          item={item}
           onFocus={onFocuses[index]}
           onClick={onClicks[index]}
           onKeyDown={onKeyDowns[index]}
@@ -223,15 +151,28 @@ const CityRow = React.memo(() => {
     onKeyUps,
   ]);
 
+  // const largeCards = useMemo(() => {
+  //   return items.map((item, index) => {
+  //     return (
+  //       <LargeCard
+  //         index={expandedIndex}
+  //         cardWidth={cardWidth}
+  //         cardHeight={cardHeight}
+  //         item={item}
+  //       />
+  //     );
+  //   });
+  // }, [cardWidth, cardHeight, expandedIndex]);
+
   const largeCard = useMemo(() => {
-    const target = cards[expandedIndex];
+    const target = items[expandedIndex];
 
     return (
       <LargeCard
         index={expandedIndex}
         cardWidth={cardWidth}
         cardHeight={cardHeight}
-        card={target}
+        item={target}
       />
     );
   }, [cardWidth, cardHeight, expandedIndex]);
@@ -261,9 +202,7 @@ const CityRow = React.memo(() => {
       $marginLeft={180}
       onClick={onClickWrapper}
     >
-      <Text textStyle="titleMdSb">
-        {translate("destinations.placesMemories")}
-      </Text>
+      <Text textStyle="titleMdSb">{section.title}</Text>
 
       <RelativeBox>
         <ScrollableRow

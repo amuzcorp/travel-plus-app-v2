@@ -2,7 +2,6 @@ import { setAccountState } from "src/store/slices/accountSlice";
 import { Account } from "../../entities";
 import IApi from "../iApi";
 
-// 서버 응답
 export interface LoginResponse {
   token: string;
   user: {

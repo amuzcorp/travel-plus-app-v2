@@ -7,7 +7,7 @@ interface CircularButtonProps {
   onClick: Function;
 }
 
-export default React.memo(({}: CircularButtonProps) => {
+export default React.memo(() => {
   return <div></div>;
 });
 

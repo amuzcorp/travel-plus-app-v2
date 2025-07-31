@@ -27,7 +27,9 @@ const useCallLgAccountApp = () => {
         return;
       }
 
-      dispatch(setAccountState(result.account));
+      const account = result.account;
+
+      dispatch(setAccountState(account));
     },
     [dispatch, authApi, lunaApi]
   );

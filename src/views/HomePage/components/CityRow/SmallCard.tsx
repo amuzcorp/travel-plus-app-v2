@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import BaseAccessibleComponent from "../../../../components/BaseAccessibleComponent";
 import Text from "../../../../components/Texts/Text";
+import HomeItem from "../../../../entities/homeSection/HomeItem";
 import { CardBase } from "./CityRow.style";
 
 interface SmallCardProps {
@@ -10,7 +11,7 @@ interface SmallCardProps {
   cardWidth: number;
   cardHeight: number;
   cardDiff: number;
-  card: any;
+  item: HomeItem;
 
   onFocus?: (ev: any) => void;
   onBlur?: (ev: any) => void;
@@ -27,7 +28,7 @@ export default React.memo(
     cardWidth,
     cardHeight,
     cardDiff,
-    card,
+    item,
     onFocus = (ev: any) => {},
     onBlur = (ev: any) => {},
     onClick = (ev: any) => {},
@@ -44,7 +45,6 @@ export default React.memo(
         $cardWidth={cardWidth}
         $cardHeight={cardHeight}
         $cardDiff={cardDiff}
-        $background={card.color}
         onFocus={onFocus}
         onBlur={onBlur}
         onClick={onClick}
@@ -53,7 +53,15 @@ export default React.memo(
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        <SmallCardTitle textStyle="headerXlSb">{card.title}</SmallCardTitle>
+        <img
+          src={item.thumbnailImageUrl}
+          style={{
+            width: cardWidth,
+            height: cardHeight,
+            objectFit: "cover",
+          }}
+        />
+        <SmallCardTitle textStyle="headerXlSb">{item.title}</SmallCardTitle>
       </BaseAccessibleComponent>
     );
   },
@@ -62,6 +70,8 @@ export default React.memo(
 
 export const SmallCard = styled(CardBase)<{ $cardDiff: number }>`
   position: relative;
+
+  overflow: hidden;
 
   opacity: 1;
 
@@ -86,6 +96,4 @@ export const SmallCardTitle = styled(Text)`
   bottom: 46px;
   left: 40px;
   right: 40px;
-
-  background: tan;
 `;
