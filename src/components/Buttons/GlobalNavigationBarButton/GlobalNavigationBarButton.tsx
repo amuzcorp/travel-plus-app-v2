@@ -29,7 +29,7 @@ import IGnbExitSelected from "../../../../assets/icons/gnb/IGnbExitSelected";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../core/store";
 import { GnbState } from "../../../core/store/slices/gnbSlice";
-import useAccountStatus from "../../../hooks/useAccountStatus";
+import { useAccount } from "../../../hooks/useAccount";
 import useIsWebOS6 from "../../../hooks/useIsWebOS6";
 import { translate } from "../../../utils/translate";
 import {
@@ -117,7 +117,7 @@ export default React.memo(
     onKeyDown = (ev) => {},
   }: GlobalNavigationBarButtonProps) => {
     /// 로그인 정보
-    const accountState = useAccountStatus();
+    const account = useAccount();
 
     /// webOS6 여부
     const isWebOS6 = useIsWebOS6();
@@ -141,7 +141,7 @@ export default React.memo(
     const Icon = () => {
       let iconElement;
 
-      if (type !== "account" || !accountState.isLoggedIn) {
+      if (type !== "account" || !account.isLoggedIn) {
         iconElement = (
           <>
             <IconWrapper className="idle">
@@ -167,8 +167,8 @@ export default React.memo(
         iconElement = (
           <IconWrapper>
             <ProfileIcon
-              text={accountState.iconNick ?? "U"}
-              bgColor={accountState.profileBg}
+              text={account.iconNick ?? "U"}
+              bgColor={account.profileBg}
             />
           </IconWrapper>
         );
@@ -185,10 +185,10 @@ export default React.memo(
       let labelElement;
 
       if (type === "account") {
-        const useInfo = accountState.isLoggedIn
+        const useInfo = account.isLoggedIn
           ? isWebOS6
-            ? accountState.userEmail
-            : accountState.nickName
+            ? account.userEmail
+            : account.nickName
           : "account.lgAccount";
 
         labelElement = (
@@ -196,7 +196,7 @@ export default React.memo(
             <GlobalNavigationChildLabel className="label">
               {translate(useInfo)}
             </GlobalNavigationChildLabel>
-            {accountState.isLoggedIn && (
+            {account.isLoggedIn && (
               <GlobalNavigationChildDescription className="description">
                 {translate("navigation.switchAccount")}
               </GlobalNavigationChildDescription>
