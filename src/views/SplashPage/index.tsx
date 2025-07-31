@@ -5,11 +5,13 @@ import styled from "styled-components";
 
 import splashLottieAnimation from "../../assets/lottie/splash_luggage.json";
 import useInitSystemInfo from "../../hooks/useInitSystemInfo";
-import { speak } from "../../services/audioGuidance";
+
+import useSpeak from "../../hooks/useSpeak";
 import { translate } from "../../utils/translate";
 
 const SplashPage: React.FC = () => {
   useInitSystemInfo(); // TV 시스템 정보(webOS 6.0 여부 등) 초기화, 계정 정보 초기화
+  const { speak } = useSpeak();
 
   // const homeApi = useHomeApi();
   const navigate = useNavigate();
@@ -38,7 +40,7 @@ const SplashPage: React.FC = () => {
     // api 호출 (Spinner 띄우기)
     // showSpinner();
     // 호출 성공/실패에 따라 Home or FullScreenErrorPage로 이동
-  }, [navigate]);
+  }, [navigate, speak]);
 
   return (
     <SplashContainer>
