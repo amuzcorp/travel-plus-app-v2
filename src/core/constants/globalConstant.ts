@@ -1,5 +1,8 @@
 export const appId = "com.lgtravel.app";
 
+/// 실제 데이터를 사용할 경우 해당 변수를 false로 변경
+export const useFakeData = true;
+
 export const zIndexes = [
   "normal",
   "header",

@@ -1,7 +1,8 @@
 import { AppDispatch } from "../../core/store";
 import { setAccountState } from "../../core/store/slices/accountSlice";
+// import { apiService } from "./apiService";
 import { Account } from "../../entities/user/Account";
-import { apiService } from "./apiService";
+
 
 const PREFIX = "/account/emp";
 
@@ -51,6 +52,7 @@ export const loginToAmuz =
 
       const account = Account.fromJson({ ...user, token }, extraState);
       dispatch(setAccountState(account));
+
     } catch (error) {
       dispatch(setAccountState(Account.empty()));
       console.error("AMUZ 서버 로그인 실패:", error);
