@@ -11,9 +11,9 @@ import {
   GnbTopSections,
 } from "../../constants/globalConstant";
 import useCallLgAccountApp from "../../hooks/useCallLgAccountApp";
+import { speak } from "../../services/audioGuidance";
 import { RootState } from "../../store";
 import { select } from "../../store/slices/gnbSlice";
-import { speak } from "../../utils/audioGuidance";
 import { translate } from "../../utils/translate";
 import GlobalNavigationBarButton, {
   GnbType,

@@ -9,7 +9,7 @@ import Spottable from "@enact/spotlight/Spottable";
 
 import spinnerAnimation from "../../assets/lottie/lottie_spinner.json";
 import { useSpinner } from "../../hooks/useSpinner";
-import { speak } from "../../utils/audioGuidance";
+import { speak } from "../../services/audioGuidance";
 import { translate } from "../../utils/translate";
 
 const SpinnerContainer = styled.div`

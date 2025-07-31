@@ -4,7 +4,7 @@ import { ItemDecorator } from "@enact/sandstone/Item";
 import { translate } from "../utils/translate";
 
 import useSpeakWhenFocusBlocked from "../hooks/useSpeakWhenFocusBlocked";
-import { speak } from "../utils/audioGuidance";
+import { speak } from "../services/audioGuidance";
 import { filterDOMProps } from "../utils/filterDOMProps";
 
 interface BaseCardProps {

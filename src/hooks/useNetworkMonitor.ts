@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { checkNetworkStatus } from "../utils/networkStatus";
+import { checkNetworkStatus } from "../services/networkStatus";
 
 const useNetworkMonitor = () => {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { setLanguageCode } from "../utils/languageStatus";
+import { setLanguageCode } from "../services/languageStatus";
 
 const useLocaleChange = () => {
   useEffect(() => {

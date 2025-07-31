@@ -10,11 +10,11 @@ import RectangleButton from "../../components/Buttons/RectangleButton/RectangleB
 import Spacing from "../../components/Spacing/Spacing";
 import Text from "../../components/Texts/Text";
 import { useSpinner } from "../../hooks/useSpinner";
-import { exitApp } from "../../utils/exitApp";
+import { exitApp } from "../../services/exitApp";
 import {
   checkNetworkStatus,
   launchNetworkSettings,
-} from "../../utils/networkStatus";
+} from "../../services/networkStatus";
 import { translate } from "../../utils/translate";
 
 const ContainerBase = styled.div`
