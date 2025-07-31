@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { accountSlice } from "./slices/accountSlice";
+import { bannerSlice } from "./slices/bannerSlice";
 import { dialogSlice } from "./slices/dialogSlice";
 import { gnbSlice } from "./slices/gnbSlice";
 import { homeSlice } from "./slices/homeSlice";
@@ -14,7 +15,10 @@ const store = configureStore({
     spinner: spinnerSlice.reducer,
     tvSystem: tvSystemSlice.reducer,
     account: accountSlice.reducer,
+    banner: bannerSlice.reducer,
   },
+  middleware: (getDefaultMiddleWare) =>
+    getDefaultMiddleWare({ serializableCheck: false }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
