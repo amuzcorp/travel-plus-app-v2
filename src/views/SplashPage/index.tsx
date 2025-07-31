@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import splashLottieAnimation from "../../assets/lottie/splash_luggage.json";
 import useInitSystemInfo from "../../hooks/useInitSystemInfo";
-import { speak } from "../../utils/audioGuidance";
+import { speak } from "../../services/audioGuidance";
 import { translate } from "../../utils/translate";
 
 const SplashPage: React.FC = () => {

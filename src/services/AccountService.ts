@@ -9,19 +9,19 @@ import { Account } from "../entities";
 import env from "../env";
 import store from "../store";
 
-export interface AccountManagerResult {
+export interface AccountServiceResult {
   success: boolean;
   account: Account;
 }
 
-export default class AccountManager {
+export default class AccountService {
   static async fetchAccountInfo({
     authApi,
     lunaApi,
   }: {
     authApi: IAuthApi;
     lunaApi: ILunaApi;
-  }): Promise<AccountManagerResult> {
+  }): Promise<AccountServiceResult> {
     const isWebOS6 = selectIsWebOS6(store.getState());
 
     try {
@@ -114,7 +114,7 @@ export default class AccountManager {
     isLogin?: boolean;
     authApi: IAuthApi;
     lunaApi: ILunaApi;
-  }): Promise<AccountManagerResult> {
+  }): Promise<AccountServiceResult> {
     try {
       const tvInfo = selectTVSystemInfo(store.getState());
 

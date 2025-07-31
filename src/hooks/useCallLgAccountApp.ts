@@ -4,9 +4,9 @@ import { useDispatch } from "react-redux";
 import { useAuthApi } from "../api/auth/AuthApiProvider";
 import { useLunaApi } from "../api/luna/LunaApiProvider";
 import { Account } from "../entities";
+import AccountManager from "../services/AccountService";
 import type { AppDispatch } from "../store";
 import { setAccountState } from "../store/slices/accountSlice";
-import AccountManager from "../utils/AccountManager";
 
 // 로그인, 로그아웃 => LG 계정 앱을 호출하는 훅
 const useCallLgAccountApp = () => {

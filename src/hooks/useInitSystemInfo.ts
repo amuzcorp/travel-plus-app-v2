@@ -3,10 +3,10 @@ import { useDispatch } from "react-redux";
 
 import { useAuthApi } from "../api/auth/AuthApiProvider";
 import { useLunaApi } from "../api/luna/LunaApiProvider";
+import AccountManager from "../services/AccountService";
+import { fetchTVSystemInfo } from "../services/fetchTVsystemInfo";
 import type { AppDispatch } from "../store";
 import { setAccountState } from "../store/slices/accountSlice";
-import AccountManager from "../utils/AccountManager";
-import { fetchTVSystemInfo } from "../utils/fetchTVsystemInfo";
 
 const useInitSystemInfo = () => {
   // const homeApi = useHomeApi();
