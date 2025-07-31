@@ -1,6 +1,6 @@
 import { AppDispatch } from "../../core/store";
 import { setAccountState } from "../../core/store/slices/accountSlice";
-import { apiService } from "./apiService";
+// import { apiService } from "./apiService";
 
 const PREFIX = "/account/emp";
 
@@ -34,26 +34,25 @@ export const loginToAmuz =
   ) =>
   async (dispatch: AppDispatch): Promise<void> => {
     try {
-      const res = await apiService.post<{ data?: LoginResponse }>(
-        `${PREFIX}/login`,
-        { emp_number }
-      );
-
-      const { token, user } = res.data || {};
-
-      if (!token || !user) {
-        dispatch(setAccountState({ isLoggedIn: false }));
-        throw new Error("로그인 응답에 토큰 또는 유저 정보가 없습니다.");
-      }
-
-      dispatch(
-        setAccountState({
-          isLoggedIn: true,
-          token,
-          user,
-          ...extraState,
-        })
-      );
+      // // const res = await apiService.post<{ data?: LoginResponse }>(
+      // //   `${PREFIX}/login`,
+      // //   { emp_number }
+      // // );
+      // const { token, user } =
+      //   // res.data ||
+      //   { token: "", user: "" };
+      // if (!token || !user) {
+      //   dispatch(setAccountState({ isLoggedIn: false }));
+      //   throw new Error("로그인 응답에 토큰 또는 유저 정보가 없습니다.");
+      // }
+      // dispatch(
+      //   setAccountState({
+      //     isLoggedIn: true,
+      //     token,
+      //     user,
+      //     ...extraState,
+      //   })
+      // );
     } catch (error) {
       dispatch(setAccountState({ isLoggedIn: false }));
       console.error("AMUZ 서버 로그인 실패:", error);
