@@ -1,13 +1,12 @@
 import LS2Request from "@enact/webos/LS2Request";
 import { AppDispatch } from "../core/store";
-import { setAccountState } from "../core/store/slices/accountSlice";
 import {
   selectIsWebOS6,
   selectTVSystemInfo,
 } from "../core/store/slices/tvSystemSlice";
 import env from "../env";
 
-import { loginToAmuz } from "../core/api/auth";
+import { loginToAmuz, logoutFromAmuz } from "../core/api/auth";
 import { appId } from "../core/constants/globalConstant";
 import store from "../core/store";
 
@@ -34,7 +33,7 @@ export const fetchAccountInfo = () => async (dispatch: AppDispatch) => {
         isLoggedIn: true,
         lastSignInUserNo: res.userData.userNumber,
         userEmail: res.id,
-        emp_number: res.userData.userNumber,
+        empNumber: res.userData.userNumber,
         ...(isWebOS6
           ? {}
           : {
@@ -45,7 +44,7 @@ export const fetchAccountInfo = () => async (dispatch: AppDispatch) => {
       };
 
       // AMUZ 로그인
-      await dispatch(loginToAmuz(res.userData.userNumber, accountInfo));
+      await dispatch(loginToAmuz(accountInfo));
 
       return {
         success: true,
@@ -53,7 +52,8 @@ export const fetchAccountInfo = () => async (dispatch: AppDispatch) => {
         lastSignInUserNo: res.userData.userNumber,
       };
     } else {
-      dispatch(setAccountState({ isLoggedIn: false }));
+      // AMUZ 로그아웃
+      await dispatch(logoutFromAmuz());
       return {
         success: true,
         isLoggedIn: false,
@@ -68,7 +68,7 @@ export const fetchAccountInfo = () => async (dispatch: AppDispatch) => {
         isLoggedIn: true,
         lastSignInUserNo: env.USER_NUMBER,
         userEmail: "soo@amuz.co.kr",
-        emp_number: env.USER_NUMBER,
+        empNumber: env.USER_NUMBER,
         ...(isWebOS6
           ? {}
           : {
@@ -78,7 +78,7 @@ export const fetchAccountInfo = () => async (dispatch: AppDispatch) => {
             }),
       };
 
-      await dispatch(loginToAmuz(env.USER_NUMBER, devAccount));
+      await dispatch(loginToAmuz(devAccount));
 
       return {
         success: true,
@@ -86,7 +86,8 @@ export const fetchAccountInfo = () => async (dispatch: AppDispatch) => {
         lastSignInUserNo: env.USER_NUMBER,
       };
     }
-
+    // AMUZ 로그아웃
+    await dispatch(logoutFromAmuz());
     return {
       success: false,
       message: "계정 정보 조회 실패",

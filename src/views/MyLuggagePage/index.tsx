@@ -3,17 +3,19 @@ import styled from "styled-components";
 
 import Header from "../../components/Headers/Header";
 import Text from "../../components/Texts/Text";
-import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import { useAccount } from "../../hooks/useAccount";
 import { translate } from "../../utils/translate";
 import LogoutScreen from "./components/LogoutScreen";
 
 const MyLuggagePage = React.memo(() => {
-  const isLoggedIn = useIsLoggedIn();
+  const account = useAccount();
 
   return (
     <MyLuggageWrapper>
-      <Header title={isLoggedIn ? "" : translate("navigation.myLuggage")} />
-      {isLoggedIn ? (
+      <Header
+        title={account.isLoggedIn ? "" : translate("navigation.myLuggage")}
+      />
+      {account.isLoggedIn ? (
         <ContainerBase>
           <Text>로그인 햇당꼐~!</Text>
         </ContainerBase>
