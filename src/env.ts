@@ -3,7 +3,9 @@
 
 const ENV_CONFIG = {
   local: {
-    API_URL: process.env.REACT_APP_API_URL || "https://travel-plus-cms.dev.amuz.kr/api",
+    API_URL:
+      process.env.REACT_APP_API_URL ||
+      "https://travel-plus-cms.dev.amuz.kr/api",
     ENV: "local",
     IS_PRODUCTION: false,
     IS_DEVELOPMENT: false,
@@ -12,7 +14,9 @@ const ENV_CONFIG = {
     DEVICE_ID: process.env.REACT_APP_DEVICE_ID || "",
   },
   dev: {
-    API_URL: process.env.REACT_APP_API_URL || "https://travel-plus-cms.dev.amuz.kr/api",
+    API_URL:
+      process.env.REACT_APP_API_URL ||
+      "https://travel-plus-cms.dev.amuz.kr/api",
     ENV: "development",
     IS_PRODUCTION: false,
     IS_DEVELOPMENT: true,
@@ -21,10 +25,13 @@ const ENV_CONFIG = {
     DEVICE_ID: process.env.REACT_APP_DEVICE_ID || "design-qa",
   },
   prod: {
-    API_URL: process.env.REACT_APP_API_URL || "https://travel-plus-cms.dev.amuz.kr/api",
+    API_URL:
+      process.env.REACT_APP_API_URL ||
+      "https://travel-plus-cms.dev.amuz.kr/api",
     ENV: "production",
     IS_PRODUCTION: true,
     IS_DEVELOPMENT: false,
+    USER_NUMBER: null,
     IS_LOCAL: false,
   },
 } as const;
