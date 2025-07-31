@@ -15,6 +15,8 @@ const store = configureStore({
     tvSystem: tvSystemSlice.reducer,
     account: accountSlice.reducer,
   },
+  middleware: (getDefaultMiddleWare) =>
+    getDefaultMiddleWare({ serializableCheck: false }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

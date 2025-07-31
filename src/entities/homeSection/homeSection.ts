@@ -6,6 +6,7 @@ export default class HomeSection {
     uuid,
     title,
     description,
+    sectionType,
     sortOrder,
     createdAt,
     updatedAt,
@@ -17,6 +18,7 @@ export default class HomeSection {
     uuid: string;
     title: string;
     description?: string;
+    sectionType: string;
     sortOrder: number;
     createdAt: Date;
     updatedAt: Date;
@@ -29,6 +31,8 @@ export default class HomeSection {
 
     this.title = title;
     this.description = description;
+
+    this.sectionType = sectionType;
 
     this.sortOrder = sortOrder;
 
@@ -47,6 +51,8 @@ export default class HomeSection {
   title: string;
   description?: string;
 
+  sectionType: string;
+
   sortOrder: number;
 
   createdAt: Date;
@@ -63,6 +69,7 @@ export default class HomeSection {
       uuid: json.uuid,
       title: json.title,
       description: json.description,
+      sectionType: json.section_type,
       sortOrder: json.sort_order,
       createdAt: new Date(json.created_at),
       updatedAt: new Date(json.updated_at),
@@ -71,6 +78,38 @@ export default class HomeSection {
       items: json.items.map((value: Record<string, any>) =>
         HomeItem.fromJson(value)
       ),
+    });
+  }
+
+  toJson(): Record<string, any> {
+    return {
+      id: this.id,
+      uuid: this.uuid,
+      title: this.title,
+      description: this.description,
+      section_type: this.sectionType,
+      sort_order: this.sortOrder,
+      created_at: this.createdAt.toISOString(),
+      updated_at: this.updatedAt.toISOString(),
+      created_at_formatted: this.createdAtFormatted,
+      updated_at_formatted: this.updatedAtFormatted,
+      items: this.items.map((item) => item.toJson()),
+    };
+  }
+
+  static empty(): HomeSection {
+    return new HomeSection({
+      id: 0,
+      uuid: "",
+      title: "",
+      description: "",
+      sectionType: "",
+      sortOrder: 0,
+      createdAt: new Date(0), // 1970-01-01
+      updatedAt: new Date(0),
+      createdAtFormatted: "",
+      updatedAtFormatted: "",
+      items: [],
     });
   }
 }

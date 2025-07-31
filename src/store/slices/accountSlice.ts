@@ -14,22 +14,20 @@ export const accountSlice = createSlice({
   initialState,
   reducers: {
     // Account 인스턴스를 받아 순수 객체로 변환해 저장
-    setAccountState(_, action: PayloadAction<Account>) {
-      return {
-        accountData: action.payload.toReduxState(),
-      };
+    setAccountState(state, action: PayloadAction<Account>) {
+      state.accountData = action.payload.toReduxState();
     },
 
     // 초기화
-    resetAccountState() {
-      return {
-        accountData: Account.empty().toReduxState(),
-      };
-    },
+    // resetAccountState() {
+    //   return {
+    //     accountData: Account.empty().toReduxState(),
+    //   };
+    // },
   },
 });
 
-export const { setAccountState, resetAccountState } = accountSlice.actions;
+export const { setAccountState } = accountSlice.actions;
 
 // Account 인스턴스로 다시 변환
 export const selectAccount = (state: { account: AccountState }) =>

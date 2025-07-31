@@ -93,9 +93,9 @@ export default class AccountService {
 
   private static getDevAccountInfo(isWebOS6: boolean) {
     return {
-      lastSignInUserNo: env.USER_NUMBER!,
+      lastSignInUserNo: env.USER_NUMBER ?? "",
       userEmail: "soo@amuz.co.kr",
-      empNumber: env.USER_NUMBER!,
+      empNumber: env.USER_NUMBER ?? "",
       ...(isWebOS6
         ? {}
         : {

@@ -1,20 +1,23 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import Lottie from "react-lottie-player";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+import { useHomeApi } from "../../api/home/HomeApiProvider";
 import splashLottieAnimation from "../../assets/lottie/splash_luggage.json";
 import useInitSystemInfo from "../../hooks/useInitSystemInfo";
-
 import useSpeak from "../../hooks/useSpeak";
+import { setCitySection } from "../../store/slices/homeSlice";
 import { translate } from "../../utils/translate";
 
 const SplashPage: React.FC = () => {
+  const homeApi = useHomeApi();
   useInitSystemInfo(); // TV 시스템 정보(webOS 6.0 여부 등) 초기화, 계정 정보 초기화
-  const { speak } = useSpeak();
 
-  // const homeApi = useHomeApi();
+  const { speak } = useSpeak();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const lottieOptions = useMemo(
     () => ({
@@ -25,22 +28,44 @@ const SplashPage: React.FC = () => {
     []
   );
 
+  const initDefaultData = useCallback(async () => {
+    const homeSections = await homeApi.getHomeSections();
+
+    for (let i = 0; i < homeSections.length; i++) {
+      const homeSection = homeSections[i];
+
+      switch (homeSection.sectionType) {
+        case "city_ani":
+          console.log("i`m here!");
+          dispatch(setCitySection(homeSection));
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    navigate("/home", { replace: true });
+
+    // setTimeout(() => {
+    //   navigate("/home", { replace: true });
+    // }, 1000);
+  }, []);
+
   useEffect(() => {
     setTimeout(() => {
       speak(translate("common.lgTravelPlus"));
     }, 500);
 
-    // const data = homeApi.getHomeSections();
-
-    setTimeout(() => {
-      navigate("/home", { replace: true });
-    }, 3000);
+    initDefaultData();
 
     // TODO
     // api 호출 (Spinner 띄우기)
     // showSpinner();
     // 호출 성공/실패에 따라 Home or FullScreenErrorPage로 이동
-  }, [navigate, speak]);
+  }, [navigate]);
 
   return (
     <SplashContainer>
