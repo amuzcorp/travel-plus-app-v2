@@ -1,6 +1,6 @@
 import ILunaApi from "../api/luna/iLunaApi";
+import TvSystemInfo from "../entities/global/TvSystemInfo";
 import env from "../env";
-import { TVSystemInfo } from "../store/slices/tvSystemSlice";
 
 export default class TvService {
   static async requestSystemInfo(
@@ -15,7 +15,7 @@ export default class TvService {
     return result?.configs["tv.hw.ddrSize"] ?? null;
   }
 
-  static async getSystemInfo(lunaApi: ILunaApi): Promise<TVSystemInfo> {
+  static async getSystemInfo(lunaApi: ILunaApi): Promise<TvSystemInfo> {
     try {
       const [systemInfo, memory] = await Promise.all([
         this.requestSystemInfo(lunaApi),
@@ -25,7 +25,7 @@ export default class TvService {
       const sdkVersion = systemInfo.sdkVersion || "0.0.0";
       const isWebOS6 = parseInt(sdkVersion.split(".")[0]) <= 6;
 
-      return {
+      return TvSystemInfo.fromJson({
         modelName: systemInfo.modelName || "",
         firmwareVersion: systemInfo.firmwareVersion || "",
         isUHD: systemInfo.UHD === "true",
@@ -33,12 +33,12 @@ export default class TvService {
         boardType: systemInfo.boardType || "",
         isWebOS6: isWebOS6,
         tvMemory: memory || undefined,
-      };
+      });
     } catch (e) {
       console.log("Error from getSystemInfo : " + e);
 
       if (env.IS_LOCAL) {
-        return {
+        return TvSystemInfo.fromJson({
           modelName: "webOSTV 24",
           firmwareVersion: "1.0.0",
           isUHD: true,
@@ -46,10 +46,10 @@ export default class TvService {
           boardType: "OLED55C4XLA.DTRQLJL",
           isWebOS6: false,
           tvMemory: null,
-        };
+        });
       }
 
-      return {
+      return TvSystemInfo.fromJson({
         modelName: "",
         firmwareVersion: "0.0.0",
         isUHD: false,
@@ -57,7 +57,7 @@ export default class TvService {
         boardType: "",
         isWebOS6: false,
         tvMemory: null,
-      };
+      });
     }
   }
 }
