@@ -8,6 +8,7 @@ import { speak } from "../../utils/audioGuidance";
 import { translate } from "../../utils/translate";
 
 const SplashPage: React.FC = () => {
+  // const homeApi = useHomeApi();
   const navigate = useNavigate();
 
   const lottieOptions = useMemo(
@@ -23,6 +24,8 @@ const SplashPage: React.FC = () => {
     setTimeout(() => {
       speak(translate("common.lgTravelPlus"));
     }, 500);
+
+    // const data = homeApi.getHomeSections();
 
     setTimeout(() => {
       navigate("/home", { replace: true });

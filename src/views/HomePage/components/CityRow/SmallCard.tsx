@@ -76,27 +76,9 @@ export const SmallCard = styled(CardBase)<{ $cardDiff: number }>`
     outline: 3px solid #e6e6e6;
   }
 
-  /* &:focus {
-    width: 1031px;
-
-    outline: 3px solid #e6e6e6;
-
-    padding-right: ${({ $cardDiff }) => $cardDiff}px;
-  } */
-
-  /* &.selected {
-    opacity: 0;
-
-
-  }
-
-  &.hovered {
-    outline: 3px solid #e6e6e6;
-  }
-
   &.hided {
     opacity: 0.2;
-  } */
+  }
 `;
 
 export const SmallCardTitle = styled(Text)`

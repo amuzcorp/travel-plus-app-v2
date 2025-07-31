@@ -6,6 +6,8 @@ import SpotlightRootDecorator from "@enact/spotlight/SpotlightRootDecorator";
 
 import Spotlight from "@enact/spotlight";
 import { Outlet } from "react-router-dom";
+
+import ApiProvider from "../core/api/ApiProvider";
 import useInitSystemInfo from "../hooks/useInitSystemInfo";
 import useLocaleChange from "../hooks/useLocaleChange";
 import useNetworkMonitor from "../hooks/useNetworkMonitor";
@@ -26,9 +28,11 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <RootContainer>
-      <Outlet />
-    </RootContainer>
+    <ApiProvider>
+      <RootContainer>
+        <Outlet />
+      </RootContainer>
+    </ApiProvider>
   );
 };
 
