@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+import HomeItem from "src/entities/homeSection/HomeItem";
 import Spacing from "../../../../components/Spacing/Spacing";
 import Text from "../../../../components/Texts/Text";
 import { CardBase } from "./CityRow.style";
@@ -9,49 +10,42 @@ interface LargeCardProps {
   index: number;
   cardWidth: number;
   cardHeight: number;
-  card: any;
+  item: HomeItem;
 }
 
 export default React.memo(
-  ({ index, cardWidth, cardHeight, card }: LargeCardProps) => {
+  ({ index, cardWidth, cardHeight, item }: LargeCardProps) => {
     return (
       <LargeCard
         id={"home-city-row-large-" + index}
         className={"home-city-large"}
         $cardWidth={cardWidth}
         $cardHeight={cardHeight}
-        $background={card.color}
+        $background={"black"}
         key={index}
       >
         <LargeCardWrapper>
+          <img src={item.blurredImageUrl} />
           <LeftSection>
-            <Text textStyle="headerHugeSb">{card.title}</Text>
+            <Text textStyle="headerHugeSb">{item.title}</Text>
             <Spacing size={16} />
             <Text textStyle="titleMdSb">
               <Description>
-                <div>{card.city}</div>
-                <div>{card.location}</div>
+                <div>{item.countryName}</div>
+                <div>{item.continentName}</div>
               </Description>
             </Text>
             <Spacing size={8} />
             <Text textStyle="titleMdSb">
-              Best Time to visit : {card.bestTimeToVisit}
+              Best Time to visit : {item.bestTravelTimeText}
             </Text>
           </LeftSection>
           <RightSection>
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                background: "darkkhaki",
-                borderRadius: "12px",
-              }}
-            >
-              <span>
-                <p>123123</p>
-                <p>{card.title}</p>
-              </span>
-            </div>
+            <img
+              width={item.blurRegionData.width}
+              height={item.blurRegionData.height}
+              src={item.staticMapUrl}
+            />
           </RightSection>
         </LargeCardWrapper>
       </LargeCard>
@@ -71,6 +65,9 @@ export const LargeCard = styled(CardBase)`
 
 export const LargeCardWrapper = styled.div`
   position: relative;
+
+  border-radius: 12px;
+  overflow: hidden;
 `;
 
 export const LeftSection = styled.div`

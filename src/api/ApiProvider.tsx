@@ -2,7 +2,7 @@ import { AuthApiProvider } from "./auth/AuthApiProvider";
 import { HomeApiProvider } from "./home/HomeApiProvider";
 import { LunaApiProvider } from "./luna/LunaApiProvider";
 
-export default ({ children }: { children: React.ReactNode }) => {
+const ApiProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <LunaApiProvider>
       <AuthApiProvider>
@@ -11,3 +11,5 @@ export default ({ children }: { children: React.ReactNode }) => {
     </LunaApiProvider>
   );
 };
+
+export default ApiProviders;

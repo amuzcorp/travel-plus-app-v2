@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 
 import "./_App/App.module.css";
-import ApiProvider from "./api/ApiProvider";
+import ApiProviders from "./api/ApiProvider";
 import Dialog from "./components/Popups/Dialog";
 import Spinner from "./components/Spinner/Spinner";
 import reportWebVitals from "./reportWebVitals";
@@ -13,7 +13,7 @@ import "./styles/fonts.css";
 import { theme } from "./styles/theme";
 
 const appElement = (
-  <ApiProvider>
+  <ApiProviders>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <Router />
@@ -21,7 +21,7 @@ const appElement = (
         <Dialog />
       </ThemeProvider>
     </Provider>
-  </ApiProvider>
+  </ApiProviders>
 );
 
 if (typeof window !== "undefined") {

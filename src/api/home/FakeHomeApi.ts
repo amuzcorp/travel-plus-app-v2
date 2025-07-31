@@ -1,3 +1,4 @@
+import homeSectionJson from "../../assets/jsons/home_sections.json";
 import HomeSection from "../../entities/homeSection/HomeSection";
 import IHomeApi from "./iHomeApi";
 
@@ -5,11 +6,19 @@ export default class FakeHomeApi extends IHomeApi {
   sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   async getHomeSections(): Promise<HomeSection[]> {
-    await this.sleep(1000);
+    const data = homeSectionJson.data;
 
-    // const data = homeSectionJson.data;
+    const result: HomeSection[] = [];
 
-    return [];
+    for (let i = 0; i < data.length; i++) {
+      const sectionData = data[i];
+
+      const section = HomeSection.fromJson(sectionData);
+
+      result.push(section);
+    }
+
+    return result;
   }
 
   async getMainBanners(): Promise<[]> {
