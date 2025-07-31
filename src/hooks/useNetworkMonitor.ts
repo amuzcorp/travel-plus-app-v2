@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { checkNetworkStatus } from "../services/networkStatus";
+import { useLunaApi } from "../api/luna/LunaApiProvider";
+import NetworkService from "../services/NetworkService";
 
 const useNetworkMonitor = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const lunaApi = useLunaApi();
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -13,7 +15,7 @@ const useNetworkMonitor = () => {
 
       if (isErrorPage) return;
 
-      const isOnline = await checkNetworkStatus();
+      const isOnline = await NetworkService.checkNetworkStatus(lunaApi);
 
       if (!isOnline) {
         navigate("/network-error", { replace: false });
@@ -21,6 +23,6 @@ const useNetworkMonitor = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [navigate, location.pathname]);
+  }, [navigate, location.pathname, lunaApi]);
 };
 export default useNetworkMonitor;

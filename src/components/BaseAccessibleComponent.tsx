@@ -3,8 +3,8 @@ import React, { useCallback, useMemo } from "react";
 import { ItemDecorator } from "@enact/sandstone/Item";
 import { translate } from "../utils/translate";
 
+import useSpeak from "../hooks/useSpeak";
 import useSpeakWhenFocusBlocked from "../hooks/useSpeakWhenFocusBlocked";
-import { speak } from "../services/audioGuidance";
 import { filterDOMProps } from "../utils/filterDOMProps";
 
 interface BaseCardProps {
@@ -27,6 +27,8 @@ const BaseCard = React.memo(
     onKeyDown,
     ...rest
   }: BaseCardProps) => {
+    const { speak } = useSpeak();
+
     const safeProps = useMemo(() => filterDOMProps(rest), [rest]);
 
     const speakerMessage = useMemo(() => {
@@ -44,7 +46,7 @@ const BaseCard = React.memo(
           speak(speakerMessage);
         }
       },
-      [onFocus, speakerMessage]
+      [onFocus, speakerMessage, speak]
     );
 
     const handleKeyDown = useSpeakWhenFocusBlocked({ onKeyDown });

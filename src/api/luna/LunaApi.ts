@@ -60,4 +60,140 @@ export default class LunaApi extends ILunaApi {
       });
     });
   }
+
+  async speak(parameters: object): Promise<void> {
+    const service = "luna://com.webos.service.tts";
+    const method = "speak";
+
+    return new Promise((resolve, reject) => {
+      this.ls2.send({
+        service,
+        method,
+        parameters,
+        onSuccess: resolve,
+        onFailure: reject,
+      });
+    });
+  }
+
+  async getLanguageCode(): Promise<Record<string, any>> {
+    const service = "luna://com.webos.settingsservice";
+    const method = "getSystemSettings";
+    const parameters = {
+      keys: ["localeInfo"],
+    };
+
+    return new Promise((resolve, reject) => {
+      this.ls2.send({
+        service,
+        method,
+        parameters,
+        onSuccess: resolve,
+        onFailure: reject,
+      });
+    });
+  }
+
+  async checkNetworkStatus(): Promise<Record<string, any>> {
+    const service = "luna://com.webos.service.connectionmanager";
+    const method = "getStatus";
+    const parameters = {};
+
+    return new Promise((resolve, reject) => {
+      this.ls2.send({
+        service,
+        method,
+        parameters,
+        onSuccess: resolve,
+        onFailure: reject,
+      });
+    });
+  }
+
+  async launchApp(parameters: object): Promise<void> {
+    const service = "luna://com.webos.applicationManager";
+    const method = "launch";
+
+    return new Promise((resolve, reject) => {
+      this.ls2.send({
+        service,
+        method,
+        parameters,
+        onSuccess: resolve,
+        onFailure: reject,
+      });
+    });
+  }
+
+  async killApp(): Promise<void> {
+    const service = "luna://com.webos.service.applicationmanager";
+    const method = "closeByAppId";
+    const parameters = {
+      id: appId,
+    };
+
+    return new Promise((resolve, reject) => {
+      this.ls2.send({
+        service,
+        method,
+        parameters,
+        onSuccess: resolve,
+        onFailure: reject,
+      });
+    });
+  }
+
+  async createToast(message: string): Promise<void> {
+    const service = "luna://com.webos.notification";
+    const method = "createToast";
+    const parameters = {
+      message,
+    };
+
+    return new Promise((resolve, reject) => {
+      this.ls2.send({
+        service,
+        method,
+        parameters,
+        onSuccess: resolve,
+        onFailure: reject,
+      });
+    });
+  }
+
+  async getSystemInfo(): Promise<Record<string, any>> {
+    const service = "luna://com.webos.service.tv.systemproperty";
+    const method = "getSystemInfo";
+    const parameters = {
+      keys: ["modelName", "firmwareVersion", "UHD", "sdkVersion", "boardType"],
+    };
+
+    return new Promise((resolve, reject) => {
+      this.ls2.send({
+        service,
+        method,
+        parameters,
+        onSuccess: resolve,
+        onFailure: reject,
+      });
+    });
+  }
+
+  async getConfigs(): Promise<Record<string, any>> {
+    const service = "luna://com.webos.service.config";
+    const method = "getConfigs";
+    const parameters = {
+      configNames: ["tv.hw.ddrSize"],
+    };
+
+    return new Promise((resolve, reject) => {
+      this.ls2.send({
+        service,
+        method,
+        parameters,
+        onSuccess: resolve,
+        onFailure: reject,
+      });
+    });
+  }
 }

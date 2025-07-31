@@ -11,7 +11,8 @@ import {
   GnbTopSections,
 } from "../../constants/globalConstant";
 import useCallLgAccountApp from "../../hooks/useCallLgAccountApp";
-import { speak } from "../../services/audioGuidance";
+
+import useSpeak from "../../hooks/useSpeak";
 import { RootState } from "../../store";
 import { select } from "../../store/slices/gnbSlice";
 import { translate } from "../../utils/translate";
@@ -37,6 +38,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
   const navigate = useNavigate();
 
   const { expanded, expandGnb, collapseGnb, blur } = useGlobalNavigationBar();
+  const { speak } = useSpeak();
 
   const onFocus = useCallback(() => {
     const isMouse = Spotlight.getPointerMode();
@@ -66,7 +68,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
 
     speak(`${translate(targetLabel)} ${postfix}`);
     // ---- 오디오 가이던스 로직 ----
-  }, [expandGnb, expanded]);
+  }, [expandGnb, expanded, speak]);
 
   const onBlur = useCallback(() => {
     const isMouse = Spotlight.getPointerMode();
