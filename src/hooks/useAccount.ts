@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { AccountState } from "../core/store/slices/accountSlice";
 import { Account } from "../entities/user";
+import { AccountState } from "../store/slices/accountSlice";
 
 // Account 인스턴스를 반환
 export const useAccount = (): Account => {

@@ -1,0 +1,27 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Account } from "../../entities/user";
+
+export interface AccountState {
+  accountData: ReturnType<Account["toReduxState"]>;
+}
+
+const initialState: AccountState = {
+  accountData: Account.empty().toReduxState(),
+};
+
+export const accountSlice = createSlice({
+  name: "account",
+  initialState,
+  reducers: {
+    // Account 인스턴스를 받아 순수 객체로 변환해 저장
+    setAccountState(state, action: PayloadAction<Account>) {
+      state.accountData = action.payload.toReduxState();
+    },
+  },
+});
+
+export const { setAccountState } = accountSlice.actions;
+
+// Account 인스턴스로 다시 변환
+export const selectAccount = (state: { account: AccountState }) =>
+  Account.fromReduxState(state.account.accountData);

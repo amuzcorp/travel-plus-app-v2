@@ -10,7 +10,7 @@ import SectionWrapper from "../../../../components/Wrapper/SectionWrapper";
 import {
   countryCardGap,
   countryCardWidth,
-} from "../../../../core/constants/globalConstant";
+} from "../../../../constants/globalConstant";
 import { translate } from "../../../../utils/translate";
 import { RelativeBox } from "../CityRow/CityRow.style";
 

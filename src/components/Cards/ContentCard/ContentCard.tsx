@@ -11,7 +11,7 @@ import IPanorama from "../../../components/Icons/IPanorama";
 import IPlace from "../../../components/Icons/IPlace";
 import IVideo from "../../../components/Icons/IVideo";
 import IWalking from "../../../components/Icons/IWalking";
-import { contentCardWidth } from "../../../core/constants/globalConstant";
+import { contentCardWidth } from "../../../constants/globalConstant";
 import {
   BadgeWrapper,
   ContentCardWrapper,

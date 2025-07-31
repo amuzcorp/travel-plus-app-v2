@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import styled, { useTheme } from "styled-components";
 
-import IDestinationNext from "../../../assets/icons/IDestinationNext";
+import IDestinationNext from "../../assets/icons/IDestinationNext";
 import IconButton from "../Buttons/IconButtons/IconButton";
 import Spacing from "../Spacing/Spacing";
 import MarqueeText from "../Texts/MarqueeText";

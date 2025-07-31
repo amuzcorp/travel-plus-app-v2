@@ -19,7 +19,6 @@ declare module "@enact/ui/Layout" {
 }
 
 declare module "*.svg" {
-  import * as React from "react";
   export const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>;
 
   const src: string;
@@ -55,7 +54,7 @@ declare module "@enact/spotlight/SpotlightContainerDecorator" {
 
 // styled-components 테마 타입 확장
 declare module "styled-components" {
-  import zIndexes from "../core/constants/globalConstant";
+  import zIndexes from "..constants/globalConstant";
 
   export interface DefaultTheme {
     size: {

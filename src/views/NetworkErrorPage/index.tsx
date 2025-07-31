@@ -5,16 +5,14 @@ import Spotlight from "@enact/spotlight";
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
 import { useNavigate } from "react-router-dom";
 
-import ErrorIcon from "../../../assets/icons/ErrorIcon";
+import { useLunaApi } from "../../api/luna/LunaApiProvider";
+import ErrorIcon from "../../assets/icons/ErrorIcon";
 import RectangleButton from "../../components/Buttons/RectangleButton/RectangleButton";
 import Spacing from "../../components/Spacing/Spacing";
 import Text from "../../components/Texts/Text";
 import { useSpinner } from "../../hooks/useSpinner";
-import { exitApp } from "../../utils/exitApp";
-import {
-  checkNetworkStatus,
-  launchNetworkSettings,
-} from "../../utils/networkStatus";
+import AppService from "../../services/AppService";
+import NetworkService from "../../services/NetworkService";
 import { translate } from "../../utils/translate";
 
 const ContainerBase = styled.div`
@@ -44,6 +42,8 @@ const NetworkErrorPage = React.memo(() => {
   const navigate = useNavigate();
 
   const [hasSpoken, setHasSpoken] = useState(false);
+
+  const lunaApi = useLunaApi();
 
   useEffect(() => {
     const spottables = Spotlight.getSpottableDescendants("networkError");
@@ -82,7 +82,7 @@ const NetworkErrorPage = React.memo(() => {
     let connected = false;
 
     while (Date.now() - startTime < timeout) {
-      const isOnline = await checkNetworkStatus();
+      const isOnline = await NetworkService.checkNetworkStatus(lunaApi);
       if (isOnline) {
         connected = true;
         break;
@@ -98,15 +98,15 @@ const NetworkErrorPage = React.memo(() => {
     } else {
       hideSpinner();
     }
-  }, [hideSpinner, navigate, showSpinner]);
+  }, [hideSpinner, navigate, showSpinner, lunaApi]);
 
   const handleOpenSettings = useCallback(async () => {
-    await launchNetworkSettings();
-  }, []);
+    await NetworkService.launchNetworkSettings(lunaApi);
+  }, [lunaApi]);
 
   const handleExitApp = useCallback(async () => {
-    await exitApp();
-  }, []);
+    await AppService.kill(lunaApi);
+  }, [lunaApi]);
 
   return (
     <SpotlightNetworkErrorContainer

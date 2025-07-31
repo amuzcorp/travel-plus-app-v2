@@ -1,6 +1,10 @@
 import React from "react";
 
+import { useSelector } from "react-redux";
+import { RootState } from "src/store";
 import styled from "styled-components";
+
+import HomeSection from "../../entities/homeSection/HomeSection";
 import CarouselRow from "./components/CarouselRow/CarouselRow";
 import CityRow from "./components/CityRow/CityRow";
 import CountryRow from "./components/CountryRow/CountryRow";
@@ -9,10 +13,14 @@ import FavoriteRow from "./components/FavoriteRow/FavoriteRow";
 import PanoramaRow from "./components/PanoramaRow/PanoramaRow";
 
 const HomePage: React.FC = React.memo(() => {
+  const citySection = useSelector((state: RootState) =>
+    state.home.citySection ? HomeSection.fromJson(state.home.citySection) : null
+  );
+
   return (
     <HomeWrapper id={"home-main-container"}>
       <CarouselRow />
-      <CityRow />
+      {citySection && <CityRow section={citySection} />}
       <FavoriteRow />
       <DealsRow />
       <PanoramaRow />

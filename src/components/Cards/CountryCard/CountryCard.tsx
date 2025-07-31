@@ -6,7 +6,7 @@ import BaseAccessibleComponent from "../../../components/BaseAccessibleComponent
 import {
   countryCardHeight,
   countryCardWidth,
-} from "../../../core/constants/globalConstant";
+} from "../../../constants/globalConstant";
 
 export class CountryCardData {
   constructor({ title, background }: { title: string; background: string }) {

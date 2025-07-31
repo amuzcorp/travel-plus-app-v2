@@ -1,6 +1,6 @@
 import Spotlight from "@enact/spotlight";
 import { useCallback, useState } from "react";
-import { homeKeys } from "../../core/constants/globalConstant";
+import { homeKeys } from "../../constants/globalConstant";
 
 export interface UseHomePageScrollProps {}
 

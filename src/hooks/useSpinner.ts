@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Spotlight from "@enact/spotlight";
 
-import { RootState } from "../core/store";
-import { hide, show } from "../core/store/slices/spinnerSlice";
+import { RootState } from "../store";
+import { hide, show } from "../store/slices/spinnerSlice";
 
 interface SpinnerPayload {
   focusIdOnDismiss?: string;

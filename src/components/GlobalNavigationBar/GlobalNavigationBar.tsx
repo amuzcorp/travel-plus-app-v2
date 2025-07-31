@@ -9,11 +9,12 @@ import {
   gnbContainerKeys,
   GnbMiddleSections,
   GnbTopSections,
-} from "../../core/constants/globalConstant";
-import { RootState } from "../../core/store";
-import { select } from "../../core/store/slices/gnbSlice";
+} from "../../constants/globalConstant";
 import useCallLgAccountApp from "../../hooks/useCallLgAccountApp";
-import { speak } from "../../utils/audioGuidance";
+
+import useSpeak from "../../hooks/useSpeak";
+import { RootState } from "../../store";
+import { select } from "../../store/slices/gnbSlice";
 import { translate } from "../../utils/translate";
 import GlobalNavigationBarButton, {
   GnbType,
@@ -27,6 +28,12 @@ import {
 } from "./GlobalNavigationBar.style";
 import { useGlobalNavigationBar } from "./useGlobalNavigationBar";
 
+import { useAuthApi } from "../../api/auth/AuthApiProvider";
+import { useLunaApi } from "../../api/luna/LunaApiProvider";
+import { Account } from "../../entities";
+import AccountManager from "../../services/AccountService";
+import { setAccountState } from "../../store/slices/accountSlice";
+
 const GlobalNavigationBar: React.FC = React.memo(() => {
   const selectedButton = useSelector(
     (state: RootState) => state.gnb.selectedButton,
@@ -37,6 +44,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
   const navigate = useNavigate();
 
   const { expanded, expandGnb, collapseGnb, blur } = useGlobalNavigationBar();
+  const { speak } = useSpeak();
 
   const onFocus = useCallback(() => {
     const isMouse = Spotlight.getPointerMode();
@@ -66,7 +74,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
 
     speak(`${translate(targetLabel)} ${postfix}`);
     // ---- 오디오 가이던스 로직 ----
-  }, [expandGnb, expanded]);
+  }, [expandGnb, expanded, speak]);
 
   const onBlur = useCallback(() => {
     const isMouse = Spotlight.getPointerMode();
@@ -93,10 +101,25 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
 
   const callLgAccountApp = useCallLgAccountApp();
 
+  const authApi = useAuthApi();
+  const lunaApi = useLunaApi();
+
   const onClickButton = useCallback(
     async (target: string) => {
       if (target === "account") {
-        await callLgAccountApp(true);
+        // await callLgAccountApp(true);
+        const result = await AccountManager.callLgAccountApp({
+          isLogin: true,
+          authApi: authApi,
+          lunaApi: lunaApi,
+        });
+
+        if (result.account === Account.empty()) {
+          return;
+        }
+
+        dispatch(setAccountState(result.account));
+
         return;
       }
 

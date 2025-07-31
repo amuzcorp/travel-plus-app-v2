@@ -12,7 +12,7 @@ import SectionWrapper from "../../../../components/Wrapper/SectionWrapper";
 import {
   contentCardGap,
   contentCardWidth,
-} from "../../../../core/constants/globalConstant";
+} from "../../../../constants/globalConstant";
 import { translate } from "../../../../utils/translate";
 import { RelativeBox } from "../CityRow/CityRow.style";
 

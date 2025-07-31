@@ -1,6 +1,7 @@
 import { useCallback } from "react";
-import { speak } from "../utils/audioGuidance";
+
 import { translate } from "../utils/translate";
+import useSpeak from "./useSpeak";
 
 // 막고 싶은 이동 방향
 type DirectionKey = "ArrowUp" | "ArrowDown" | "ArrowLeft" | "ArrowRight";
@@ -14,6 +15,8 @@ export default function useBlockFocusDirection({
   blockDirections,
   onKeyDown,
 }: Options) {
+  const { speak } = useSpeak();
+
   return useCallback(
     (e: React.KeyboardEvent) => {
       onKeyDown?.(e);
@@ -22,6 +25,8 @@ export default function useBlockFocusDirection({
       if (blockDirections.includes(e.key as DirectionKey)) {
         e.preventDefault();
         e.stopPropagation();
+
+        if (e.repeat) return;
 
         const message = {
           ArrowUp: translate("common.screenAlreadyAtTop"),
@@ -33,6 +38,6 @@ export default function useBlockFocusDirection({
         speak(message);
       }
     },
-    [blockDirections, onKeyDown]
+    [blockDirections, onKeyDown, speak]
   );
 }

@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
 
-import IBack from "../../../../assets/icons/IBack";
-import IOption from "../../../../assets/icons/IOption";
+import IBack from "../../../assets/icons/IBack";
+import IOption from "../../../assets/icons/IOption";
 
 import { translate } from "../../../utils/translate";
 import BaseAccessibleComponent from "../../BaseAccessibleComponent";

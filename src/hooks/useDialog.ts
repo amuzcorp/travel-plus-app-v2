@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Spotlight from "@enact/spotlight";
 
-import { RootState } from "../core/store";
-import { hide, show } from "../core/store/slices/dialogSlice";
+import { RootState } from "../store";
+import { hide, show } from "../store/slices/dialogSlice";
 
 interface DialogPayload {
   title?: string;

@@ -2,23 +2,26 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 
-import "./App/App.module.css";
+import "./_App/App.module.css";
+import ApiProviders from "./api/ApiProvider";
 import Dialog from "./components/Popups/Dialog";
 import Spinner from "./components/Spinner/Spinner";
-import Router from "./core/routes/Router";
-import store from "./core/store";
-import "./core/styles/fonts.css";
-import { theme } from "./core/styles/theme";
 import reportWebVitals from "./reportWebVitals";
+import Router from "./routes/Router";
+import store from "./store";
+import "./styles/fonts.css";
+import { theme } from "./styles/theme";
 
 const appElement = (
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <Router />
-      <Spinner />
-      <Dialog />
-    </ThemeProvider>
-  </Provider>
+  <ApiProviders>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <Router />
+        <Spinner />
+        <Dialog />
+      </ThemeProvider>
+    </Provider>
+  </ApiProviders>
 );
 
 if (typeof window !== "undefined") {

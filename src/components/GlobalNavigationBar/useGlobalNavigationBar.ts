@@ -2,14 +2,14 @@ import { useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Spotlight from "@enact/spotlight";
-import { RootState } from "../../core/store";
+import { RootState } from "../../store";
 import {
   collapse,
   expand,
   GnbState,
   GnbStateType,
   setLastEnterKey,
-} from "../../core/store/slices/gnbSlice";
+} from "../../store/slices/gnbSlice";
 
 // interface UseGlobalNavigationBarProps {}
 
