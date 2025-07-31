@@ -1,8 +1,8 @@
 import LS2Request from "@enact/webos/LS2Request";
 
-import { AppDispatch } from "../core/store";
-import { setTVSystemInfo } from "../core/store/slices/tvSystemSlice";
 import env from "../env";
+import { AppDispatch } from "../store";
+import { setTVSystemInfo } from "../store/slices/tvSystemSlice";
 
 const requestSystemInfo = (): Promise<any> => {
   return new Promise((resolve, reject) => {

@@ -5,7 +5,7 @@ import Spotlight from "@enact/spotlight";
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
 import { useNavigate } from "react-router-dom";
 
-import ErrorIcon from "../../../assets/icons/ErrorIcon";
+import ErrorIcon from "../../assets/icons/ErrorIcon";
 import RectangleButton from "../../components/Buttons/RectangleButton/RectangleButton";
 import Spacing from "../../components/Spacing/Spacing";
 import Text from "../../components/Texts/Text";

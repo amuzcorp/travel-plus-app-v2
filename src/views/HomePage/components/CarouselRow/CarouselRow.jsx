@@ -6,15 +6,15 @@ import React, {
   useState,
 } from "react";
 
-import GradientBottomComponent from "../../../../../assets/gradients/GradientCarouselBottom";
-import GradientLeftComponent from "../../../../../assets/gradients/GradientCarouselLeft";
+import GradientBottomComponent from "../../../../assets/gradients/GradientCarouselBottom";
+import GradientLeftComponent from "../../../../assets/gradients/GradientCarouselLeft";
 import ArrowRightButton from "../../../../components/Buttons/ArrowButtons/ArrowRightButton";
 import RoundButton from "../../../../components/Buttons/RoundButton/RoundButton";
 import ViewMoreSmallButton from "../../../../components/Buttons/ViewMoreButtons/ViewMoreSmallButton";
 import { useGlobalNavigationBar } from "../../../../components/GlobalNavigationBar/useGlobalNavigationBar";
 import Spacing from "../../../../components/Spacing/Spacing";
 import Text from "../../../../components/Texts/Text";
-import { homeKeys } from "../../../../core/constants/globalConstant";
+import { homeKeys } from "../../../../constants/globalConstant";
 import { useDialog } from "../../../../hooks/useDialog";
 import { useHomePageSroll } from "../../useHomePageScroll";
 import {
@@ -33,7 +33,7 @@ import {
 export const viewMoreId = "home-carousel-row-view-more";
 
 export default React.memo(
-  ({ title, description }) => {
+  () => {
     const descriptionRef = useRef(null);
     const { showDialog } = useDialog();
 
@@ -52,7 +52,7 @@ export default React.memo(
         content: descriptionText,
         focusIdOnDismiss: viewMoreId,
       });
-    });
+    }, [showDialog]);
 
     const onKeyDown = useCallback(
       (ev) => {
@@ -91,8 +91,8 @@ export default React.memo(
       const target = descriptionRef.current;
 
       if (target) {
-        const showViewMore = target.clientHeight < target.scrollHeight;
-        setShowViewMore(showViewMore);
+        const showViewMoreButton = target.clientHeight < target.scrollHeight;
+        setShowViewMore(showViewMoreButton);
       }
     }, []);
 
@@ -171,5 +171,5 @@ export default React.memo(
       </div>
     );
   },
-  (__, ___) => true
+  () => true
 );

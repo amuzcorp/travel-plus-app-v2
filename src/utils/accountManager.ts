@@ -1,13 +1,13 @@
 import {
   selectIsWebOS6,
   selectTVSystemInfo,
-} from "../core/store/slices/tvSystemSlice";
+} from "../store/slices/tvSystemSlice";
 
-import IAuthApi from "../core/api/auth/iAuthApi";
-import ILunaApi from "../core/api/luna/iLunaApi";
-import store from "../core/store";
+import IAuthApi from "../api/auth/iAuthApi";
+import ILunaApi from "../api/luna/iLunaApi";
 import { Account } from "../entities";
 import env from "../env";
+import store from "../store";
 
 export interface AccountManagerResult {
   success: boolean;

@@ -1,6 +1,6 @@
 import LS2Request from "@enact/webos/LS2Request";
 
-import { localStorageLanguageCode } from "../core/constants/globalConstant";
+import { localStorageLanguageCode } from "../constants/globalConstant";
 import env from "../env";
 
 const requestLS2 = (

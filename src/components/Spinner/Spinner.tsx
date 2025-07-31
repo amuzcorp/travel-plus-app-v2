@@ -7,7 +7,7 @@ import Spotlight from "@enact/spotlight";
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
 import Spottable from "@enact/spotlight/Spottable";
 
-import spinnerAnimation from "../../../assets/lottie/lottie_spinner.json";
+import spinnerAnimation from "../../assets/lottie/lottie_spinner.json";
 import { useSpinner } from "../../hooks/useSpinner";
 import { speak } from "../../utils/audioGuidance";
 import { translate } from "../../utils/translate";
@@ -64,7 +64,10 @@ const Spinner = React.memo(() => {
   );
 
   return start ? (
-    <SpotlightSpinnerContainer spotlightId="splash" spotlightRestrict="self-only">
+    <SpotlightSpinnerContainer
+      spotlightId="splash"
+      spotlightRestrict="self-only"
+    >
       <SpottableLottie animationData={spinnerAnimation} {...lottieOptions} />
     </SpotlightSpinnerContainer>
   ) : null;

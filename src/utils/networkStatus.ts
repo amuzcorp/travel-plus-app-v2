@@ -1,9 +1,9 @@
 import LS2Request from "@enact/webos/LS2Request";
 
-import { appId } from "../core/constants/globalConstant";
-import store from "../core/store";
-import { selectIsWebOS6 } from "../core/store/slices/tvSystemSlice";
+import { appId } from "../constants/globalConstant";
 import env from "../env";
+import store from "../store";
+import { selectIsWebOS6 } from "../store/slices/tvSystemSlice";
 
 const requestLS2 = (
   service: string,

@@ -9,10 +9,10 @@ import {
   gnbContainerKeys,
   GnbMiddleSections,
   GnbTopSections,
-} from "../../core/constants/globalConstant";
-import { RootState } from "../../core/store";
-import { select } from "../../core/store/slices/gnbSlice";
+} from "../../constants/globalConstant";
 import useCallLgAccountApp from "../../hooks/useCallLgAccountApp";
+import { RootState } from "../../store";
+import { select } from "../../store/slices/gnbSlice";
 import { speak } from "../../utils/audioGuidance";
 import { translate } from "../../utils/translate";
 import GlobalNavigationBarButton, {

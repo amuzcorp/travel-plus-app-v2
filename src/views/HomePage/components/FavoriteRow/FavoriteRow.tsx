@@ -17,7 +17,7 @@ import {
   contentCardGap,
   contentCardWidth,
   homeKeys,
-} from "../../../../core/constants/globalConstant";
+} from "../../../../constants/globalConstant";
 import { translate } from "../../../../utils/translate";
 import { useHomePageSroll } from "../../useHomePageScroll";
 import { RelativeBox } from "../CityRow/CityRow.style";

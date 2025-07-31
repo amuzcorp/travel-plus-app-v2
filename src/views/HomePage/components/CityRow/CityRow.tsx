@@ -13,7 +13,7 @@ import {
   cityCardSmallWidth,
   cityCardWidth,
   homeKeys,
-} from "../../../../core/constants/globalConstant";
+} from "../../../../constants/globalConstant";
 import { translate } from "../../../../utils/translate";
 import { useHomePageSroll } from "../../useHomePageScroll";
 import { RelativeBox } from "./CityRow.style";
@@ -213,7 +213,15 @@ const CityRow = React.memo(() => {
         />
       );
     });
-  }, [smallCardWidth, cardHeight, cardDiff, onFocuses, onKeyDowns, onKeyUps]);
+  }, [
+    smallCardWidth,
+    cardHeight,
+    cardDiff,
+    onClicks,
+    onFocuses,
+    onKeyDowns,
+    onKeyUps,
+  ]);
 
   const largeCard = useMemo(() => {
     const target = cards[expandedIndex];
