@@ -16,6 +16,7 @@ export default class LanguageService {
 
       localStorage.setItem(localStorageLanguageCode.key, code);
     } catch (e) {
+      console.error("setLanguageCode 실패 : ", e);
       localStorage.setItem(localStorageLanguageCode.key, this.defaultLangCode);
     }
   }

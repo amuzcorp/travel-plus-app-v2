@@ -26,6 +26,8 @@ export default function useBlockFocusDirection({
         e.preventDefault();
         e.stopPropagation();
 
+        if (e.repeat) return;
+
         const message = {
           ArrowUp: translate("common.screenAlreadyAtTop"),
           ArrowDown: translate("common.screenAlreadyAtBottom"),

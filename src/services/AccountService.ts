@@ -61,7 +61,7 @@ export default class AccountService {
 
       const devAccountInfo = this.getDevAccountInfo(isWebOS6);
       const account = await authApi.loginToAmuz(devAccountInfo);
-
+      console.error("fetchAccountInfo 실패 : ", e);
       return { success: true, account: account };
     }
   }

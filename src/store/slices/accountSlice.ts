@@ -17,13 +17,6 @@ export const accountSlice = createSlice({
     setAccountState(state, action: PayloadAction<Account>) {
       state.accountData = action.payload.toReduxState();
     },
-
-    // 초기화
-    // resetAccountState() {
-    //   return {
-    //     accountData: Account.empty().toReduxState(),
-    //   };
-    // },
   },
 });
 
@@ -32,6 +25,3 @@ export const { setAccountState } = accountSlice.actions;
 // Account 인스턴스로 다시 변환
 export const selectAccount = (state: { account: AccountState }) =>
   Account.fromReduxState(state.account.accountData);
-
-export const selectIsLoggedIn = (state: { account: AccountState }) =>
-  Account.fromReduxState(state.account.accountData).isLoggedIn;
