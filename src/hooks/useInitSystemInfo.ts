@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { useAuthApi } from "../core/api/auth/AuthApiProvider";
-import { useLunaApi } from "../core/api/luna/LunaApiProvider";
-import type { AppDispatch } from "../core/store";
-import { setAccountState } from "../core/store/slices/accountSlice";
+import { useAuthApi } from "../api/auth/AuthApiProvider";
+import { useLunaApi } from "../api/luna/LunaApiProvider";
+import type { AppDispatch } from "../store";
+import { setAccountState } from "../store/slices/accountSlice";
 import AccountManager from "../utils/AccountManager";
 import { fetchTVSystemInfo } from "../utils/fetchTVsystemInfo";
 
@@ -32,7 +32,7 @@ const useInitSystemInfo = () => {
     };
 
     init();
-  }, [dispatch]);
+  }, [dispatch, authApi, lunaApi]);
 };
 
 export default useInitSystemInfo;

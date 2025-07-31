@@ -1,8 +1,12 @@
 import LS2Request from "@enact/webos/LS2Request";
 
-import { appId } from "../core/constants/globalConstant";
+import { appId } from "../constants/globalConstant";
 
-const requestLS2 = (service: string, method: string, parameters: object): Promise<any> => {
+const requestLS2 = (
+  service: string,
+  method: string,
+  parameters: object
+): Promise<any> => {
   return new Promise((resolve, reject) => {
     new LS2Request().send({
       service,
@@ -14,11 +18,18 @@ const requestLS2 = (service: string, method: string, parameters: object): Promis
   });
 };
 
-export const exitApp = async (): Promise<{ success: boolean; message: string }> => {
+export const exitApp = async (): Promise<{
+  success: boolean;
+  message: string;
+}> => {
   try {
-    await requestLS2("luna://com.webos.service.applicationmanager", "closeByAppId", {
-      id: appId,
-    });
+    await requestLS2(
+      "luna://com.webos.service.applicationmanager",
+      "closeByAppId",
+      {
+        id: appId,
+      }
+    );
     return {
       success: true,
       message: "앱이 성공적으로 종료되었습니다.",

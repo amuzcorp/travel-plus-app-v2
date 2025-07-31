@@ -1,11 +1,11 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 
-import { useAuthApi } from "../core/api/auth/AuthApiProvider";
-import { useLunaApi } from "../core/api/luna/LunaApiProvider";
-import type { AppDispatch } from "../core/store";
-import { setAccountState } from "../core/store/slices/accountSlice";
+import { useAuthApi } from "../api/auth/AuthApiProvider";
+import { useLunaApi } from "../api/luna/LunaApiProvider";
 import { Account } from "../entities";
+import type { AppDispatch } from "../store";
+import { setAccountState } from "../store/slices/accountSlice";
 import AccountManager from "../utils/AccountManager";
 
 // 로그인, 로그아웃 => LG 계정 앱을 호출하는 훅
@@ -29,7 +29,7 @@ const useCallLgAccountApp = () => {
 
       dispatch(setAccountState(result.account));
     },
-    [dispatch]
+    [dispatch, authApi, lunaApi]
   );
 };
 

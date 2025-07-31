@@ -55,7 +55,7 @@ declare module "@enact/spotlight/SpotlightContainerDecorator" {
 
 // styled-components 테마 타입 확장
 declare module "styled-components" {
-  import zIndexes from "../core/constants/globalConstant";
+  import zIndexes from "..constants/globalConstant";
 
   export interface DefaultTheme {
     size: {

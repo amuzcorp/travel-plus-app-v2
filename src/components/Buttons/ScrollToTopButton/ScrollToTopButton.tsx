@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
-import Icon from "../../../../assets/icons/IGoToTopIcon";
+import Icon from "../../../assets/icons/IGoToTopIcon";
 import { translate } from "../../../utils/translate";
 import BaseAccessibleComponent from "../../BaseAccessibleComponent";
 import { RoundButtonBase } from "../RoundButton/RoundButton";

@@ -8,7 +8,7 @@ import { useGlobalNavigationBar } from "../../../../components/GlobalNavigationB
 import Spacing from "../../../../components/Spacing/Spacing";
 import Text from "../../../../components/Texts/Text";
 import SectionWrapper from "../../../../components/Wrapper/SectionWrapper";
-import { homeKeys } from "../../../../core/constants/globalConstant";
+import { homeKeys } from "../../../../constants/globalConstant";
 import { translate } from "../../../../utils/translate";
 import { useHomePageSroll } from "../../useHomePageScroll";
 

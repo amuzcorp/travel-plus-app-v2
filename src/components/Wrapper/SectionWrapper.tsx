@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import styled from "styled-components";
 
@@ -28,6 +28,23 @@ export default React.memo(
       }
     }, [inView]);
 
+    const onWrapperKeyDown = useCallback(
+      (ev: React.KeyboardEvent) => {
+        onKeyDown(ev);
+
+        setHovered(false);
+      },
+      [onKeyDown]
+    );
+
+    const onMouseEnter = useCallback((ev: React.MouseEvent) => {
+      setHovered(true);
+    }, []);
+
+    const onMouseLeave = useCallback((ev: React.MouseEvent) => {
+      setHovered(false);
+    }, []);
+
     return (
       <Wrapper
         ref={ref}
@@ -36,22 +53,14 @@ export default React.memo(
           `${inView ? "" : "in-active"}` + " " + `${hovered ? "hovered" : ""}`
         }
         $marginLeft={$marginLeft}
-        onKeyDown={(ev: React.KeyboardEvent) => {
-          onKeyDown(ev);
-
-          setHovered(false);
-        }}
+        onKeyDown={onWrapperKeyDown}
       >
         {children}
         {!inView && (
           <WrapperOverlay
             onClick={onClick}
-            onMouseEnter={(ev: React.MouseEvent) => {
-              setHovered(true);
-            }}
-            onMouseLeave={(ev: React.MouseEvent) => {
-              setHovered(false);
-            }}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
           />
         )}
       </Wrapper>

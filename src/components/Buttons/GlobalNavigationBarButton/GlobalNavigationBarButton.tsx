@@ -2,35 +2,35 @@ import React, { useEffect, useState } from "react";
 
 import BaseAccessibleComponent from "../../../components/BaseAccessibleComponent";
 
-import IGnbUser from "../../../../assets/icons/gnb/IGnbUser";
-import IGnbUserSelected from "../../../../assets/icons/gnb/IGnbUserSelected";
+import IGnbUser from "../../../assets/icons/gnb/IGnbUser";
+import IGnbUserSelected from "../../../assets/icons/gnb/IGnbUserSelected";
 
-import IGnbUser6 from "../../../../assets/icons/gnb/IGnbUser6";
-import IGnbUserSelected6 from "../../../../assets/icons/gnb/IGnbUserSelected6";
+import IGnbUser6 from "../../../assets/icons/gnb/IGnbUser6";
+import IGnbUserSelected6 from "../../../assets/icons/gnb/IGnbUserSelected6";
 
-import IGnbHome from "../../../../assets/icons/gnb/IGnbHome";
-import IGnbHomeSelected from "../../../../assets/icons/gnb/IGnbHomeSelected";
+import IGnbHome from "../../../assets/icons/gnb/IGnbHome";
+import IGnbHomeSelected from "../../../assets/icons/gnb/IGnbHomeSelected";
 
-import IGnbSearch from "../../../../assets/icons/gnb/IGnbSearch";
-import IGnbSearchSelected from "../../../../assets/icons/gnb/IGnbSearchSelected";
+import IGnbSearch from "../../../assets/icons/gnb/IGnbSearch";
+import IGnbSearchSelected from "../../../assets/icons/gnb/IGnbSearchSelected";
 
-import IGnbDestination from "../../../../assets/icons/gnb/IGnbDestination";
-import IGnbDestinationSelected from "../../../../assets/icons/gnb/IGnbDestinationSelected";
+import IGnbDestination from "../../../assets/icons/gnb/IGnbDestination";
+import IGnbDestinationSelected from "../../../assets/icons/gnb/IGnbDestinationSelected";
 
-import IGnbLuggage from "../../../../assets/icons/gnb/IGnbLuggage";
-import IGnbLuggageSelected from "../../../../assets/icons/gnb/IGnbLuggageSelected";
+import IGnbLuggage from "../../../assets/icons/gnb/IGnbLuggage";
+import IGnbLuggageSelected from "../../../assets/icons/gnb/IGnbLuggageSelected";
 
-import IGnbSettings from "../../../../assets/icons/gnb/IGnbSettings";
-import IGnbSettingsSelected from "../../../../assets/icons/gnb/IGnbSettingsSelected";
+import IGnbSettings from "../../../assets/icons/gnb/IGnbSettings";
+import IGnbSettingsSelected from "../../../assets/icons/gnb/IGnbSettingsSelected";
 
-import IGnbExit from "../../../../assets/icons/gnb/IGnbExit";
-import IGnbExitSelected from "../../../../assets/icons/gnb/IGnbExitSelected";
+import IGnbExit from "../../../assets/icons/gnb/IGnbExit";
+import IGnbExitSelected from "../../../assets/icons/gnb/IGnbExitSelected";
 
 import { useSelector } from "react-redux";
-import { RootState } from "../../../core/store";
-import { GnbState } from "../../../core/store/slices/gnbSlice";
 import { useAccount } from "../../../hooks/useAccount";
 import useIsWebOS6 from "../../../hooks/useIsWebOS6";
+import { RootState } from "../../../store";
+import { GnbState } from "../../../store/slices/gnbSlice";
 import { translate } from "../../../utils/translate";
 import {
   GlobalNavigationChild,
