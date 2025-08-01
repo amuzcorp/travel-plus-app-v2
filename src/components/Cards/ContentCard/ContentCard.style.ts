@@ -86,9 +86,12 @@ export const TitleWrapper = styled(Marquee)`
 export const DescriptionWrapper = styled.div`
   width: 100%;
 
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 
-  font-size: ${({ theme }) => theme.textStyle.titleTinySb.fontSize};
+  font-size: ${({ theme }) => theme.textStyle.titleTinyRg.fontSize};
+  font-weight: ${({ theme }) => theme.textStyle.titleTinyRg.fontWeight};
   font-family: "LGSmartUI";
   color: ${({ theme }) => theme.colors.text.primary};
 
@@ -96,31 +99,23 @@ export const DescriptionWrapper = styled.div`
 `;
 
 export const DateWrapper = styled.div`
-  display: flex;
-
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 
-  & > :not(:last-child) {
-    display: flex;
-
-    align-items: center;
-
-    &::after {
-      display: block;
-      content: "";
-
-      width: 4px;
-      height: 4px;
-
-      background: ${({ theme }) => theme.colors.deactive.normal};
-
-      border-radius: 50%;
-
-      margin: 0 6px;
-    }
+  & > svg {
+    margin: 0 6px;
+    vertical-align: middle;
   }
 
-  & > * {
-    margin: 0 0;
-  }
+  /* & > p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    flex-shrink: 1;
+    flex-grow: 0;
+    flex-basis: auto;
+    min-width: 0;
+  } */
 `;

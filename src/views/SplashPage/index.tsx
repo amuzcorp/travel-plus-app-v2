@@ -6,6 +6,9 @@ import styled from "styled-components";
 
 import { useHomeApi } from "../../api/home/HomeApiProvider";
 import splashLottieAnimation from "../../assets/lottie/splash_luggage.json";
+import { cityRowItemKey } from "../../constants/globalConstant";
+import CityItem from "../../entities/homeSection/CityItem";
+import HomeItem from "../../entities/homeSection/HomeItem";
 import useInitSystemInfo from "../../hooks/useInitSystemInfo";
 import useSpeak from "../../hooks/useSpeak";
 import { setCitySection } from "../../store/slices/homeSlice";
@@ -28,7 +31,11 @@ const SplashPage: React.FC = () => {
     []
   );
 
+  // const {data, isLoading, error} = useQuery({queryKey: ['home'], queryFn: homeApi.getHomeSections()})
+
   const initDefaultData = useCallback(async () => {
+    HomeItem.register(cityRowItemKey, CityItem);
+
     const homeSections = await homeApi.getHomeSections();
 
     for (let i = 0; i < homeSections.length; i++) {
@@ -36,7 +43,6 @@ const SplashPage: React.FC = () => {
 
       switch (homeSection.sectionType) {
         case "city_ani":
-          console.log("i`m here!");
           dispatch(setCitySection(homeSection));
           break;
 

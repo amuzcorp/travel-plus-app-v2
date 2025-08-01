@@ -63,7 +63,7 @@ export default class HomeSection {
 
   items: HomeItem[];
 
-  static fromJson(json: Record<string, any>): HomeSection {
+  static fromJson(type: string, json: Record<string, any>): HomeSection {
     return new HomeSection({
       id: json.id,
       uuid: json.uuid,
@@ -76,7 +76,7 @@ export default class HomeSection {
       createdAtFormatted: json.created_at_formatted,
       updatedAtFormatted: json.updated_at_formatted,
       items: json.items.map((value: Record<string, any>) =>
-        HomeItem.fromJson(value)
+        HomeItem.getFromJson(type, value)
       ),
     });
   }

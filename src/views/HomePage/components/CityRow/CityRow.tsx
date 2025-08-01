@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import Spotlight from "@enact/spotlight";
 
+import CityItem from "src/entities/homeSection/CityItem";
 import { useGlobalNavigationBar } from "../../../../components/GlobalNavigationBar/useGlobalNavigationBar";
 import ScrollableRow from "../../../../components/Scrollables/ScrollableRow";
 import { useScrollableRow } from "../../../../components/Scrollables/useScrollableRow";
@@ -28,7 +29,7 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
   const cardHeight = cityCardHeight;
   const cardGap = cityCardGap;
 
-  const items = section.items;
+  const items = section.items as CityItem[];
 
   const [expandedIndex, setExpandedIndex] = useState(0);
 
