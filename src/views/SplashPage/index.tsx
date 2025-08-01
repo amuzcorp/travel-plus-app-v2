@@ -94,7 +94,7 @@ const SplashPage: React.FC = () => {
 
       if (homeSection.sectionType === "city_ani") {
         dispatch(setCitySection(homeSection));
-        
+
         for (let j = 0; j < homeSection.items.length; j++) {
           const item = homeSection.items[j] as CityItem;
 
@@ -102,7 +102,6 @@ const SplashPage: React.FC = () => {
           await preloadImage(item.staticMapUrl);
           await preloadImage(item.thumbnailImageUrl);
         }
-
       } else if (homeSection.sectionType === "ott_ani123") {
         dispatch(setOttSection(homeSection));
       } else if (homeSection.sectionType === "video" && homeSection.id === 3) {
