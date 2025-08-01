@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "src/store";
 import styled from "styled-components";
 
-import HomeSection from "../../entities/homeSection/HomeSection";
+import HomeSection from "../../entities/homeSection/homeSection";
 import CarouselRow from "./components/CarouselRow/CarouselRow";
 import CityRow from "./components/CityRow/CityRow";
 import CountryRow from "./components/CountryRow/CountryRow";

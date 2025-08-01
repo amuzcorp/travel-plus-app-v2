@@ -14,7 +14,7 @@ import {
   cityCardWidth,
   homeKeys,
 } from "../../../../constants/globalConstant";
-import HomeSection from "../../../../entities/homeSection/HomeSection";
+import HomeSection from "../../../../entities/homeSection/homeSection";
 import { useHomePageSroll } from "../../useHomePageScroll";
 import { RelativeBox } from "./CityRow.style";
 import LargeCard from "./LargeCard";

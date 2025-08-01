@@ -1,4 +1,4 @@
-import HomeSection from "../../entities/homeSection/HomeSection";
+import HomeSection from "../../entities/homeSection/homeSection";
 import { Banner } from "../../entities/banner/Banner";
 import IApi from "../iApi";
 

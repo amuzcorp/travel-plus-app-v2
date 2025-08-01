@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import HomeSection from "src/entities/homeSection/HomeSection";
+import HomeSection from "src/entities/homeSection/homeSection";
 import DefaultFocusInterface from "./defaultFocusInterface";
 
 type SectionType = ReturnType<HomeSection["toJson"]>;

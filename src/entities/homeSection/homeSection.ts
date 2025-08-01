@@ -1,4 +1,4 @@
-import HomeItem from "./HomeItem";
+import HomeItem from "./homeItem";
 
 export default class HomeSection {
   constructor({
