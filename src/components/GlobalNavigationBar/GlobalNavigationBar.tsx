@@ -135,7 +135,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
 
       collapseGnb();
     },
-    [dispatch, navigate, collapseGnb]
+    [dispatch, navigate, collapseGnb, callLgAccountApp]
   );
 
   const onKeyDown = useCallback(
