@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "src/store";
 import styled from "styled-components";
 
-import HomeSection from "../../entities/homeSection/HomeSection";
+import { cityRowItemKey } from "../../constants/globalConstant";
+import HomeSection from "../../entities/HomeSection/HomeSection";
 import CarouselRow from "./components/CarouselRow/CarouselRow";
 import CityRow from "./components/CityRow/CityRow";
 import CountryRow from "./components/CountryRow/CountryRow";
@@ -14,7 +15,9 @@ import PanoramaRow from "./components/PanoramaRow/PanoramaRow";
 
 const HomePage: React.FC = React.memo(() => {
   const citySection = useSelector((state: RootState) =>
-    state.home.citySection ? HomeSection.fromJson(state.home.citySection) : null
+    state.home.citySection
+      ? HomeSection.fromJson(cityRowItemKey, state.home.citySection)
+      : null
   );
 
   return (

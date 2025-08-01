@@ -1,5 +1,5 @@
 import homeSectionJson from "../../assets/jsons/home_sections.json";
-import HomeSection from "../../entities/homeSection/HomeSection";
+import HomeSection from "../../entities/HomeSection/HomeSection";
 import IHomeApi from "./iHomeApi";
 
 export default class FakeHomeApi extends IHomeApi {
@@ -13,7 +13,7 @@ export default class FakeHomeApi extends IHomeApi {
     for (let i = 0; i < data.length; i++) {
       const sectionData = data[i];
 
-      const section = HomeSection.fromJson(sectionData);
+      const section = HomeSection.fromJson("city", sectionData);
 
       result.push(section);
     }

@@ -1,5 +1,1 @@
-// Base Entity
-export { BaseEntity } from "./BaseEntity";
-
-// User Entities
-export * from "./user";
+export { Account } from "./user/Account";

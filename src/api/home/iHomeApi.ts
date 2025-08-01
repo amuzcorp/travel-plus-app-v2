@@ -1,10 +1,9 @@
-import HomeSection from "../../entities/homeSection/HomeSection";
-import { Banner } from "../../entities/banner/Banner";
+import BannerItem from "../../entities/HomeSection/BannerItem";
+import HomeSection from "../../entities/HomeSection/HomeSection";
 import IApi from "../iApi";
 
 export default abstract class IHomeApi extends IApi {
-  PREFIX = "/main";
   abstract getHomeSections(): Promise<HomeSection[]>;
 
-  abstract getMainBanners(): Promise<Banner[]>;
+  abstract getMainBanners(): Promise<BannerItem[]>;
 }

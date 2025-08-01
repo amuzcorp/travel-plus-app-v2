@@ -1,7 +1,16 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { domAnimation, LazyMotion, motion } from "motion/react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import Spotlight from "@enact/spotlight";
 
+import CityItem from "src/entities/HomeSection/CityItem";
+import styled from "styled-components";
 import { useGlobalNavigationBar } from "../../../../components/GlobalNavigationBar/useGlobalNavigationBar";
 import ScrollableRow from "../../../../components/Scrollables/ScrollableRow";
 import { useScrollableRow } from "../../../../components/Scrollables/useScrollableRow";
@@ -14,7 +23,7 @@ import {
   cityCardWidth,
   homeKeys,
 } from "../../../../constants/globalConstant";
-import HomeSection from "../../../../entities/homeSection/HomeSection";
+import HomeSection from "../../../../entities/HomeSection/HomeSection";
 import { useHomePageSroll } from "../../useHomePageScroll";
 import { RelativeBox } from "./CityRow.style";
 import LargeCard from "./LargeCard";
@@ -28,9 +37,12 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
   const cardHeight = cityCardHeight;
   const cardGap = cityCardGap;
 
-  const items = section.items;
+  const items = section.items as CityItem[];
 
   const [expandedIndex, setExpandedIndex] = useState(0);
+
+  const prevIndexRef = useRef<number | null>(null);
+  const prevIndex = prevIndexRef.current;
 
   const {
     ref: scrollerRef,
@@ -57,7 +69,7 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
         }
       };
     });
-  }, [scrollToTarget]);
+  }, [items, scrollToTarget]);
 
   const onClicks = useMemo(() => {
     return items.map((__, index) => {
@@ -66,7 +78,7 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
         setExpandedIndex(index);
       };
     });
-  }, [scrollToTarget]);
+  }, [items, scrollToTarget]);
 
   const onKeyDowns = useMemo(() => {
     return items.map((__, index) => {
@@ -90,7 +102,7 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
         }
       };
     });
-  }, [onKeyDownOnScrollable, onKeyDown]);
+  }, [items, onKeyDownOnScrollable, onKeyDown]);
 
   const onKeyUps = useMemo(() => {
     return items.map((__, index) => (ev: React.KeyboardEvent) => {
@@ -107,23 +119,57 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
         onKeyUp(ev, index);
       }
     });
-  }, [onKeyUpOnScrollable, focus, onKeyUp]);
+  }, [items, onKeyUpOnScrollable, focus, onKeyUp]);
 
   useEffect(() => {
+    prevIndexRef.current = expandedIndex;
+
     for (let i = 0; i < items.length; i++) {
-      const el = document.getElementById("home-city-row-small-" + i);
+      const small = document.getElementById("home-city-row-small-" + i);
+      // const large = document.getElementById("home-city-row-large-" + i);
 
       if (i !== expandedIndex) {
-        if (el instanceof HTMLElement) {
-          el.classList.remove("focused");
+        if (small instanceof HTMLElement) {
+          small.classList.remove("focused");
         }
+
+        // if (large instanceof HTMLElement) {
+        //   large.classList.remove("selected");
+        // }
       } else {
-        if (el instanceof HTMLElement) {
-          el.classList.add("focused");
+        if (small instanceof HTMLElement) {
+          small.classList.add("focused");
         }
+
+        // if (large instanceof HTMLElement) {
+        //   large.classList.add("selected");
+        // }
       }
     }
-  }, [expandedIndex]);
+  }, [items, expandedIndex]);
+
+  const direction = useMemo(() => {
+    if (prevIndex === null) {
+      return 0;
+    }
+
+    return expandedIndex > prevIndex ? 1 : -1;
+  }, [expandedIndex, prevIndex]);
+
+  const renderIndices = useMemo(() => {
+    const arr = [expandedIndex - 1, expandedIndex, expandedIndex + 1].filter(
+      (i) => i >= 0 && i < items.length
+    );
+
+    return Array.from(new Set(arr));
+  }, [expandedIndex, items.length]);
+
+  const transition = useMemo(() => {
+    return {
+      duration: 0.35,
+      ease: "easeInOut" as const,
+    };
+  }, []);
 
   const smallCards = useMemo(() => {
     return items.map((item, index) => {
@@ -142,6 +188,7 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
       );
     });
   }, [
+    items,
     smallCardWidth,
     cardHeight,
     cardDiff,
@@ -155,7 +202,7 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
   //   return items.map((item, index) => {
   //     return (
   //       <LargeCard
-  //         index={expandedIndex}
+  //         index={index}
   //         cardWidth={cardWidth}
   //         cardHeight={cardHeight}
   //         item={item}
@@ -164,18 +211,18 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
   //   });
   // }, [cardWidth, cardHeight, expandedIndex]);
 
-  const largeCard = useMemo(() => {
-    const target = items[expandedIndex];
+  // const largeCard = useMemo(() => {
+  //   const target = items[expandedIndex];
 
-    return (
-      <LargeCard
-        index={expandedIndex}
-        cardWidth={cardWidth}
-        cardHeight={cardHeight}
-        item={target}
-      />
-    );
-  }, [cardWidth, cardHeight, expandedIndex]);
+  //   return (
+  //     <LargeCard
+  //       index={expandedIndex}
+  //       cardWidth={cardWidth}
+  //       cardHeight={cardHeight}
+  //       item={target}
+  //     />
+  //   );
+  // }, [items, cardWidth, cardHeight, expandedIndex]);
 
   const onRowKeyDown = useCallback(
     (ev: React.KeyboardEvent) => {
@@ -214,11 +261,73 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
         >
           {smallCards}
         </ScrollableRow>
-        {/* {largeCards} */}
-        {largeCard}
+        <LazyMotion features={domAnimation}>
+          {renderIndices.map((i) => {
+            const item = items[i];
+            const isActive = i === expandedIndex;
+            const wasActive = prevIndex === i;
+
+            let animate = {
+              opacity: 1,
+            };
+            let initial = animate;
+
+            if (isActive) {
+              initial =
+                direction === 0
+                  ? {
+                      opacity: 0,
+                    }
+                  : {
+                      opacity: 0,
+                    };
+              animate = {
+                opacity: 1,
+              };
+            } else if (wasActive) {
+              initial = {
+                opacity: 1,
+              };
+              animate = {
+                opacity: 0,
+              };
+            } else {
+              initial = {
+                opacity: 0,
+              };
+              animate = {
+                opacity: 0,
+              };
+            }
+
+            const key = (item as any).id ?? i;
+
+            return (
+              <MotionLayer
+                key={key}
+                initial={initial}
+                animate={animate}
+                aria-hidden
+              >
+                <LargeCard
+                  key={i}
+                  index={i}
+                  cardWidth={cardWidth}
+                  cardHeight={cardHeight}
+                  item={item}
+                />
+              </MotionLayer>
+            );
+          })}
+        </LazyMotion>
       </RelativeBox>
     </SectionWrapper>
   );
 });
 
 export default CityRow;
+
+const MotionLayer = styled(motion.div)`
+  position: absolute;
+  inset: 0;
+`;

@@ -5,7 +5,7 @@ import {
 
 import IAuthApi from "../api/auth/iAuthApi";
 import ILunaApi from "../api/luna/iLunaApi";
-import { Account } from "../entities";
+import { Account } from "../entities/user";
 import env from "../env";
 import store from "../store";
 
