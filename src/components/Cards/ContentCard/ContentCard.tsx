@@ -180,15 +180,31 @@ function getComponentTitle(data: BaseData): string {
   return title;
 }
 
+const Dot = React.memo(() => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="4"
+      height="4"
+      viewBox="0 0 4 4"
+      fill="none"
+    >
+      <circle cx="2" cy="2" r="2" fill="#e6e6e6" fillOpacity="0.43" />
+    </svg>
+  );
+});
+
 function getComponentDescription(data: BaseData): string | React.ReactNode {
   let description: string | React.ReactNode;
 
   if (data instanceof VideoData) {
     description = (
       <DateWrapper>
-        <p>{data.from}</p>
-        <p>{data.views}</p>
-        <p>{data.createdAt}</p>
+        {data.from}
+        <Dot />
+        {data.views}
+        <Dot />
+        {data.createdAt}
       </DateWrapper>
     );
   } else if (data instanceof PanoramaData || data instanceof ImageData) {

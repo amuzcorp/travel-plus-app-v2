@@ -1,5 +1,5 @@
-import HomeSection from "../../entities/homeSection/HomeSection";
 import { Banner } from "../../entities/banner/Banner";
+import HomeSection from "../../entities/homeSection/HomeSection";
 import IHomeApi from "./iHomeApi";
 
 export default class HomeApi extends IHomeApi {
@@ -20,6 +20,7 @@ export default class HomeApi extends IHomeApi {
       return banners;
     } catch (error) {
       console.error("AMUZ 서버 getMainBanners 실패 :", error);
+
       return [];
     }
   }

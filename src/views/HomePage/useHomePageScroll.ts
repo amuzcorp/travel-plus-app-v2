@@ -7,6 +7,7 @@ export interface UseHomePageScrollProps {}
 export type homeSectionType = (typeof homeKeys)[keyof typeof homeKeys];
 
 export type homeScrollPositionType = "start" | "center" | "end" | number;
+
 export interface UseHomePageScrollResult {
   currentSection: homeSectionType;
   homeScrollTo: (

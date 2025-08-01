@@ -53,6 +53,8 @@ export interface keyInfo {
   defaultKey?: string;
 }
 
+export const cityRowItemKey = "city";
+
 export const contentCardWidth = 403;
 export const contentCardGap = 24;
 

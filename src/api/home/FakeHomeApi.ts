@@ -13,7 +13,7 @@ export default class FakeHomeApi extends IHomeApi {
     for (let i = 0; i < data.length; i++) {
       const sectionData = data[i];
 
-      const section = HomeSection.fromJson(sectionData);
+      const section = HomeSection.fromJson("city", sectionData);
 
       result.push(section);
     }

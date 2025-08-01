@@ -1,16 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
-import HomeItem from "src/entities/homeSection/HomeItem";
 import Spacing from "../../../../components/Spacing/Spacing";
 import Text from "../../../../components/Texts/Text";
+import CityItem from "../../../../entities/homeSection/CityItem";
 import { CardBase } from "./CityRow.style";
 
 interface LargeCardProps {
   index: number;
   cardWidth: number;
   cardHeight: number;
-  item: HomeItem;
+  item: CityItem;
 }
 
 export default React.memo(
@@ -26,6 +26,7 @@ export default React.memo(
       >
         <LargeCardWrapper>
           <img src={item.blurredImageUrl} />
+          <link rel="preload" as="image" href={item.blurredImageUrl} />
           <LeftSection>
             <Text textStyle="headerHugeSb">{item.title}</Text>
             <Spacing size={16} />
