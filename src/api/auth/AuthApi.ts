@@ -1,4 +1,4 @@
-import { Account } from "../../entities";
+import { Account } from "../../entities/user";
 import { setAccountState } from "../../store/slices/accountSlice";
 import IAuthApi, { LoginResponse } from "./iAuthApi";
 

@@ -28,12 +28,6 @@ import {
 } from "./GlobalNavigationBar.style";
 import { useGlobalNavigationBar } from "./useGlobalNavigationBar";
 
-import { useAuthApi } from "../../api/auth/AuthApiProvider";
-import { useLunaApi } from "../../api/luna/LunaApiProvider";
-import { Account } from "../../entities";
-import AccountManager from "../../services/AccountService";
-import { setAccountState } from "../../store/slices/accountSlice";
-
 const GlobalNavigationBar: React.FC = React.memo(() => {
   const selectedButton = useSelector(
     (state: RootState) => state.gnb.selectedButton,
@@ -101,25 +95,10 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
 
   const callLgAccountApp = useCallLgAccountApp();
 
-  const authApi = useAuthApi();
-  const lunaApi = useLunaApi();
-
   const onClickButton = useCallback(
     async (target: string) => {
       if (target === "account") {
-        // await callLgAccountApp(true);
-        const result = await AccountManager.callLgAccountApp({
-          isLogin: true,
-          authApi: authApi,
-          lunaApi: lunaApi,
-        });
-
-        if (result.account === Account.empty()) {
-          return;
-        }
-
-        dispatch(setAccountState(result.account));
-
+        await callLgAccountApp(true);
         return;
       }
 
