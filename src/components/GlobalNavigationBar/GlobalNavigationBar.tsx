@@ -11,6 +11,7 @@ import {
   GnbTopSections,
 } from "../../constants/globalConstant";
 
+import useCallLgAccountApp from "../../hooks/useCallLgAccountApp";
 import useSpeak from "../../hooks/useSpeak";
 import { RootState } from "../../store";
 import { select } from "../../store/slices/gnbSlice";
@@ -92,12 +93,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
     };
   }, [expanded, onFocus, onBlur, expandGnb, collapseGnb]);
 
-
   const callLgAccountApp = useCallLgAccountApp();
-
-  const authApi = useAuthApi();
-  const lunaApi = useLunaApi();
-
 
   const onClickButton = useCallback(
     async (target: string) => {
@@ -139,7 +135,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
 
       collapseGnb();
     },
-    [dispatch, navigate, collapseGnb, authApi, lunaApi]
+    [dispatch, navigate, collapseGnb]
   );
 
   const onKeyDown = useCallback(
