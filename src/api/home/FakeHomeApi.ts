@@ -1,5 +1,5 @@
 import homeSectionJson from "../../assets/jsons/home_sections.json";
-import HomeSection from "../../entities/homeSection/HomeSection";
+import HomeSection from "../../entities/HomeSection/HomeSection";
 import IHomeApi from "./iHomeApi";
 
 export default class FakeHomeApi extends IHomeApi {

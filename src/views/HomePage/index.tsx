@@ -5,7 +5,7 @@ import { RootState } from "src/store";
 import styled from "styled-components";
 
 import { cityRowItemKey } from "../../constants/globalConstant";
-import HomeSection from "../../entities/homeSection/HomeSection";
+import HomeSection from "../../entities/HomeSection/HomeSection";
 import CarouselRow from "./components/CarouselRow/CarouselRow";
 import CityRow from "./components/CityRow/CityRow";
 import CountryRow from "./components/CountryRow/CountryRow";
