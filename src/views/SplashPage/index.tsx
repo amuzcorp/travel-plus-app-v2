@@ -25,6 +25,7 @@ import HomeItem from "../../entities/HomeSection/HomeItem";
 import HomeSection from "../../entities/HomeSection/HomeSection";
 import OttItem from "../../entities/HomeSection/OttItem/OttItem";
 import useSpeak from "../../hooks/useSpeak";
+
 import AccountManager from "../../services/AccountService";
 import TvService from "../../services/TvService";
 import { setAccountState } from "../../store/slices/accountSlice";
@@ -40,6 +41,7 @@ import {
   setPanoramaSection,
 } from "../../store/slices/homeSlice";
 import { setTVSystemInfo } from "../../store/slices/tvSystemSlice";
+import preloadImage from "../../utils/preloadImage";
 import { translate } from "../../utils/translate";
 
 const SplashPage: React.FC = () => {
@@ -92,6 +94,15 @@ const SplashPage: React.FC = () => {
 
       if (homeSection.sectionType === "city_ani") {
         dispatch(setCitySection(homeSection));
+        
+        for (let j = 0; j < homeSection.items.length; j++) {
+          const item = homeSection.items[j] as CityItem;
+
+          await preloadImage(item.blurredImageUrl);
+          await preloadImage(item.staticMapUrl);
+          await preloadImage(item.thumbnailImageUrl);
+        }
+
       } else if (homeSection.sectionType === "ott_ani123") {
         dispatch(setOttSection(homeSection));
       } else if (homeSection.sectionType === "video" && homeSection.id === 3) {
@@ -108,6 +119,10 @@ const SplashPage: React.FC = () => {
         dispatch(setCountrySection(homeSection));
       }
     }
+
+    await preloadImage(
+      "https://travel-plus-cms.dev.amuz.kr/storage/assets/Travel Deals & More-gil.png"
+    );
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
