@@ -53,13 +53,11 @@ export default React.memo(
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
       >
-        <img
+        <SmallCardBackground
+          $cardWidth={cardWidth}
+          $cardHeight={cardHeight}
           src={item.thumbnailImageUrl}
-          style={{
-            width: cardWidth,
-            height: cardHeight,
-            objectFit: "cover",
-          }}
+          alt={"home-city-row-small-bg-" + index}
         />
         <SmallCardTitle textStyle="headerXlSb">{item.title}</SmallCardTitle>
       </BaseAccessibleComponent>
@@ -89,6 +87,16 @@ export const SmallCard = styled(CardBase)<{ $cardDiff: number }>`
   &.hided {
     opacity: 0.2;
   }
+`;
+
+export const SmallCardBackground = styled.img<{
+  $cardWidth: number;
+  $cardHeight: number;
+}>`
+  width: ${({ $cardWidth }) => $cardWidth}px;
+  height: ${({ $cardHeight }) => $cardHeight}px;
+
+  object-fit: cover;
 `;
 
 export const SmallCardTitle = styled(Text)`

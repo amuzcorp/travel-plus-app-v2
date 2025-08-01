@@ -12,6 +12,7 @@ import HomeItem from "../../entities/HomeSection/HomeItem";
 import useInitSystemInfo from "../../hooks/useInitSystemInfo";
 import useSpeak from "../../hooks/useSpeak";
 import { setCitySection } from "../../store/slices/homeSlice";
+import preloadImage from "../../utils/preloadImage";
 import { translate } from "../../utils/translate";
 
 const SplashPage: React.FC = () => {
@@ -44,12 +45,25 @@ const SplashPage: React.FC = () => {
       switch (homeSection.sectionType) {
         case "city_ani":
           dispatch(setCitySection(homeSection));
+
+          for (let j = 0; j < homeSection.items.length; j++) {
+            const item = homeSection.items[j] as CityItem;
+
+            await preloadImage(item.blurredImageUrl);
+            await preloadImage(item.staticMapUrl);
+            await preloadImage(item.thumbnailImageUrl);
+          }
+
           break;
 
         default:
           break;
       }
     }
+
+    await preloadImage(
+      "https://travel-plus-cms.dev.amuz.kr/storage/assets/Travel Deals & More-gil.png"
+    );
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -58,7 +72,7 @@ const SplashPage: React.FC = () => {
     // setTimeout(() => {
     //   navigate("/home", { replace: true });
     // }, 1000);
-  }, []);
+  }, [dispatch, homeApi, navigate]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -71,7 +85,7 @@ const SplashPage: React.FC = () => {
     // api 호출 (Spinner 띄우기)
     // showSpinner();
     // 호출 성공/실패에 따라 Home or FullScreenErrorPage로 이동
-  }, [navigate]);
+  }, [speak, initDefaultData]);
 
   return (
     <SplashContainer>

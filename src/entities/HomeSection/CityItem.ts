@@ -256,4 +256,5 @@ export default class CityItem extends HomeItem {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const CityItemClass: HomeItemClass = CityItem;
