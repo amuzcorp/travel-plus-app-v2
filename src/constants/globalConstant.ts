@@ -64,3 +64,8 @@ export const cityCardGap = 24;
 export const countryCardWidth = 220;
 export const countryCardHeight = 220;
 export const countryCardGap = 24;
+
+export const destinationCardWidth = 390;
+export const continentCardHeight = 96;
+export const defaultCardHeight = 130;
+export const destinationCardGap = 24;
