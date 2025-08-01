@@ -54,6 +54,11 @@ export interface keyInfo {
 }
 
 export const cityRowItemKey = "city";
+export const ottRowItemKey = "ott";
+export const contentRowItemKey = "content";
+export const adsRowItemKey = "ads";
+export const countryRowItemKey = "country";
+export const carouselRowItemKey = "banner";
 
 export const contentCardWidth = 403;
 export const contentCardGap = 24;

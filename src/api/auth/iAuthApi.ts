@@ -1,5 +1,5 @@
 import { setAccountState } from "src/store/slices/accountSlice";
-import { Account } from "../../entities";
+import { Account } from "../../entities/user";
 import IApi from "../iApi";
 
 export interface LoginResponse {

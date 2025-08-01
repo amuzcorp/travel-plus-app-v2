@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { useAuthApi } from "../api/auth/AuthApiProvider";
 import { useLunaApi } from "../api/luna/LunaApiProvider";
-import { Account } from "../entities";
+import { Account } from "../entities/user";
 import AccountManager from "../services/AccountService";
 import type { AppDispatch } from "../store";
 import { setAccountState } from "../store/slices/accountSlice";
