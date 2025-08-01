@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import BaseAccessibleComponent from "../../../../components/BaseAccessibleComponent";
 import Text from "../../../../components/Texts/Text";
-import CityItem from "../../../../entities/homeSection/CityItem";
+import CityItem from "../../../../entities/HomeSection/CityItem";
 import { CardBase } from "./CityRow.style";
 
 interface SmallCardProps {

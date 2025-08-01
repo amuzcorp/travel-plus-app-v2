@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import Spotlight from "@enact/spotlight";
 
-import CityItem from "src/entities/homeSection/CityItem";
+import CityItem from "src/entities/HomeSection/CityItem";
 import { useGlobalNavigationBar } from "../../../../components/GlobalNavigationBar/useGlobalNavigationBar";
 import ScrollableRow from "../../../../components/Scrollables/ScrollableRow";
 import { useScrollableRow } from "../../../../components/Scrollables/useScrollableRow";
@@ -15,7 +15,7 @@ import {
   cityCardWidth,
   homeKeys,
 } from "../../../../constants/globalConstant";
-import HomeSection from "../../../../entities/homeSection/HomeSection";
+import HomeSection from "../../../../entities/HomeSection/HomeSection";
 import { useHomePageSroll } from "../../useHomePageScroll";
 import { RelativeBox } from "./CityRow.style";
 import LargeCard from "./LargeCard";

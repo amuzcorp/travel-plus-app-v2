@@ -1,5 +1,5 @@
 import { Banner } from "../../entities/banner/Banner";
-import HomeSection from "../../entities/homeSection/HomeSection";
+import HomeSection from "../../entities/HomeSection/HomeSection";
 import IApi from "../iApi";
 
 export default abstract class IHomeApi extends IApi {
