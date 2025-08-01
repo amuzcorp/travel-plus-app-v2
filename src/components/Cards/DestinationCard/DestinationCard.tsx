@@ -1,108 +1,123 @@
 import Marquee from "@enact/ui/Marquee";
 import React from "react";
 import styled from "styled-components";
-
 import BaseAccessibleComponent from "../../../components/BaseAccessibleComponent";
-import {
-  continentCardHeight,
-  destinationCardWidth,
-} from "../../../constants/globalConstant";
+import BlurEffect from "./DestinationBlurEffect";
 
 export class DestinationCardData {
-  constructor({ title, background }: { title: string; background: string }) {
+  constructor({ title, image }: { title: string; image: string }) {
     this.title = title;
-    this.background = background;
+    this.image = image;
   }
-
   title: string;
-  background: string;
+  image: string;
 }
 
-export interface CountryCardProps {
+export interface DestinationCardProps {
   id: any;
   key: any;
   data: DestinationCardData;
+  type?: "continent" | "country" | "city";
   onKeyDown?: (ev: React.KeyboardEvent) => void;
   onKeyUp?: (ev: React.KeyboardEvent) => void;
 }
 
 export default React.memo(
-  ({ id, key, data, onKeyDown, onKeyUp, ...rest }: CountryCardProps) => {
+  ({
+    id,
+    key,
+    data,
+    type = "continent",
+    onKeyDown,
+    onKeyUp,
+    ...rest
+  }: DestinationCardProps) => {
+    const cardHeight = type === "continent" ? 96 : 130;
+    const cardWidth = 390;
+
     return (
       <BaseAccessibleComponent
         id={id}
         key={key}
         component={DestinationCardWrapper}
-        $cardWidth={destinationCardWidth}
-        $cardHeight={continentCardHeight}
-        $background={data.background}
+        $cardWidth={cardWidth}
+        $cardHeight={cardHeight}
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}
         {...rest}
       >
-        <LabelWrapper>{data.title}</LabelWrapper>
+        <BlurEffect image={data.image} active={true} />
+        <ContentWrapper>
+          <TitleWrapper marqueeOn="focus">{data.title}</TitleWrapper>
+        </ContentWrapper>
       </BaseAccessibleComponent>
     );
   },
-  (prev, next) => true
+  (prev, next) => prev.data === next.data && prev.type === next.type
 );
 
 const DestinationCardWrapper = styled.div<{
   $cardWidth: number;
   $cardHeight: number;
-  $background: string;
 }>`
   position: relative;
+  flex-shrink: 0;
 
   width: ${({ $cardWidth }) => $cardWidth}px;
   height: ${({ $cardHeight }) => $cardHeight}px;
 
-  background: ${({ $background }) => $background};
-
-  transition: transform ease 0.3s, opacity ease 0.3s;
-
+  margin-bottom: 24px;
   border-radius: 12px;
+
+  transition: transform 0.3s ease;
+  will-change: transform;
 
   &::after {
     display: block;
     content: "";
-
     position: absolute;
     top: 0;
     left: 0;
-
     width: 100%;
     height: 100%;
-
+    border-radius: 12px;
     box-shadow: ${({ theme }) =>
       `inset 0 0 0 1px ${theme.colors.deactive.normal}`};
-
-    border-radius: 12px;
+    pointer-events: none;
   }
 
   &:focus {
+    transform-origin: top left;
     transform: scale(1.1);
+    z-index: 5;
+    outline: 3px solid #e6e6e6;
 
-    outline: 3px solid ${({ theme }) => theme.colors.text.primary};
-  }
-
-  &.hided {
-    opacity: 0.2;
+    &::after {
+      box-shadow: none;
+    }
   }
 `;
 
-const LabelWrapper = styled(Marquee)`
-  position: absolute;
-  bottom: 20px;
-  left: 10px;
-  right: 10px;
-
+const ContentWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: flex-end;
+  color: #e6e6e6;
+`;
 
+const TitleWrapper = styled(Marquee)`
+  width: 100%;
+  height: 39px;
+  line-height: normal;
+  font-size: 33px;
+  font-weight: 600;
   font-family: "LGSmartUI";
-  font-size: ${({ theme }) => theme.textStyle.titleSmSb.fontSize};
-  font-weight: ${({ theme }) => theme.textStyle.titleSmSb.fontWeight};
-
-  background: gray;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
 `;
