@@ -1,40 +1,59 @@
 import Spotlight from "@enact/spotlight";
-import { useCallback, useState } from "react";
-import { homeKeys } from "../../constants/globalConstant";
+import { useCallback } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "src/store";
+import { homeKeys, HomeSectionTypes } from "../../constants/globalConstant";
+import { getNextSection, getPrevSection } from "../../store/slices/homeSlice";
 
-export interface UseHomePageScrollProps {}
-
-export type homeSectionType = (typeof homeKeys)[keyof typeof homeKeys];
-
-export type homeScrollPositionType = "start" | "center" | "end" | number;
+export interface UseHomePageScrollProps {
+  currentSection: HomeSectionTypes;
+}
+export type HomeScrollPostionTypes = "start" | "center" | "end" | number;
 
 export interface UseHomePageScrollResult {
-  currentSection: homeSectionType;
+  prevSection: HomeSectionTypes | null;
+  currentSection: HomeSectionTypes;
+  nextSection: HomeSectionTypes | null;
   homeScrollTo: (
-    section: homeSectionType,
-    scrollPosition: homeScrollPositionType
+    currentSection: HomeSectionTypes | null,
+    scrollPosition: HomeScrollPostionTypes
   ) => void;
 }
 
-const useHomePageScrollHook = (): UseHomePageScrollResult => {
-  const [currentSection, setCurrentSection] = useState<homeSectionType>(
-    homeKeys.carousel
+const useHomePageScrollHook = ({
+  currentSection,
+}: UseHomePageScrollProps): UseHomePageScrollResult => {
+  const prevSection = useSelector((state: RootState) =>
+    getPrevSection(state, currentSection)
+  );
+  const nextSection = useSelector((state: RootState) =>
+    getNextSection(state, currentSection)
   );
 
   const homeScrollTo = useCallback(
-    (section: homeSectionType, scrollPosition: homeScrollPositionType) => {
+    (
+      section: HomeSectionTypes | null,
+      scrollPosition: HomeScrollPostionTypes
+    ) => {
+      if (section === null) {
+        return;
+      }
+
       const parent = document.getElementById("home-main-container");
-      const child = document.getElementById(section.sectionKey);
+
+      console.log(section);
+
+      const targetSection = homeKeys[section];
+
+      const child = document.getElementById(targetSection.sectionKey);
 
       if (parent instanceof HTMLElement && child instanceof HTMLElement) {
-        setCurrentSection(section);
-
         child.scrollIntoView({
           block: "center",
           behavior: "smooth",
         });
 
-        const key = section.defaultKey ?? section.containerKey;
+        const key = targetSection.defaultKey ?? targetSection.containerKey;
 
         Spotlight.setPointerMode(false);
 
@@ -47,7 +66,9 @@ const useHomePageScrollHook = (): UseHomePageScrollResult => {
   );
 
   return {
+    prevSection: prevSection,
     currentSection: currentSection,
+    nextSection: nextSection,
     homeScrollTo: homeScrollTo,
   };
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 
 const ArrowIcon = React.memo(() => {
@@ -21,15 +21,46 @@ const ArrowIcon = React.memo(() => {
 
 interface ArrowRightButtonProps {
   onClick?: () => void;
+  onKeyDown?: (ev: React.KeyboardEvent) => void;
 }
 
-export default React.memo(({ onClick = () => {} }: ArrowRightButtonProps) => {
-  return (
-    <Button onClick={onClick}>
-      <ArrowIcon />
-    </Button>
-  );
-});
+export default React.memo(
+  ({ onClick = () => {}, onKeyDown = (ev) => {} }: ArrowRightButtonProps) => {
+    const [hovered, setHovered] = useState(false);
+
+    const onButtonClick = useCallback(() => {
+      onClick();
+
+      setHovered(false);
+    }, [onClick]);
+
+    const onMouseEnter = useCallback((ev: React.MouseEvent) => {
+      ev.stopPropagation();
+
+      setHovered(true);
+    }, []);
+
+    const onMouseLeave = useCallback((ev: React.MouseEvent) => {
+      ev.stopPropagation();
+
+      setHovered(false);
+    }, []);
+
+    return (
+      <Button
+        className={hovered ? "hovered" : ""}
+        onClick={onButtonClick}
+        onKeyDown={onKeyDown}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
+        <ArrowIcon />
+      </Button>
+    );
+  },
+  (prev, next) =>
+    prev.onClick === next.onClick && prev.onKeyDown === next.onKeyDown
+);
 
 const Button = styled.button`
   all: unset;
@@ -62,7 +93,7 @@ const Button = styled.button`
     pointer-events: none;
   }
 
-  &:hover {
+  &.hovered {
     & svg {
       z-index: 0;
       fill: ${({ theme }) => theme.colors.text.primaryVari};

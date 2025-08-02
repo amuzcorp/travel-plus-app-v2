@@ -47,6 +47,9 @@ export const homeKeys: Record<string, keyInfo> = {
     containerKey: "home-deals-container",
   },
 };
+export type HomeSectionTypes = keyof typeof homeKeys;
+export const HomeSectionOrder = Object.keys(homeKeys) as HomeSectionTypes[];
+
 export interface keyInfo {
   sectionKey: string;
   containerKey: string;

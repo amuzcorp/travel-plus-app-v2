@@ -44,7 +44,9 @@ export default React.memo(
     const [showViewMore, setShowViewMore] = useState(false);
 
     const { focus } = useGlobalNavigationBar();
-    const { homeScrollTo } = useHomePageSroll();
+    const { nextSection, homeScrollTo } = useHomePageSroll({
+      currentSection: "carousel",
+    });
 
     const onClickViewMore = useCallback(() => {
       showDialog({
@@ -70,13 +72,15 @@ export default React.memo(
         if (ev.key === "ArrowDown") {
           ev.preventDefault();
           ev.stopPropagation();
-          homeScrollTo(homeKeys.city);
+          console.log(nextSection);
+
+          homeScrollTo(nextSection, "center");
         } else if (ev.key === "ArrowRight") {
           ev.preventDefault();
           ev.stopPropagation();
         }
       },
-      [homeScrollTo]
+      [homeScrollTo, nextSection]
     );
 
     const travelButton = useMemo(() => {

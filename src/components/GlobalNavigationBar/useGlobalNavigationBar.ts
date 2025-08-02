@@ -65,6 +65,8 @@ const useGlobalNavigationBarHook = (): UseGlobalNavigationBarResult => {
     // Spotlight.setActiveContainer(lastEnterKey);
     collapseGnb();
 
+    console.log(lastEnterKey);
+
     requestAnimationFrame(() => {
       Spotlight.focus(lastEnterKey);
     });

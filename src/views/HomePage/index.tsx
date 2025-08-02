@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { useSelector } from "react-redux";
-import { RootState } from "src/store";
+
 import styled from "styled-components";
 
-import { cityRowItemKey } from "../../constants/globalConstant";
+import {
+  adsRowItemKey,
+  cityRowItemKey,
+  contentRowItemKey,
+} from "../../constants/globalConstant";
 import HomeSection from "../../entities/HomeSection/HomeSection";
+import { RootState } from "../../store";
 import CarouselRow from "./components/CarouselRow/CarouselRow";
 import CityRow from "./components/CityRow/CityRow";
 import CountryRow from "./components/CountryRow/CountryRow";
@@ -19,13 +24,40 @@ const HomePage: React.FC = React.memo(() => {
       ? HomeSection.fromJson(cityRowItemKey, state.home.citySection)
       : null
   );
+  const favoriteSection = useSelector((state: RootState) =>
+    state.home.favoriteSection
+      ? HomeSection.fromJson(contentRowItemKey, state.home.favoriteSection)
+      : null
+  );
+  const dealSection = useSelector((state: RootState) =>
+    state.home.dealSection
+      ? HomeSection.fromJson(adsRowItemKey, state.home.dealSection)
+      : null
+  );
+
+  const cityRow = useMemo(() => {
+    return citySection && <CityRow section={citySection} />;
+  }, [citySection]);
+
+  const favoriteRow = useMemo(() => {
+    return (
+      favoriteSection &&
+      favoriteSection.items.length > 0 && (
+        <FavoriteRow section={favoriteSection} />
+      )
+    );
+  }, [favoriteSection]);
+
+  const dealsRow = useMemo(() => {
+    return dealSection && <DealsRow section={dealSection} />;
+  }, [dealSection]);
 
   return (
     <HomeWrapper id={"home-main-container"}>
       <CarouselRow />
-      {citySection && <CityRow section={citySection} />}
-      <FavoriteRow />
-      <DealsRow />
+      {cityRow}
+      {favoriteRow}
+      {dealsRow}
       <PanoramaRow />
       <CountryRow />
     </HomeWrapper>

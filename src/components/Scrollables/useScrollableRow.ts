@@ -127,9 +127,7 @@ const useScrollableRowHook = ({
     [scrollToTarget]
   );
 
-  const onFocus = useCallback((ev: any) => {
-    console.log(ev);
-  }, []);
+  const onFocus = useCallback((ev: any) => {}, []);
 
   useEffect(() => {
     if (!hasMounted.current) {
