@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback } from "react";
 
 import BaseAccessibleComponent from "../../../components/BaseAccessibleComponent";
 
@@ -26,11 +26,9 @@ import IGnbSettingsSelected from "../../../assets/icons/gnb/IGnbSettingsSelected
 import IGnbExit from "../../../assets/icons/gnb/IGnbExit";
 import IGnbExitSelected from "../../../assets/icons/gnb/IGnbExitSelected";
 
-import { useSelector } from "react-redux";
+import { useGlobalNavigationBar } from "../../../components/GlobalNavigationBar/useGlobalNavigationBar";
 import { useAccount } from "../../../hooks/useAccount";
 import useIsWebOS6 from "../../../hooks/useIsWebOS6";
-import { RootState } from "../../../store";
-import { GnbState } from "../../../store/slices/gnbSlice";
 import { translate } from "../../../utils/translate";
 import {
   GlobalNavigationChild,
@@ -128,15 +126,16 @@ export default React.memo(
     /// 선택되었을 때
     const Focused = gnbTypeData[type].selectedElement;
 
-    const gnbState = useSelector(
-      (state: RootState) => state.gnb.value,
-      (prev, next) => prev === next
-    );
-    const [expanded, setExpand] = useState(false);
+    const { expanded, expandGnb } = useGlobalNavigationBar();
 
-    useEffect(() => {
-      setExpand(gnbState === GnbState.Expanded);
-    }, [gnbState]);
+    const onFocus = useCallback(
+      (ev: React.FocusEvent) => {
+        if (!expanded) {
+          expandGnb();
+        }
+      },
+      [expandGnb]
+    );
 
     const Icon = () => {
       let iconElement;
@@ -223,6 +222,7 @@ export default React.memo(
           expanded ? "expanded" : ""
         }`}
         onClick={onClick}
+        onFocus={onFocus}
         onKeyDown={onKeyDown}
         $marginBottom={marginBottom}
       >

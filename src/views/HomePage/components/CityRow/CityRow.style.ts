@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
+import { motion } from "motion/react";
 
 export const CardBase = styled.div<{
   $cardWidth: number;
@@ -68,4 +69,11 @@ export const ScrollWrapper = styled.div`
   margin-left: -180px;
 
   padding: 24px 0;
+`;
+
+export const MotionLayer = styled(motion.div)`
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
 `;

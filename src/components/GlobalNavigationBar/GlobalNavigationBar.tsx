@@ -15,10 +15,8 @@ import useCallLgAccountApp from "../../hooks/useCallLgAccountApp";
 import useSpeak from "../../hooks/useSpeak";
 import { RootState } from "../../store";
 import { select } from "../../store/slices/gnbSlice";
-import { translate } from "../../utils/translate";
 import GlobalNavigationBarButton, {
   GnbType,
-  gnbTypeData,
 } from "../Buttons/GlobalNavigationBarButton/GlobalNavigationBarButton";
 import {
   GNBOverlay,
@@ -40,43 +38,6 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
   const { expanded, expandGnb, collapseGnb, blur } = useGlobalNavigationBar();
   const { speak } = useSpeak();
 
-  const onFocus = useCallback(() => {
-    const isMouse = Spotlight.getPointerMode();
-    if (!isMouse) {
-      expandGnb();
-    }
-
-    // ---- 오디오 가이던스 로직 ----
-    const current = Spotlight.getCurrent();
-    if (!(current instanceof HTMLElement)) return;
-
-    const spotId = current.getAttribute("data-spot-id");
-    if (!spotId) return;
-
-    const keys = Object.keys(gnbTypeData) as (keyof GnbType)[];
-    const isValidKey = keys.includes(spotId as keyof GnbType);
-    if (!isValidKey) return;
-
-    const targetKey = spotId as keyof GnbType;
-    const targetLabel = gnbTypeData[targetKey].label;
-    const index = keys.indexOf(targetKey);
-    const totalCount = keys.length;
-
-    const postfix = !expanded
-      ? translate("common.tabNumber", { number: index + 1, total: totalCount })
-      : translate("common.button");
-
-    speak(`${translate(targetLabel)} ${postfix}`);
-    // ---- 오디오 가이던스 로직 ----
-  }, [expandGnb, expanded, speak]);
-
-  const onBlur = useCallback(() => {
-    const isMouse = Spotlight.getPointerMode();
-    if (!isMouse) {
-      collapseGnb();
-    }
-  }, [collapseGnb]);
-
   const GNBOverlayProps = useMemo(() => {
     return {
       className: `${expanded ? "expanded" : ""}`,
@@ -86,12 +47,10 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
   const GNBWrapperProps = useMemo(() => {
     return {
       className: `${expanded ? "expanded" : ""}`,
-      onFocus: onFocus,
-      onBlur: onBlur,
       onMouseEnter: expandGnb,
       onMouseLeave: collapseGnb,
     };
-  }, [expanded, onFocus, onBlur, expandGnb, collapseGnb]);
+  }, [expanded, expandGnb, collapseGnb]);
 
   const callLgAccountApp = useCallLgAccountApp();
 
@@ -164,7 +123,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
         }
       }
     },
-    [blur]
+    [collapseGnb]
   );
 
   const generateButton = useCallback(

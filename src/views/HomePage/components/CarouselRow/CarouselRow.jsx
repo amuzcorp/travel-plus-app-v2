@@ -57,6 +57,8 @@ export default React.memo(
     const onKeyDown = useCallback(
       (ev) => {
         if (ev.key === "ArrowLeft") {
+          ev.preventDefault();
+          ev.stopPropagation();
           focus(homeKeys.carousel.defaultKey);
         }
       },
