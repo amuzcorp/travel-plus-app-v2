@@ -11,8 +11,12 @@ import IPanorama from "../../../components/Icons/IPanorama";
 import IPlace from "../../../components/Icons/IPlace";
 import IVideo from "../../../components/Icons/IVideo";
 import IWalking from "../../../components/Icons/IWalking";
-import { contentCardWidth } from "../../../constants/globalConstant";
 import {
+  contentCardHeight,
+  contentCardWidth,
+} from "../../../constants/globalConstant";
+import {
+  BackgroundImage,
   BadgeWrapper,
   ContentCardWrapper,
   DateWrapper,
@@ -32,6 +36,7 @@ export const enum VideoFeatures {
 }
 
 export const enum PanoramaFeatures {
+  FOUR_K,
   PANORAMA,
 }
 
@@ -51,14 +56,17 @@ export const enum Badges {
 
 export interface BaseDataProps {
   badges?: Badges[];
+  thumbnailUrl?: string;
 }
 
 export class BaseData {
-  constructor({ badges = [] }: BaseDataProps) {
+  constructor({ badges = [], thumbnailUrl = "" }: BaseDataProps) {
     this.badges = badges;
+    this.thumbnailUrl = thumbnailUrl;
   }
 
   badges: Badges[];
+  thumbnailUrl: string;
 }
 
 //-----------------------------------------------------------------------------------------------------
@@ -74,13 +82,14 @@ export interface VideoDataProps extends BaseDataProps {
 export class VideoData extends BaseData {
   constructor({
     badges,
+    thumbnailUrl,
     features,
     title,
     views,
     from,
     createdAt,
   }: VideoDataProps) {
-    super({ badges: badges });
+    super({ badges: badges, thumbnailUrl: thumbnailUrl });
 
     this.features = features;
     this.title = title;
@@ -106,8 +115,15 @@ export interface PanoramaDataProps extends BaseDataProps {
 }
 
 export class PanoramaData extends BaseData {
-  constructor({ badges, features, title, country, city }: PanoramaDataProps) {
-    super({ badges: badges });
+  constructor({
+    badges,
+    thumbnailUrl,
+    features,
+    title,
+    country,
+    city,
+  }: PanoramaDataProps) {
+    super({ badges: badges, thumbnailUrl: thumbnailUrl });
 
     this.features = features;
     this.title = title;
@@ -131,8 +147,15 @@ export interface ImageDataProps extends BaseDataProps {
 }
 
 export class ImageData extends BaseData {
-  constructor({ badges, features, title, country, city }: ImageDataProps) {
-    super({ badges: badges });
+  constructor({
+    badges,
+    thumbnailUrl,
+    features,
+    title,
+    country,
+    city,
+  }: ImageDataProps) {
+    super({ badges: badges, thumbnailUrl: thumbnailUrl });
 
     this.features = features;
     this.title = title;
@@ -301,7 +324,17 @@ export default React.memo(
         onFocus={onFocus}
         {...rest}
       >
-        <ImageWrapper className={"image-wrapper"} $width={contentCardWidth}>
+        <ImageWrapper
+          className={"image-wrapper"}
+          $width={contentCardWidth}
+          $height={contentCardHeight}
+        >
+          <BackgroundImage
+            src={data.thumbnailUrl}
+            alt={data.thumbnailUrl}
+            $width={contentCardWidth}
+            $height={contentCardHeight}
+          />
           <BadgeWrapper>{badges}</BadgeWrapper>
           <FeatureWrapper>{features}</FeatureWrapper>
         </ImageWrapper>

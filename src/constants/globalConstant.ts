@@ -46,6 +46,10 @@ export const homeKeys: Record<string, keyInfo> = {
     sectionKey: "home-deals-section",
     containerKey: "home-deals-container",
   },
+  panorama: {
+    sectionKey: "home-panorama-section",
+    containerKey: "home-panorama-container",
+  },
 };
 export type HomeSectionTypes = keyof typeof homeKeys;
 export const HomeSectionOrder = Object.keys(homeKeys) as HomeSectionTypes[];
@@ -64,6 +68,7 @@ export const countryRowItemKey = "country";
 export const carouselRowItemKey = "banner";
 
 export const contentCardWidth = 403;
+export const contentCardHeight = 227;
 export const contentCardGap = 24;
 
 export const cityCardWidth = 1031;
