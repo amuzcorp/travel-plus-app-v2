@@ -50,25 +50,25 @@ const useGlobalNavigationBarHook = (): UseGlobalNavigationBarResult => {
     (enterKey: string) => {
       dispatch(setLastEnterKey(enterKey));
 
-      expandGnb();
-
       const key = "gnb-menu-" + selectedButton;
-
-      requestAnimationFrame(() => {
-        Spotlight.focus(key);
-      });
+      Spotlight.focus(key);
     },
-    [dispatch, selectedButton, expandGnb]
+    [dispatch, selectedButton]
   );
 
   const blur = useCallback(() => {
-    // Spotlight.setActiveContainer(lastEnterKey);
-    collapseGnb();
+    const current = Spotlight.getCurrent();
+    Spotlight.focus(lastEnterKey);
 
     console.log(lastEnterKey);
 
     requestAnimationFrame(() => {
-      Spotlight.focus(lastEnterKey);
+      const after = Spotlight.getCurrent();
+      if (current === after) {
+        console.log("move : ", Spotlight.move("right"));
+        // Spotlight.move("right");
+      }
+      collapseGnb();
     });
   }, [lastEnterKey, collapseGnb]);
 

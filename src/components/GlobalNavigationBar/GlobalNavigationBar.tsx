@@ -1,9 +1,6 @@
-import React, { KeyboardEvent, useCallback, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useMemo } from "react";
+import { useSelector } from "react-redux";
 
-import Spotlight from "@enact/spotlight";
-
-import { useNavigate } from "react-router-dom";
 import {
   GnbBottomSections,
   gnbContainerKeys,
@@ -11,10 +8,7 @@ import {
   GnbTopSections,
 } from "../../constants/globalConstant";
 
-import useCallLgAccountApp from "../../hooks/useCallLgAccountApp";
-import useSpeak from "../../hooks/useSpeak";
 import { RootState } from "../../store";
-import { select } from "../../store/slices/gnbSlice";
 import GlobalNavigationBarButton, {
   GnbType,
 } from "../Buttons/GlobalNavigationBarButton/GlobalNavigationBarButton";
@@ -31,12 +25,8 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
     (state: RootState) => state.gnb.selectedButton,
     (prev, next) => prev === next
   );
-  const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-
-  const { expanded, expandGnb, collapseGnb, blur } = useGlobalNavigationBar();
-  const { speak } = useSpeak();
+  const { expanded, expandGnb, collapseGnb } = useGlobalNavigationBar();
 
   const GNBOverlayProps = useMemo(() => {
     return {
@@ -52,84 +42,9 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
     };
   }, [expanded, expandGnb, collapseGnb]);
 
-  const callLgAccountApp = useCallLgAccountApp();
-
-  const onClickButton = useCallback(
-    async (target: string) => {
-      if (target === "account") {
-        await callLgAccountApp(true);
-        return;
-      }
-
-      dispatch(select(target));
-      collapseGnb();
-
-      let targetPath: string;
-
-      switch (target) {
-        case "home":
-          targetPath = "/home";
-          break;
-        case "search":
-          targetPath = "/search";
-          break;
-        case "destination":
-          targetPath = "/destination";
-          break;
-        case "luggage":
-          targetPath = "/my-luggage";
-          break;
-        case "settings":
-          targetPath = "/settings";
-          break;
-        case "exit":
-          targetPath = "/test";
-          break;
-        default:
-          targetPath = "/home";
-          break;
-      }
-
-      navigate(targetPath, { replace: true });
-
-      collapseGnb();
-    },
-    [dispatch, navigate, collapseGnb, callLgAccountApp]
-  );
-
-  const onKeyDown = useCallback(
-    (ev: KeyboardEvent) => {
-      if (ev.key === "ArrowRight") {
-        ev.preventDefault();
-        ev.stopPropagation();
-        blur();
-      } else if (ev.key === "ArrowUp") {
-        const currentUp = Spotlight.getCurrent();
-
-        if (currentUp instanceof HTMLElement) {
-          if (currentUp.id === "gnb-menu-account") {
-            ev.preventDefault();
-            ev.stopPropagation();
-            Spotlight.focus("gnb-menu-exit");
-          }
-        }
-      } else if (ev.key === "ArrowDown") {
-        const currentDown = Spotlight.getCurrent();
-
-        if (currentDown instanceof HTMLElement) {
-          if (currentDown.id === "gnb-menu-exit") {
-            ev.preventDefault();
-            ev.stopPropagation();
-            Spotlight.focus("gnb-menu-account");
-          }
-        }
-      }
-    },
-    [collapseGnb, blur]
-  );
 
   const generateButton = useCallback(
-    (typeValue: keyof GnbType, isLast: boolean, onClick: Function) => {
+    (typeValue: keyof GnbType, isLast: boolean) => {
       const id = "gnb-menu-" + typeValue;
 
       return (
@@ -140,7 +55,6 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
           type={typeValue}
           marginBottom={!isLast ? 20 : 0}
           selected={typeValue === selectedButton}
-          onClick={onClick}
         />
       );
     },
@@ -151,37 +65,33 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
     return GnbTopSections.map((value, index) =>
       generateButton(
         value as keyof GnbType,
-        index === GnbTopSections.length - 1,
-        () => onClickButton(value)
+        index === GnbTopSections.length - 1
       )
     );
-  }, [generateButton, onClickButton]);
+  }, [generateButton]);
 
   const middleSection = useMemo(() => {
     return GnbMiddleSections.map((value, index) => {
       return generateButton(
         value as keyof GnbType,
-        index === GnbMiddleSections.length - 1,
-        () => onClickButton(value)
+        index === GnbMiddleSections.length - 1
       );
     });
-  }, [generateButton, onClickButton]);
+  }, [generateButton]);
 
   const bottomSection = useMemo(() => {
     return GnbBottomSections.map((value, index) => {
       return generateButton(
         value as keyof GnbType,
-        index === GnbBottomSections.length - 1,
-        () => onClickButton(value)
+        index === GnbBottomSections.length - 1
       );
     });
-  }, [generateButton, onClickButton]);
+  }, [generateButton]);
 
   return (
     <SpotlightContainer
       spotlightId={gnbContainerKeys.gnb}
       spotlightRestrict="self-only"
-      onKeyDown={onKeyDown}
     >
       <GNBOverlay {...GNBOverlayProps} />
       <GNBWrapper {...GNBWrapperProps}>

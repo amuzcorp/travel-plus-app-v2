@@ -6,6 +6,8 @@ import React, {
   useState,
 } from "react";
 
+import Spotlight from "@enact/spotlight";
+
 import GradientBottomComponent from "../../../../assets/gradients/GradientCarouselBottom";
 import GradientLeftComponent from "../../../../assets/gradients/GradientCarouselLeft";
 import ArrowRightButton from "../../../../components/Buttons/ArrowButtons/ArrowRightButton";
@@ -16,6 +18,7 @@ import Spacing from "../../../../components/Spacing/Spacing";
 import Text from "../../../../components/Texts/Text";
 import { homeKeys } from "../../../../constants/globalConstant";
 import { useDialog } from "../../../../hooks/useDialog";
+import { translate } from "../../../../utils/translate";
 import { useHomePageSroll } from "../../useHomePageScroll";
 import {
   ArrowButtonWrapper,
@@ -87,13 +90,18 @@ export default React.memo(
       const id = homeKeys.carousel.defaultKey;
 
       return (
-        <RoundButton spotlightId={id} onKeyDown={onTravelNowKeyDown}>
-          Travel Now
+        <RoundButton
+          spotlightId={id}
+          onKeyDown={onTravelNowKeyDown}
+          speaker={translate(["video.travelNow", "common.button"])}
+        >
+          {translate("video.travelNow")}
         </RoundButton>
       );
     }, [onTravelNowKeyDown]);
 
     useEffect(() => {
+      Spotlight.focus(homeKeys.carousel.defaultKey);
       const target = descriptionRef.current;
 
       if (target) {
@@ -150,9 +158,7 @@ export default React.memo(
                 <ViewMoreSmallButton
                   spotlightId={viewMoreId}
                   onClick={onClickViewMore}
-                >
-                  View More
-                </ViewMoreSmallButton>
+                />
               )}
             </MoreWrapper>
 

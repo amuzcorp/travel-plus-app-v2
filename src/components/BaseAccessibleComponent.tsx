@@ -42,6 +42,8 @@ const BaseCard = React.memo(
     const handleFocus = useCallback(
       (e: React.FocusEvent) => {
         onFocus?.(e);
+        if (e.defaultPrevented) return;
+
         if (speakerMessage !== "") {
           speak(speakerMessage);
         }

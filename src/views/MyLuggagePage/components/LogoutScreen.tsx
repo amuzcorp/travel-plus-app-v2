@@ -26,7 +26,7 @@ const ContainerBase = styled.div`
 `;
 
 const SpotlightLogoutContainer = SpotlightContainerDecorator(
-  { restrict: "self-only" },
+  { restrict: "none" },
   ContainerBase
 );
 
@@ -46,11 +46,11 @@ const LogoutScreen = React.memo(() => {
   const theme = useTheme();
   const [hasSpoken, setHasSpoken] = useState(false);
 
+  const { focus } = useGlobalNavigationBar();
+
+  // 첫 진입 디폴트 포커스
   useEffect(() => {
-    const spottables = Spotlight.getSpottableDescendants("logoutScreen");
-    if (spottables.length > 0) {
-      Spotlight.focus(spottables[0]);
-    }
+    Spotlight.focus("logout-signin");
   }, []);
 
   const getSpeakerText = (keys: string[]) => {
@@ -80,9 +80,7 @@ const LogoutScreen = React.memo(() => {
       if (e.key === "ArrowLeft") {
         e.preventDefault();
         e.stopPropagation();
-
         focus("logout-signin");
-        // Spotlight.focus("luggage"); // 안먹힘
       }
     },
   });
@@ -96,7 +94,7 @@ const LogoutScreen = React.memo(() => {
   return (
     <SpotlightLogoutContainer
       spotlightId="logoutScreen"
-      spotlightRestrict={"none"}
+      spotlightRestrict="none"
     >
       <div style={{ position: "absolute", top: "0", left: "0" }}>
         <LogoutBackground />
