@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 
@@ -8,9 +8,11 @@ import {
   adsRowItemKey,
   cityRowItemKey,
   contentRowItemKey,
+  homeKeys,
 } from "../../constants/globalConstant";
 import HomeSection from "../../entities/HomeSection/HomeSection";
 import { RootState } from "../../store";
+import { setDefaultFocusKey } from "../../store/slices/gnbSlice";
 import CarouselRow from "./components/CarouselRow/CarouselRow";
 import CityRow from "./components/CityRow/CityRow";
 import CountryRow from "./components/CountryRow/CountryRow";
@@ -19,6 +21,8 @@ import FavoriteRow from "./components/FavoriteRow/FavoriteRow";
 import PanoramaRow from "./components/PanoramaRow/PanoramaRow";
 
 const HomePage: React.FC = React.memo(() => {
+  const dispatch = useDispatch();
+
   const citySection = useSelector((state: RootState) =>
     state.home.citySection
       ? HomeSection.fromJson(cityRowItemKey, state.home.citySection)
@@ -51,6 +55,10 @@ const HomePage: React.FC = React.memo(() => {
   const dealsRow = useMemo(() => {
     return dealSection && <DealsRow section={dealSection} />;
   }, [dealSection]);
+
+  useEffect(() => {
+    dispatch(setDefaultFocusKey(homeKeys.carousel.containerKey));
+  }, [dispatch]);
 
   return (
     <HomeWrapper id={"home-main-container"}>

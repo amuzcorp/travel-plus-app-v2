@@ -41,8 +41,6 @@ const useHomePageScrollHook = ({
 
       const parent = document.getElementById("home-main-container");
 
-      console.log(section);
-
       const targetSection = homeKeys[section];
 
       const child = document.getElementById(targetSection.sectionKey);

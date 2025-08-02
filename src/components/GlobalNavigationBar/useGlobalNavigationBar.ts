@@ -2,6 +2,7 @@ import { useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Spotlight from "@enact/spotlight";
+
 import { RootState } from "../../store";
 import {
   collapse,
@@ -32,10 +33,14 @@ const useGlobalNavigationBarHook = (): UseGlobalNavigationBarResult => {
   const lastEnterKey = useSelector(
     (state: RootState) => state.gnb.lastEnterKey
   );
+  const defaultFocusKey = useSelector(
+    (state: RootState) => state.gnb.defaultFocusKey
+  );
   const gnbState = useSelector((state: RootState) => state.gnb.value);
   const selectedButton = useSelector(
     (state: RootState) => state.gnb.selectedButton
   );
+
   const dispatch = useDispatch();
 
   const expandGnb = useCallback(() => {
@@ -57,20 +62,18 @@ const useGlobalNavigationBarHook = (): UseGlobalNavigationBarResult => {
   );
 
   const blur = useCallback(() => {
-    const current = Spotlight.getCurrent();
-    Spotlight.focus(lastEnterKey);
+    collapseGnb();
 
-    console.log(lastEnterKey);
+    const focusResult = Spotlight.focus(lastEnterKey);
 
-    requestAnimationFrame(() => {
-      const after = Spotlight.getCurrent();
-      if (current === after) {
-        console.log("move : ", Spotlight.move("right"));
-        // Spotlight.move("right");
-      }
-      collapseGnb();
-    });
-  }, [lastEnterKey, collapseGnb]);
+    if (focusResult) {
+      return;
+    }
+
+    Spotlight.setPointerMode(false);
+
+    Spotlight.focus(defaultFocusKey);
+  }, [lastEnterKey, collapseGnb, defaultFocusKey]);
 
   const moving = useRef(false);
   const startIndex = useRef(-1);
