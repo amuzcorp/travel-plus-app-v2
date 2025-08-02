@@ -127,6 +127,14 @@ const getSections = (state: HomeStateInterface) => {
     result.deals = state.dealSection;
   }
 
+  if (state.panoramaSection) {
+    result.panorama = state.panoramaSection;
+  }
+
+  if (state.featureSection) {
+    result.feature = state.featureSection;
+  }
+
   return result;
 };
 

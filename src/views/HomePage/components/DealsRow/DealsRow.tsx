@@ -19,9 +19,10 @@ import { useHomePageSroll } from "../../useHomePageScroll";
 export default React.memo(
   ({ section }: { section: HomeSection }) => {
     const { focus } = useGlobalNavigationBar();
-    const { prevSection, currentSection, homeScrollTo } = useHomePageSroll({
-      currentSection: "deals",
-    });
+    const { prevSection, currentSection, nextSection, homeScrollTo } =
+      useHomePageSroll({
+        currentSection: "deals",
+      });
 
     const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -44,9 +45,10 @@ export default React.memo(
         } else if (ev.key === "ArrowDown") {
           ev.preventDefault();
           ev.stopPropagation();
+          homeScrollTo(nextSection, "center");
         }
       },
-      [homeScrollTo, prevSection]
+      [homeScrollTo, prevSection, nextSection]
     );
 
     const onRowClick = useCallback(() => {

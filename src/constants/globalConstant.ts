@@ -46,6 +46,10 @@ export const homeKeys: Record<string, keyInfo> = {
     sectionKey: "home-deals-section",
     containerKey: "home-deals-container",
   },
+  panorama: {
+    sectionKey: "home-panorama-section",
+    containerKey: "home-panorama-container",
+  },
 };
 export type HomeSectionTypes = keyof typeof homeKeys;
 export const HomeSectionOrder = Object.keys(homeKeys) as HomeSectionTypes[];
