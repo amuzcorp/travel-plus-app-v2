@@ -72,8 +72,6 @@ const LogoutScreen = React.memo(() => {
     }
   }, [hasSpoken, setHasSpoken]);
 
-  const { focus } = useGlobalNavigationBar();
-
   const onKeyDown = useBlockFocusDirection({
     blockDirections: ["ArrowUp", "ArrowDown", "ArrowLeft"],
     onKeyDown: (e) => {

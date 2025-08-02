@@ -264,6 +264,7 @@ export default React.memo(
       callLgAccountApp,
       blur,
       selectedButton,
+      type,
     ]);
 
     const Icon = () => {
