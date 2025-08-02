@@ -148,6 +148,8 @@ export default React.memo(
 
     const onFocus = useCallback(
       (ev: React.FocusEvent) => {
+        ev.preventDefault();
+        ev.stopPropagation();
         if (!expanded) {
           expandGnb();
         }

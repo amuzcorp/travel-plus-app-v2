@@ -111,7 +111,7 @@ const SplashPage: React.FC = () => {
           await preloadImage(item.staticMapUrl);
           await preloadImage(item.thumbnailImageUrl);
         }
-      } else if (homeSection.sectionType === "ott_ani123") {
+      } else if (homeSection.sectionType === "ott_ani") {
         dispatch(setOttSection(homeSection));
       } else if (homeSection.sectionType === "video" && homeSection.id === 3) {
         dispatch(setFavoriteSection(homeSection));
@@ -123,7 +123,7 @@ const SplashPage: React.FC = () => {
 
           await preloadImage(item.imageUrl);
         }
-      } else if (homeSection.sectionType === "panorama123") {
+      } else if (homeSection.sectionType === "panorama") {
         dispatch(setPanoramaSection(homeSection));
 
         for (let j = 0; j < homeSection.items.length; j++) {
