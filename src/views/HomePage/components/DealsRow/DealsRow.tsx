@@ -180,11 +180,8 @@ export default React.memo(
               />
             );
           })}
-
           {buttons}
-
           {indicator}
-
           {arrowRightButton}
         </ImageContainer>
       </SectionWrapper>

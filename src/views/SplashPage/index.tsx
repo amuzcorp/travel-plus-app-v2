@@ -64,10 +64,12 @@ const SplashPage: React.FC = () => {
 
   const initDefaultData = useCallback(async () => {
     // TV 시스템 정보 초기화
+    console.log("TV 시스템 정보 초기화");
     const systemInfo = await TvService.getSystemInfo(lunaApi);
     dispatch(setTVSystemInfo(systemInfo));
 
     // 계정 정보 초기화(webOS 6.0 여부에 따라 다른 방식으로 계정 정보를 가져오기 때문에 TV 시스템 정보 초기화 후에 계정 정보를 가져와야 함)
+    console.log("계정 정보 초기화");
     const fetchResult = await AccountManager.fetchAccountInfo({
       authApi: authApi,
       lunaApi: lunaApi,
@@ -75,6 +77,7 @@ const SplashPage: React.FC = () => {
     dispatch(setAccountState(fetchResult.account));
 
     // Home 메인 배너
+    console.log("요소 등록");
     HomeItem.register(cityRowItemKey, CityItem);
     HomeItem.register(ottRowItemKey, OttItem);
     HomeItem.register(contentRowItemKey, ContentItem);
@@ -82,15 +85,21 @@ const SplashPage: React.FC = () => {
     HomeItem.register(countryRowItemKey, CountryItem);
     HomeItem.register(carouselRowItemKey, BannerItem);
 
+    console.log("베너 데이터 로드");
     const banners = await homeApi.getMainBanners();
     const carousel = HomeSection.empty();
     banners.map((banner) => carousel.items.push(banner));
     dispatch(setCarouselSection(carousel));
 
+    console.log("홈 섹션 정보 로드");
     const homeSections = await homeApi.getHomeSections();
 
     for (let i = 0; i < homeSections.length; i++) {
       const homeSection = homeSections[i];
+
+      if (homeSection.items.length === 0) {
+        continue;
+      }
 
       if (homeSection.sectionType === "city_ani") {
         dispatch(setCitySection(homeSection));
@@ -105,9 +114,7 @@ const SplashPage: React.FC = () => {
       } else if (homeSection.sectionType === "ott_ani123") {
         dispatch(setOttSection(homeSection));
       } else if (homeSection.sectionType === "video" && homeSection.id === 3) {
-        if (homeSection.items.length > 0) {
-          dispatch(setFavoriteSection(homeSection));
-        }
+        dispatch(setFavoriteSection(homeSection));
       } else if (homeSection.sectionType === "ads") {
         dispatch(setDealSection(homeSection));
 
@@ -118,6 +125,12 @@ const SplashPage: React.FC = () => {
         }
       } else if (homeSection.sectionType === "panorama123") {
         dispatch(setPanoramaSection(homeSection));
+
+        for (let j = 0; j < homeSection.items.length; j++) {
+          const item = homeSection.items[j] as ContentItem;
+
+          await preloadImage(item.thumbnail);
+        }
       } else if (homeSection.sectionType === "featured") {
         dispatch(setFeatureSection(homeSection));
       } else if (homeSection.sectionType === "video" && homeSection.id === 7) {
@@ -131,7 +144,7 @@ const SplashPage: React.FC = () => {
       "https://travel-plus-cms.dev.amuz.kr/storage/assets/Travel Deals & More-gil.png"
     );
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log("설정 완료!");
 
     navigate("/home", { replace: true });
   }, [authApi, dispatch, homeApi, lunaApi, navigate]);

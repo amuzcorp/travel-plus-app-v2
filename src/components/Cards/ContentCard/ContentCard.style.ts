@@ -27,16 +27,16 @@ export const ContentCardWrapper = styled.div<{ $width?: number }>`
   }
 `;
 
-export const ImageWrapper = styled.div<{ $width?: number }>`
+export const ImageWrapper = styled.div<{ $width?: number; $height?: number }>`
   position: relative;
 
   width: ${({ $width }) => $width ?? 0}px;
-  aspect-ratio: 16/9;
+  height: ${({ $height }) => $height ?? 0}px;
 
   border-radius: 12px;
-  background: hotpink;
 
   margin-bottom: 16px;
+  background: yellow;
 
   &::after {
     display: block;
@@ -54,6 +54,23 @@ export const ImageWrapper = styled.div<{ $width?: number }>`
 
     border-radius: 12px;
   }
+`;
+
+export const BackgroundImage = styled.img<{
+  $width?: number;
+  $height?: number;
+}>`
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+  width: ${({ $width }) => $width ?? 0}px;
+  height: ${({ $height }) => $height ?? 0}px;
+
+  border-radius: 12px;
+  overflow: hidden;
+
+  object-fit: cover;
 `;
 
 export const BadgeWrapper = styled.div`

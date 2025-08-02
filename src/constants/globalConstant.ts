@@ -64,6 +64,7 @@ export const countryRowItemKey = "country";
 export const carouselRowItemKey = "banner";
 
 export const contentCardWidth = 403;
+export const contentCardHeight = 227;
 export const contentCardGap = 24;
 
 export const cityCardWidth = 1031;

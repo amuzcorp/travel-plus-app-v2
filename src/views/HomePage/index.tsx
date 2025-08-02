@@ -38,6 +38,11 @@ const HomePage: React.FC = React.memo(() => {
       ? HomeSection.fromJson(adsRowItemKey, state.home.dealSection)
       : null
   );
+  const panoramaSection = useSelector((state: RootState) =>
+    state.home.panoramaSection
+      ? HomeSection.fromJson(contentRowItemKey, state.home.panoramaSection)
+      : null
+  );
 
   const cityRow = useMemo(() => {
     return citySection && <CityRow section={citySection} />;
@@ -56,6 +61,10 @@ const HomePage: React.FC = React.memo(() => {
     return dealSection && <DealsRow section={dealSection} />;
   }, [dealSection]);
 
+  const panoramaRow = useMemo(() => {
+    return panoramaSection && <PanoramaRow section={panoramaSection} />;
+  }, [panoramaSection]);
+
   useEffect(() => {
     dispatch(setDefaultFocusKey(homeKeys.carousel.containerKey));
   }, [dispatch]);
@@ -66,7 +75,7 @@ const HomePage: React.FC = React.memo(() => {
       {cityRow}
       {favoriteRow}
       {dealsRow}
-      <PanoramaRow />
+      {panoramaRow}
       <CountryRow />
     </HomeWrapper>
   );
