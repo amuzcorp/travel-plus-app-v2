@@ -13,7 +13,7 @@ const MyLuggagePage = React.memo(() => {
   return (
     <MyLuggageWrapper>
       <Header
-        title={account.isLoggedIn ? "" : translate("navigation.myLuggage")}
+        title={account.isLoggedIn ? translate("navigation.myLuggage") : ""}
       />
       {account.isLoggedIn ? (
         <ContainerBase>

@@ -5,6 +5,7 @@ import Spotlight from "@enact/spotlight";
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
 
 import RoundButton from "../../../components/Buttons/RoundButton/RoundButton";
+import { useGlobalNavigationBar } from "../../../components/GlobalNavigationBar/useGlobalNavigationBar";
 import Spacing from "../../../components/Spacing/Spacing";
 import Text from "../../../components/Texts/Text";
 import useBlockFocusDirection from "../../../hooks/useBlockFocusDirection";
@@ -25,7 +26,7 @@ const ContainerBase = styled.div`
 `;
 
 const SpotlightLogoutContainer = SpotlightContainerDecorator(
-  { restrict: "self-only" },
+  { restrict: "none" },
   ContainerBase
 );
 
@@ -45,11 +46,11 @@ const LogoutScreen = React.memo(() => {
   const theme = useTheme();
   const [hasSpoken, setHasSpoken] = useState(false);
 
+  const { focus } = useGlobalNavigationBar();
+
+  // 첫 진입 디폴트 포커스
   useEffect(() => {
-    const spottables = Spotlight.getSpottableDescendants("logoutScreen");
-    if (spottables.length > 0) {
-      Spotlight.focus(spottables[0]);
-    }
+    Spotlight.focus("logout-signin");
   }, []);
 
   const getSpeakerText = (keys: string[]) => {
@@ -75,8 +76,9 @@ const LogoutScreen = React.memo(() => {
     blockDirections: ["ArrowUp", "ArrowDown", "ArrowLeft"],
     onKeyDown: (e) => {
       if (e.key === "ArrowLeft") {
-        Spotlight.focus("luggage"); // 안먹힘
         e.preventDefault();
+        e.stopPropagation();
+        focus("logout-signin");
       }
     },
   });
@@ -90,7 +92,7 @@ const LogoutScreen = React.memo(() => {
   return (
     <SpotlightLogoutContainer
       spotlightId="logoutScreen"
-      spotlightRestrict={"none"}
+      spotlightRestrict="none"
     >
       <div style={{ position: "absolute", top: "0", left: "0" }}>
         <LogoutBackground />
