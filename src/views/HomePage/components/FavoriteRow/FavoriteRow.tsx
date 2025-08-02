@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 
+import HomeSection from "src/entities/HomeSection/HomeSection";
 import ContentCard, {
   Badges,
   BaseData,
@@ -202,7 +203,7 @@ const datas: BaseData[] = [
   }),
 ];
 
-export default React.memo(() => {
+export default React.memo(({ section }: { section: HomeSection }) => {
   const {
     ref: scrollerRef,
     onKeyDown,
@@ -217,7 +218,8 @@ export default React.memo(() => {
 
   const { focus, onKeyDownOnScrollable, onKeyUpOnScrollable } =
     useGlobalNavigationBar();
-  const { homeScrollTo } = useHomePageSroll();
+  const { prevSection, currentSection, nextSection, homeScrollTo } =
+    useHomePageSroll({ currentSection: "favorite" });
 
   const onKeyDowns = useMemo(() => {
     return datas.map((__, index) => {
@@ -277,19 +279,19 @@ export default React.memo(() => {
       if (ev.key === "ArrowUp") {
         ev.preventDefault();
         ev.stopPropagation();
-        homeScrollTo(homeKeys.city, "center");
+        homeScrollTo(prevSection, "center");
       } else if (ev.key === "ArrowDown") {
         ev.preventDefault();
         ev.stopPropagation();
-        homeScrollTo(homeKeys.deals, "center");
+        homeScrollTo(nextSection, "center");
       }
     },
-    [homeScrollTo]
+    [homeScrollTo, prevSection, nextSection]
   );
 
   const onRowClick = useCallback(() => {
-    homeScrollTo(homeKeys.favorite, "center");
-  }, [homeScrollTo]);
+    homeScrollTo(currentSection, "center");
+  }, [homeScrollTo, currentSection]);
 
   return (
     <SectionWrapper

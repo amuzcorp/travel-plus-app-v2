@@ -60,6 +60,8 @@ const useGlobalNavigationBarHook = (): UseGlobalNavigationBarResult => {
     const current = Spotlight.getCurrent();
     Spotlight.focus(lastEnterKey);
 
+    console.log(lastEnterKey);
+
     requestAnimationFrame(() => {
       const after = Spotlight.getCurrent();
       if (current === after) {

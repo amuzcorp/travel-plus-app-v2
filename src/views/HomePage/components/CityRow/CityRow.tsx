@@ -57,7 +57,10 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
 
   const { focus, onKeyDownOnScrollable, onKeyUpOnScrollable } =
     useGlobalNavigationBar();
-  const { homeScrollTo } = useHomePageSroll();
+  const { prevSection, currentSection, nextSection, homeScrollTo } =
+    useHomePageSroll({
+      currentSection: "city",
+    });
 
   const onFocuses = useMemo(() => {
     return items.map((__, index) => {
@@ -147,14 +150,6 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
     }
   }, [items, expandedIndex]);
 
-  const direction = useMemo(() => {
-    if (prevIndex === null) {
-      return 0;
-    }
-
-    return expandedIndex > prevIndex ? 1 : -1;
-  }, [expandedIndex, prevIndex]);
-
   const renderIndices = useMemo(() => {
     const arr = [expandedIndex - 1, expandedIndex, expandedIndex + 1].filter(
       (i) => i >= 0 && i < items.length
@@ -162,13 +157,6 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
 
     return Array.from(new Set(arr));
   }, [expandedIndex, items.length]);
-
-  const transition = useMemo(() => {
-    return {
-      duration: 0.35,
-      ease: "easeInOut" as const,
-    };
-  }, []);
 
   const smallCards = useMemo(() => {
     return items.map((item, index) => {
@@ -197,50 +185,60 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
     onKeyUps,
   ]);
 
-  // const largeCards = useMemo(() => {
-  //   return items.map((item, index) => {
-  //     return (
-  //       <LargeCard
-  //         index={index}
-  //         cardWidth={cardWidth}
-  //         cardHeight={cardHeight}
-  //         item={item}
-  //       />
-  //     );
-  //   });
-  // }, [cardWidth, cardHeight, expandedIndex]);
-
-  // const largeCard = useMemo(() => {
-  //   const target = items[expandedIndex];
-
-  //   return (
-  //     <LargeCard
-  //       index={expandedIndex}
-  //       cardWidth={cardWidth}
-  //       cardHeight={cardHeight}
-  //       item={target}
-  //     />
-  //   );
-  // }, [items, cardWidth, cardHeight, expandedIndex]);
-
   const onRowKeyDown = useCallback(
     (ev: React.KeyboardEvent) => {
       if (ev.key === "ArrowUp") {
         ev.preventDefault();
         ev.stopPropagation();
-        homeScrollTo(homeKeys.carousel, "center");
+        homeScrollTo(prevSection, "center");
       } else if (ev.key === "ArrowDown") {
         ev.preventDefault();
         ev.stopPropagation();
-        homeScrollTo(homeKeys.favorite, "center");
+        homeScrollTo(nextSection, "center");
       }
     },
-    [homeScrollTo]
+    [homeScrollTo, prevSection, nextSection]
   );
 
   const onClickWrapper = useCallback(() => {
-    homeScrollTo(homeKeys.city, "center");
-  }, [homeScrollTo]);
+    homeScrollTo(currentSection, "center");
+  }, [homeScrollTo, currentSection]);
+
+  const getInitialAnimate = useCallback(
+    (
+      isActive: boolean,
+      wasActive: boolean
+    ): { initial: Record<string, number>; animate: Record<string, number> } => {
+      let animate = { opacity: 1 };
+      let initial = animate;
+
+      if (isActive) {
+        initial = {
+          opacity: 0,
+        };
+        animate = {
+          opacity: 1,
+        };
+      } else if (wasActive) {
+        initial = {
+          opacity: 1,
+        };
+        animate = {
+          opacity: 0,
+        };
+      } else {
+        initial = {
+          opacity: 0,
+        };
+        animate = {
+          opacity: 0,
+        };
+      }
+
+      return { initial: initial, animate: animate };
+    },
+    []
+  );
 
   return (
     <SectionWrapper
@@ -266,38 +264,7 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
             const isActive = i === expandedIndex;
             const wasActive = prevIndex === i;
 
-            let animate = {
-              opacity: 1,
-            };
-            let initial = animate;
-
-            if (isActive) {
-              initial =
-                direction === 0
-                  ? {
-                      opacity: 0,
-                    }
-                  : {
-                      opacity: 0,
-                    };
-              animate = {
-                opacity: 1,
-              };
-            } else if (wasActive) {
-              initial = {
-                opacity: 1,
-              };
-              animate = {
-                opacity: 0,
-              };
-            } else {
-              initial = {
-                opacity: 0,
-              };
-              animate = {
-                opacity: 0,
-              };
-            }
+            const { initial, animate } = getInitialAnimate(isActive, wasActive);
 
             const key = (item as any).id ?? i;
 

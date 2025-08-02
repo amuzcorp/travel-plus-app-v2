@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+import { HomeSectionTypes } from "../../constants/globalConstant";
 import HomeSection from "../../entities/HomeSection/HomeSection";
 import DefaultFocusInterface from "./defaultFocusInterface";
 
@@ -68,7 +70,65 @@ export const homeSlice = createSlice({
       state.countrySection = action.payload.toJson();
     },
   },
+  selectors: {
+    getNextSection: (
+      state,
+      currentSection: HomeSectionTypes
+    ): HomeSectionTypes | null => {
+      const sections = getSections(state);
+      const sectionKeys = Object.keys(sections) as HomeSectionTypes[];
+
+      const index = sectionKeys.indexOf(currentSection);
+
+      const nextIndex = index + 1;
+
+      if (nextIndex === sectionKeys.length) {
+        return null;
+      }
+
+      return sectionKeys[nextIndex];
+    },
+    getPrevSection: (
+      state,
+      currentSection: HomeSectionTypes
+    ): HomeSectionTypes | null => {
+      const sections = getSections(state);
+      const sectionKeys = Object.keys(sections) as HomeSectionTypes[];
+
+      const index = sectionKeys.indexOf(currentSection);
+
+      const nextIndex = index - 1;
+
+      if (nextIndex === -1) {
+        return null;
+      }
+
+      return sectionKeys[nextIndex];
+    },
+  },
 });
+
+const getSections = (state: HomeStateInterface) => {
+  const result: Record<string, any> = {};
+
+  if (state.carouselSection) {
+    result.carousel = state.carouselSection;
+  }
+
+  if (state.citySection) {
+    result.city = state.citySection;
+  }
+
+  if (state.favoriteSection) {
+    result.favorite = state.favoriteSection;
+  }
+
+  if (state.dealSection) {
+    result.deals = state.dealSection;
+  }
+
+  return result;
+};
 
 export const {
   setLastFocusedToNull,
@@ -83,3 +143,5 @@ export const {
   setCurationSection,
   setCountrySection,
 } = homeSlice.actions;
+
+export const { getNextSection, getPrevSection } = homeSlice.selectors;
