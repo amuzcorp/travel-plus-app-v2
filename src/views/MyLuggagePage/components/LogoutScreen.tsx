@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import styled, { useTheme } from "styled-components";
 
-import Spotlight from "@enact/spotlight";
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
 
 import RoundButton from "../../../components/Buttons/RoundButton/RoundButton";
@@ -49,9 +48,9 @@ const LogoutScreen = React.memo(() => {
   const { focus } = useGlobalNavigationBar();
 
   // 첫 진입 디폴트 포커스
-  useEffect(() => {
-    Spotlight.focus("logout-signin");
-  }, []);
+  // useEffect(() => {
+  //   Spotlight.focus("logout-signin");
+  // }, []);
 
   const getSpeakerText = (keys: string[]) => {
     const base = translate(keys);

@@ -12,12 +12,14 @@ interface GnbStateInterface {
   value: GnbStateType;
   selectedButton: string;
   lastEnterKey: string;
+  defaultFocusKey: string;
 }
 
 const initialState: GnbStateInterface = {
   value: GnbState.Collapsed,
   selectedButton: "home",
   lastEnterKey: homeKeys.carousel.containerKey,
+  defaultFocusKey: homeKeys.carousel.containerKey,
 };
 
 export const gnbSlice = createSlice({
@@ -36,7 +38,11 @@ export const gnbSlice = createSlice({
     setLastEnterKey: (state, action: PayloadAction<string>) => {
       state.lastEnterKey = action.payload;
     },
+    setDefaultFocusKey: (state, action: PayloadAction<string>) => {
+      state.defaultFocusKey = action.payload;
+    },
   },
 });
 
-export const { expand, collapse, select, setLastEnterKey } = gnbSlice.actions;
+export const { expand, collapse, select, setLastEnterKey, setDefaultFocusKey } =
+  gnbSlice.actions;
