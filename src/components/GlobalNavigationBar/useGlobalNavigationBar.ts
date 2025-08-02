@@ -50,9 +50,6 @@ const useGlobalNavigationBarHook = (): UseGlobalNavigationBarResult => {
     (enterKey: string) => {
       dispatch(setLastEnterKey(enterKey));
 
-      console.log(enterKey);
-
-      // Spotlight.setActiveContainer(gnbContainerKeys.gnb);
       expandGnb();
 
       const key = "gnb-menu-" + selectedButton;

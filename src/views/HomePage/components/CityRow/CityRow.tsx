@@ -1,4 +1,4 @@
-import { domAnimation, LazyMotion, motion } from "motion/react";
+import { domAnimation, LazyMotion } from "motion/react";
 import React, {
   useCallback,
   useEffect,
@@ -9,8 +9,6 @@ import React, {
 
 import Spotlight from "@enact/spotlight";
 
-import CityItem from "src/entities/HomeSection/CityItem";
-import styled from "styled-components";
 import { useGlobalNavigationBar } from "../../../../components/GlobalNavigationBar/useGlobalNavigationBar";
 import ScrollableRow from "../../../../components/Scrollables/ScrollableRow";
 import { useScrollableRow } from "../../../../components/Scrollables/useScrollableRow";
@@ -23,9 +21,10 @@ import {
   cityCardWidth,
   homeKeys,
 } from "../../../../constants/globalConstant";
+import CityItem from "../../../../entities/HomeSection/CityItem";
 import HomeSection from "../../../../entities/HomeSection/HomeSection";
 import { useHomePageSroll } from "../../useHomePageScroll";
-import { RelativeBox } from "./CityRow.style";
+import { MotionLayer, RelativeBox } from "./CityRow.style";
 import LargeCard from "./LargeCard";
 import SmallCard from "./SmallCard";
 
@@ -326,8 +325,3 @@ const CityRow = React.memo(({ section }: { section: HomeSection }) => {
 });
 
 export default CityRow;
-
-const MotionLayer = styled(motion.div)`
-  position: absolute;
-  inset: 0;
-`;

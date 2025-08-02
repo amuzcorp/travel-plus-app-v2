@@ -50,7 +50,13 @@ export default React.memo(
             <Spacing size={16} />
             <Text textStyle="titleMdSb">
               <Description>
-                <div>{item.countryName}</div>
+                <div>
+                  <CountryFlag
+                    src={item.countryFlag}
+                    alt={"home-city-row-large-flag-" + index}
+                  />
+                  {item.countryName}
+                </div>
                 <div>{item.continentName}</div>
               </Description>
             </Text>
@@ -118,6 +124,15 @@ export const LeftSection = styled.div`
 
   display: flex;
   flex-direction: column;
+`;
+
+export const CountryFlag = styled.img`
+  width: 32;
+  height: 32;
+
+  object-fit: scale-down;
+
+  margin-right: 8px;
 `;
 
 export const RightSection = styled.div`
