@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-import SpotlightContainerDecorator, {
-  SpotlightContainerDecoratorConfig,
-} from "@enact/spotlight/SpotlightContainerDecorator";
+import Spotlight from "@enact/spotlight";
+import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
 
 import { useDispatch } from "react-redux";
 import RoundButton from "../../components/Buttons/RoundButton/RoundButton";
@@ -23,8 +22,10 @@ const MyLuggagePage = React.memo(() => {
     let defaultFocusKey = "logout-signin";
 
     if (account.isLoggedIn) {
-      defaultFocusKey = "test-button";
+      defaultFocusKey = "test-button-2";
     }
+
+    Spotlight.focus(defaultFocusKey);
 
     dispatch(setDefaultFocusKey(defaultFocusKey));
   }, [account.isLoggedIn, dispatch]);
@@ -35,11 +36,13 @@ const MyLuggagePage = React.memo(() => {
         title={account.isLoggedIn ? translate("navigation.myLuggage") : ""}
       />
       {account.isLoggedIn ? (
-        <LoginSpotlightbox>
-          <Text>로그인 햇당꼐~!</Text>
-          <RoundButton spotlightId="test-button-1">hello123</RoundButton>
-          <RoundButton spotlightId="test-button">hello</RoundButton>
-        </LoginSpotlightbox>
+        <ContainerBase>
+          <Text>로그인 상태</Text>
+          <RoundButton spotlightId="test-button-1">버튼 1</RoundButton>
+          <RoundButton spotlightId="test-button-2">
+            디폴트 포커스 확인
+          </RoundButton>
+        </ContainerBase>
       ) : (
         <LogoutScreen />
       )}
@@ -64,11 +67,3 @@ const ContainerBase = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
-const props: SpotlightContainerDecoratorConfig = {
-  restrict: "self-first",
-  enterTo: "default-element",
-  defaultElement: "test-button",
-};
-
-const LoginSpotlightbox = SpotlightContainerDecorator(props, ContainerBase);

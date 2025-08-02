@@ -1,8 +1,6 @@
 import React, { useCallback, useState } from "react";
 import styled, { useTheme } from "styled-components";
 
-import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
-
 import RoundButton from "../../../components/Buttons/RoundButton/RoundButton";
 import { useGlobalNavigationBar } from "../../../components/GlobalNavigationBar/useGlobalNavigationBar";
 import Spacing from "../../../components/Spacing/Spacing";
@@ -23,11 +21,6 @@ const ContainerBase = styled.div`
   display: flex;
   align-items: center;
 `;
-
-const SpotlightLogoutContainer = SpotlightContainerDecorator(
-  { restrict: "none" },
-  ContainerBase
-);
 
 // Content Area
 const MyLuggageLogoutContent = styled.div`
@@ -72,6 +65,7 @@ const LogoutScreen = React.memo(() => {
   }, [hasSpoken, setHasSpoken]);
 
   const onKeyDown = useBlockFocusDirection({
+    // 이후에는 'ArrowUp'시 헤더의 알림 버튼으로 가도록 처리해야함
     blockDirections: ["ArrowUp", "ArrowDown", "ArrowLeft"],
     onKeyDown: (e) => {
       if (e.key === "ArrowLeft") {
@@ -89,10 +83,7 @@ const LogoutScreen = React.memo(() => {
   }, [callLgAccountApp]);
 
   return (
-    <SpotlightLogoutContainer
-      spotlightId="logoutScreen"
-      spotlightRestrict="none"
-    >
+    <ContainerBase>
       <div style={{ position: "absolute", top: "0", left: "0" }}>
         <LogoutBackground />
       </div>
@@ -121,7 +112,7 @@ const LogoutScreen = React.memo(() => {
           {translate("account.signIn")}
         </RoundButton>
       </MyLuggageLogoutContent>
-    </SpotlightLogoutContainer>
+    </ContainerBase>
   );
 });
 

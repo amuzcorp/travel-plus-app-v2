@@ -42,7 +42,6 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
     };
   }, [expanded, expandGnb, collapseGnb]);
 
-
   const generateButton = useCallback(
     (typeValue: keyof GnbType, isLast: boolean) => {
       const id = "gnb-menu-" + typeValue;

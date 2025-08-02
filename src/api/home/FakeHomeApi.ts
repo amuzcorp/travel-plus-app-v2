@@ -6,10 +6,10 @@ export default class FakeHomeApi extends IHomeApi {
   private parseItemType(sectionType: string): string {
     const map: Record<string, string> = {
       city_ani: "city",
-      ott_ani123: "ott",
+      ott_ani: "ott",
       video: "content",
       ads: "ads",
-      panorama123: "content",
+      panorama: "content",
       featured: "content",
       country_mini: "country",
     };
