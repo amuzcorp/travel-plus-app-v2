@@ -27,7 +27,7 @@ export default React.memo(
           alt={"home-city-row-large-map-" + index}
         />
       );
-    }, [item.blurredImageUrl, index]);
+    }, [index]);
 
     return (
       <LargeCard
@@ -147,6 +147,9 @@ export const RightSection = styled.div`
 export const MiniMap = styled.img`
   width: 363px;
   height: 545px;
+
+  border-radius: 12px;
+  overflow: hidden;
 `;
 
 export const Description = styled.span`

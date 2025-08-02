@@ -5,6 +5,7 @@ import Spotlight from "@enact/spotlight";
 import SpotlightContainerDecorator from "@enact/spotlight/SpotlightContainerDecorator";
 
 import RoundButton from "../../../components/Buttons/RoundButton/RoundButton";
+import { useGlobalNavigationBar } from "../../../components/GlobalNavigationBar/useGlobalNavigationBar";
 import Spacing from "../../../components/Spacing/Spacing";
 import Text from "../../../components/Texts/Text";
 import useBlockFocusDirection from "../../../hooks/useBlockFocusDirection";
@@ -71,12 +72,17 @@ const LogoutScreen = React.memo(() => {
     }
   }, [hasSpoken, setHasSpoken]);
 
+  const { focus } = useGlobalNavigationBar();
+
   const onKeyDown = useBlockFocusDirection({
     blockDirections: ["ArrowUp", "ArrowDown", "ArrowLeft"],
     onKeyDown: (e) => {
       if (e.key === "ArrowLeft") {
-        Spotlight.focus("luggage"); // 안먹힘
         e.preventDefault();
+        e.stopPropagation();
+
+        focus("logout-signin");
+        // Spotlight.focus("luggage"); // 안먹힘
       }
     },
   });

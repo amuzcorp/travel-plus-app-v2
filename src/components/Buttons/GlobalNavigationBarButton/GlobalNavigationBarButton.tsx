@@ -134,7 +134,7 @@ export default React.memo(
           expandGnb();
         }
       },
-      [expandGnb]
+      [expanded, expandGnb]
     );
 
     const Icon = () => {

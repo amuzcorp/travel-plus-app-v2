@@ -3,7 +3,18 @@ import HomeSection from "../../entities/HomeSection/HomeSection";
 import IHomeApi from "./iHomeApi";
 
 export default class FakeHomeApi extends IHomeApi {
-  sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+  private parseItemType(sectionType: string): string {
+    const map: Record<string, string> = {
+      city_ani: "city",
+      ott_ani123: "ott",
+      video: "content",
+      ads: "ads",
+      panorama123: "content",
+      featured: "content",
+      country_mini: "country",
+    };
+    return map[sectionType] ?? sectionType;
+  }
 
   async getHomeSections(): Promise<HomeSection[]> {
     const data = homeSectionJson.data;
@@ -13,8 +24,8 @@ export default class FakeHomeApi extends IHomeApi {
     for (let i = 0; i < data.length; i++) {
       const sectionData = data[i];
 
-      const section = HomeSection.fromJson("city", sectionData);
-
+      const itemType = this.parseItemType(sectionData.section_type);
+      const section = HomeSection.fromJson(itemType, sectionData);
       result.push(section);
     }
 

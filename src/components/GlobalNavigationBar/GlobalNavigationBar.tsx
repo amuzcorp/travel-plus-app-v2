@@ -100,6 +100,8 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
   const onKeyDown = useCallback(
     (ev: KeyboardEvent) => {
       if (ev.key === "ArrowRight") {
+        ev.preventDefault();
+        ev.stopPropagation();
         blur();
       } else if (ev.key === "ArrowUp") {
         const currentUp = Spotlight.getCurrent();
@@ -123,7 +125,7 @@ const GlobalNavigationBar: React.FC = React.memo(() => {
         }
       }
     },
-    [collapseGnb]
+    [collapseGnb, blur]
   );
 
   const generateButton = useCallback(

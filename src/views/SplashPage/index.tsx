@@ -105,9 +105,17 @@ const SplashPage: React.FC = () => {
       } else if (homeSection.sectionType === "ott_ani123") {
         dispatch(setOttSection(homeSection));
       } else if (homeSection.sectionType === "video" && homeSection.id === 3) {
-        dispatch(setFavoriteSection(homeSection));
+        if (homeSection.items.length > 0) {
+          dispatch(setFavoriteSection(homeSection));
+        }
       } else if (homeSection.sectionType === "ads") {
         dispatch(setDealSection(homeSection));
+
+        for (let j = 0; j < homeSection.items.length; j++) {
+          const item = homeSection.items[j] as AdsItem;
+
+          await preloadImage(item.imageUrl);
+        }
       } else if (homeSection.sectionType === "panorama123") {
         dispatch(setPanoramaSection(homeSection));
       } else if (homeSection.sectionType === "featured") {
@@ -126,10 +134,6 @@ const SplashPage: React.FC = () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     navigate("/home", { replace: true });
-
-    // setTimeout(() => {
-    //   navigate("/home", { replace: true });
-    // }, 1000);
   }, [authApi, dispatch, homeApi, lunaApi, navigate]);
 
   useEffect(() => {
